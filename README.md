@@ -8,3 +8,7 @@ Website for Dr. Srinivasa C — Consultant Rheumatologist, Hulimavu, Bangalore.
 npm install
 npm run dev
 ```
+
+## Deploy (Vercel)
+
+Use the **Next.js** application preset. Root directory: `./`.
