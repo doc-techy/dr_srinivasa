@@ -90,7 +90,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Dr. Srinivasa C" />
       </head>
-      <body className="font-sans antialiased min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-x-hidden" style={{ fontFamily: 'Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif' }}>
+      <body className="font-sans antialiased min-h-screen bg-gradient-to-br from-slate-50 via-green-50 to-blue-50 relative overflow-x-hidden">
         <BackgroundPattern />
         
         <div className="relative z-10">

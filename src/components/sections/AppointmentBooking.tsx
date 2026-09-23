@@ -41,7 +41,7 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
       {/* Hospital Sections */}
       <div className="grid grid-cols-1 gap-6 items-stretch max-w-xl mx-auto">
         {hospitals.map((hospital, index) => (
-          <div key={index} className="group relative bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-2xl p-6 hover:shadow-xl hover:border-blue-200 transition-all duration-300 flex flex-col h-full">
+          <div key={index} className="group relative bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-2xl p-6 hover:shadow-xl hover:border-[#047BCA]/20 transition-all duration-300 flex flex-col h-full">
             {/* Hospital Header */}
             <div className="text-center mb-4 flex-shrink-0">
               <div className="w-14 h-14 bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-105 transition-transform duration-300">
@@ -54,7 +54,7 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
             {/* Hospital Details */}
             <div className="space-y-3 mb-6 flex-grow">
               <div className="flex items-start space-x-3">
-                <MapPin className="w-4 h-4 text-blue-600 mt-1 flex-shrink-0" />
+                <MapPin className="w-4 h-4 text-[#047BCA] mt-1 flex-shrink-0" />
                 <div>
                   <h4 className="font-semibold text-gray-900 text-sm">Address</h4>
                   <p className="text-gray-600 text-sm">{hospital.address}</p>
@@ -62,7 +62,7 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
                     href={hospital.mapLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center text-blue-600 text-xs font-medium hover:text-blue-700 transition-colors duration-200 mt-1"
+                    className="inline-flex items-center text-[#047BCA] text-xs font-medium hover:text-[#047BCA] transition-colors duration-200 mt-1"
                   >
                     <Navigation className="w-3 h-3 mr-1" />
                     Get Directions
@@ -71,7 +71,7 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
               </div>
               
               <div className="flex items-start space-x-3">
-                <Clock className="w-4 h-4 text-blue-600 mt-1 flex-shrink-0" />
+                <Clock className="w-4 h-4 text-[#047BCA] mt-1 flex-shrink-0" />
                 <div>
                   <h4 className="font-semibold text-gray-900 text-sm">Available At</h4>
                   <p className="text-gray-600 text-sm">{hospital.availableAt}</p>
@@ -85,7 +85,7 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
                 href={hospital.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white font-semibold rounded-lg hover:from-[#145C38] hover:to-[#0369A1] focus:ring-4 focus:ring-blue-200 transition-all duration-300 shadow-lg group-hover:shadow-xl text-sm"
+                className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white font-semibold rounded-lg hover:from-[#145C38] hover:to-[#0369A1] focus:ring-4 focus:ring-[#047BCA]/30 transition-all duration-300 shadow-lg group-hover:shadow-xl text-sm"
               >
                 <Calendar className="w-4 h-4 mr-2" />
                 Get Directions
@@ -93,32 +93,32 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
             </div>
 
             {/* Hover Effect Accent */}
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-b-2xl"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-b-2xl"></div>
           </div>
         ))}
       </div>
 
       {/* Additional Information */}
-      <div className="mt-12 p-6 bg-blue-50 rounded-2xl">
-        <h3 className="text-lg font-semibold text-blue-900 mb-4 text-center">Important Information</h3>
+      <div className="mt-12 p-6 bg-green-50 rounded-2xl">
+        <h3 className="text-lg font-semibold text-[#1C7E4E] mb-4 text-center">Important Information</h3>
         <div className="grid md:grid-cols-2 gap-4">
-          <ul className="space-y-2 text-sm text-blue-800">
+          <ul className="space-y-2 text-sm text-[#047BCA]">
             <li className="flex items-start">
-              <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-blue-600 flex-shrink-0" />
+              <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#047BCA] flex-shrink-0" />
               Please arrive 15 minutes before your scheduled appointment time
             </li>
             <li className="flex items-start">
-              <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-blue-600 flex-shrink-0" />
+              <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#047BCA] flex-shrink-0" />
               Bring a valid ID and any relevant medical reports
             </li>
           </ul>
-          <ul className="space-y-2 text-sm text-blue-800">
+          <ul className="space-y-2 text-sm text-[#047BCA]">
             <li className="flex items-start">
-              <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-blue-600 flex-shrink-0" />
+              <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#047BCA] flex-shrink-0" />
               Cancellations must be made at least 24 hours in advance
             </li>
             <li className="flex items-start">
-              <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-blue-600 flex-shrink-0" />
+              <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#047BCA] flex-shrink-0" />
               Emergency cases will be given priority
             </li>
           </ul>

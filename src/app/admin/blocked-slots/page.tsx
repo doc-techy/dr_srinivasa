@@ -220,8 +220,8 @@ export default function BlockedSlotsPage() {
 
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <BarChart3 className="h-6 w-6 text-blue-600" />
+              <div className="p-2 bg-green-50 rounded-lg">
+                <BarChart3 className="h-6 w-6 text-[#047BCA]" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">This Month</p>
@@ -294,7 +294,7 @@ export default function BlockedSlotsPage() {
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleEdit(slot)}
-                        className="text-blue-600 hover:text-blue-900"
+                        className="text-[#047BCA] hover:text-blue-900"
                       >
                         <Edit className="h-4 w-4" />
                       </button>

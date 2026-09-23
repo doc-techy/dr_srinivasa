@@ -24,8 +24,11 @@ export function HeroSection() {
   ];
 
   const availability = [
-    { name: 'Hulimavu, Bangalore', timing: 'Mon–Sat: 9:00 AM – 12:00 noon' },
-    { name: 'Evening clinic', timing: 'Mon–Sat: 4:00 PM – 7:30 PM · Sunday holiday' }
+    {
+      name: 'Hulimavu, Bangalore',
+      timing: 'Mon–Fri · Morning 9:00 AM – 12:00 noon · Evening 4:00 PM – 7:30 PM',
+      sunday: 'Sunday holiday'
+    }
   ];
 
   return (
@@ -39,7 +42,7 @@ export function HeroSection() {
               {/* Main Image Container */}
               <div className="relative w-full max-w-lg md:max-w-md lg:max-w-lg xl:max-w-2xl mx-auto">
                 {/* Background Glow */}
-                <div className="absolute -inset-4 md:-inset-3 lg:-inset-4 xl:-inset-6 bg-gradient-to-r from-blue-400/30 to-blue-500/20 rounded-3xl blur-2xl"></div>
+                <div className="absolute -inset-4 md:-inset-3 lg:-inset-4 xl:-inset-6 bg-gradient-to-r from-[#1C7E4E]/30 to-[#047BCA]/20 rounded-3xl blur-2xl"></div>
                 
                 {/* Image Container */}
                 <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl p-4 md:p-3 lg:p-4 xl:p-6 shadow-2xl border border-white/50">
@@ -66,15 +69,6 @@ export function HeroSection() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
                   </div>
                 </div>
-                
-                {/* Title Box - Below Image */}
-                <div className="mt-2 md:mt-2 lg:mt-3">
-                  <div className="bg-white rounded-lg px-4 md:px-4 lg:px-5 xl:px-6 py-3 md:py-2 lg:py-3 xl:py-4 shadow-md border border-gray-200">
-                    <h3 className="text-xl md:text-lg lg:text-xl xl:text-2xl font-bold text-gray-800 text-center">
-                      Rheumatology
-                    </h3>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -82,24 +76,24 @@ export function HeroSection() {
           {/* Left Content (Mobile Second) */}
           <div className={`space-y-3 md:space-y-3 lg:space-y-4 xl:space-y-6 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {/* Badge */}
-            {/* <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-full">
-              <Award className="w-4 h-4 text-blue-600 mr-2" />
-              <span className="text-sm font-semibold text-blue-700">Senior Consultant • SPARSH Hospital</span>
+            {/* <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-50 to-blue-100 border border-[#047BCA]/20 rounded-full">
+              <Award className="w-4 h-4 text-[#047BCA] mr-2" />
+              <span className="text-sm font-semibold text-[#047BCA]">Senior Consultant • SPARSH Hospital</span>
             </div> */}
 
             {/* Main Heading */}
-            <div className="space-y-3 md:space-y-4 lg:space-y-5 text-center lg:text-left">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-gray-900 leading-[1.1]">
+            <div className="space-y-3 sm:space-y-4 text-center lg:text-left">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                 <span className="block">Dr. Srinivasa C</span>
-                <span className="block mt-2 md:mt-3 text-xl md:text-2xl lg:text-3xl xl:text-4xl bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent font-bold">
+                <span className="block mt-2 sm:mt-3 text-2xl sm:text-3xl lg:text-4xl bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent font-bold">
                   Consultant Rheumatologist
                 </span>
-                <span className="block mt-2 md:mt-3 text-xl md:text-2xl lg:text-3xl xl:text-4xl bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent font-bold">
+                <span className="block mt-2 sm:mt-3 text-2xl sm:text-3xl lg:text-4xl bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent font-bold">
                   Joint & Autoimmune Care
                 </span>
               </h1>
               
-              <p className="text-sm md:text-xs lg:text-sm xl:text-base 2xl:text-xl text-gray-600 leading-relaxed text-justify max-w-2xl mt-4 md:mt-5">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed text-justify max-w-2xl mt-4">
               Dr. Srinivasa C is a Consultant Rheumatologist in Bangalore. He completed his MBBS from Vijayanagar Institute of Medical Sciences (VIMS), Bellary, MD in General Medicine from Sri Devaraj Urs Medical College, Kolar, and DM in Rheumatology from Nizam&apos;s Institute of Medical Sciences, Hyderabad. He cares for inflammatory and degenerative joint disease, connective tissue disorders, vasculitis, osteoporosis, and related immune conditions.              </p>
             </div>
 
@@ -117,16 +111,17 @@ export function HeroSection() {
 
             {/* Doctor Availability */}
             <div className="space-y-2 md:space-y-2 lg:space-y-3 max-w-lg mx-auto lg:max-w-none lg:mx-0">
-              <h4 className="text-base md:text-sm lg:text-base xl:text-xl font-bold text-gray-800 text-center lg:text-left">Available At:</h4>
-              <div className="flex flex-col items-center lg:grid lg:grid-cols-2 lg:gap-3 space-y-3 lg:space-y-0 md:gap-2 ml-24 mr-0 md:ml-32 md:mr-0 lg:mx-0">
+              <h4 className="text-base sm:text-lg font-semibold text-gray-800 text-center lg:text-left">Available At:</h4>
+              <div className="flex flex-col items-center lg:items-start space-y-3 md:gap-2">
                 {availability.map((location, index) => (
-                  <div key={index} className="flex items-center space-x-2 md:space-x-2 lg:space-x-3 justify-center lg:justify-start w-full max-w-xs lg:max-w-none">
-                    <div className="w-5 h-5 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-full flex items-center justify-center flex-shrink-0">
+                  <div key={index} className="flex items-start space-x-2 md:space-x-2 lg:space-x-3 justify-center lg:justify-start w-full max-w-md lg:max-w-none">
+                    <div className="w-5 h-5 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                       <MapPin className="w-3 h-3 md:w-2 md:h-2 lg:w-3 lg:h-3 xl:w-4 xl:h-4 text-white" />
                     </div>
                     <div className="text-left min-w-0 flex-1">
-                      <div className="text-sm md:text-xs lg:text-sm xl:text-base text-gray-700 font-medium truncate">{location.name}</div>
-                      <div className="text-xs md:text-xs lg:text-xs xl:text-sm text-gray-500 truncate">{location.timing}</div>
+                      <div className="text-sm sm:text-base text-gray-700 font-medium">{location.name}</div>
+                      <div className="text-xs sm:text-sm text-gray-500">{location.timing}</div>
+                      <div className="text-xs sm:text-sm text-gray-500">{location.sunday}</div>
                     </div>
                   </div>
                 ))}
@@ -136,12 +131,12 @@ export function HeroSection() {
             {/* Professional Stats */}
             <div className="grid grid-cols-2 gap-3 md:gap-2 lg:gap-3 max-w-md mx-auto lg:max-w-none lg:mx-0">
               <div className="text-center py-3 md:py-2 lg:py-3 xl:py-5 bg-white/80 backdrop-blur-sm rounded-xl border border-white/50 shadow-lg">
-                <div className="text-xl md:text-lg lg:text-xl xl:text-3xl font-bold bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent mb-1">10+</div>
-                <div className="text-xs md:text-xs lg:text-xs xl:text-sm text-gray-600 font-medium">Years in Rheumatology</div>
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent mb-1">10+</div>
+                <div className="text-xs sm:text-sm text-gray-600 font-medium">Years in Rheumatology</div>
               </div>
               <div className="text-center py-3 md:py-2 lg:py-3 xl:py-5 bg-white/80 backdrop-blur-sm rounded-xl border border-white/50 shadow-lg">
-                <div className="text-xl md:text-lg lg:text-xl xl:text-3xl font-bold bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent mb-1">DM</div>
-                <div className="text-xs md:text-xs lg:text-xs xl:text-sm text-gray-600 font-medium">Rheumatology</div>
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent mb-1">DM</div>
+                <div className="text-xs sm:text-sm text-gray-600 font-medium">Rheumatology</div>
               </div>
             </div>
 
@@ -149,20 +144,20 @@ export function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-3 md:gap-2 lg:gap-3 justify-center lg:justify-start max-w-lg mx-auto lg:max-w-none lg:mx-0 lg:w-full">
               <Link
                 href="/appointment"
-                className="group inline-flex items-center justify-center px-6 md:px-5 lg:px-6 xl:px-8 py-3 md:py-2 lg:py-3 xl:py-4 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white rounded-2xl font-semibold hover:from-[#145C38] hover:to-[#0369A1] transition-all duration-300 hover:scale-105 lg:flex-1 text-sm md:text-xs lg:text-sm xl:text-base"
+                className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white rounded-2xl font-semibold hover:from-[#145C38] hover:to-[#0369A1] transition-all duration-300 hover:scale-105 lg:flex-1 text-base sm:text-lg"
               >
-                <Calendar className="w-4 h-4 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 mr-2" />
+                <Calendar className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
                 Book Consultation
-                <ArrowRight className="w-4 h-4 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
               
               <a
                 href="https://www.google.com/maps/search/?api=1&query=251+11th+Cross+Road+Muthurayya+Swamy+Layout+Hulimavu+Bangalore+560076"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center px-6 md:px-5 lg:px-6 xl:px-8 py-3 md:py-2 lg:py-3 xl:py-4 bg-white/90 backdrop-blur-sm border-2 border-gray-200 text-gray-700 rounded-2xl font-semibold hover:bg-white hover:border-blue-300 hover:text-blue-600 transition-all duration-300 hover:scale-105 lg:flex-1 text-sm md:text-xs lg:text-sm xl:text-base"
+                className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-white/90 backdrop-blur-sm border-2 border-gray-200 text-gray-700 rounded-2xl font-semibold hover:bg-white hover:border-[#047BCA] hover:text-[#047BCA] transition-all duration-300 hover:scale-105 lg:flex-1 text-base sm:text-lg"
               >
-                <MapPin className="w-4 h-4 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 mr-2 group-hover:scale-110 transition-transform duration-300" />
+                <MapPin className="w-5 h-5 sm:w-6 sm:h-6 mr-2 group-hover:scale-110 transition-transform duration-300" />
                 Get Directions
               </a>
             </div>

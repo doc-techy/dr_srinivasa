@@ -160,20 +160,20 @@ export function ServicesSection() {
         <div className="text-center mb-4 pb-0 md:mb-16 md:pb-0">
           {/* Background Decoration */}
           <div className="absolute inset-0 flex items-center justify-center opacity-5">
-            <div className="w-96 h-96 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-3xl"></div>
+            <div className="w-96 h-96 bg-gradient-to-r from-[#1C7E4E]/40 to-[#047BCA]/40 rounded-full blur-3xl"></div>
           </div>
           
           <div className="relative z-10">
             {/* Subtitle Badge */}
-            {/* <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full border border-blue-200/50 mb-6 shadow-lg backdrop-blur-sm">
-              <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-3 animate-pulse"></div>
+            {/* <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-full border border-[#047BCA]/20/50 mb-6 shadow-lg backdrop-blur-sm">
+              <div className="w-2 h-2 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-full mr-3 animate-pulse"></div>
               <span className="text-sm font-semibold bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent">
                 Expert Medical Services
               </span>
             </div> */}
             
             {/* Main Heading */}
-            <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-gray-900 mb-3 md:mb-4">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-4">
               Specialized Services & <span className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent">Expertise</span>
             </h2>
             
@@ -191,13 +191,13 @@ export function ServicesSection() {
                 <p className="text-sm text-gray-500 font-medium">Specialized Services</p>
               </div>
               <div className="text-center group">
-                <div className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-1 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent mb-1 group-hover:scale-110 transition-transform duration-300">
                   11+
                 </div>
                 <p className="text-sm text-gray-500 font-medium">Years Experience</p>
               </div>
               <div className="text-center group">
-                <div className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-pink-600 to-blue-600 bg-clip-text text-transparent mb-1 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent mb-1 group-hover:scale-110 transition-transform duration-300">
                   500+
                 </div>
                 <p className="text-sm text-gray-500 font-medium">Successful Cases</p>
@@ -215,7 +215,7 @@ export function ServicesSection() {
             <button
               onClick={goToPrev}
               disabled={isTransitioning}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg hover:shadow-xl flex items-center justify-center text-white hover:from-blue-600 hover:to-purple-600 transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed will-change-transform"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-full shadow-lg hover:shadow-xl flex items-center justify-center text-white hover:from-[#145C38] hover:to-[#0369A1] transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed will-change-transform"
               aria-label="Previous services"
             >
               <ChevronLeft className={`w-5 h-5 md:w-6 md:h-6 transition-transform duration-200 ${isTransitioning ? 'animate-pulse' : ''}`} />
@@ -240,30 +240,30 @@ export function ServicesSection() {
                       }}
                     >
                       {/* Card Container */}
-                      <div className="relative h-full bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 ease-out hover:shadow-lg hover:-translate-y-1 hover:scale-102 border border-gray-100 group-hover:border-blue-200 transform-gpu will-change-transform">
+                      <div className="relative h-full bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 ease-out hover:shadow-lg hover:-translate-y-1 hover:scale-102 border border-gray-100 group-hover:border-[#047BCA]/20 transform-gpu will-change-transform">
                         {/* Subtle Top Border Accent */}
-                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA]"></div>
                         
                         {/* Content */}
                         <div className="relative p-4 md:p-6">
                           {/* Icon - Hidden on mobile */}
                           {/* <div className="mb-2 md:mb-3 hidden md:block">
                             <div className={`
-                              w-8 h-8 md:w-12 md:h-12 rounded-lg bg-gray-100 group-hover:bg-blue-50
+                              w-8 h-8 md:w-12 md:h-12 rounded-lg bg-gray-100 group-hover:bg-green-50
                               flex items-center justify-center shadow-sm
                               transform transition-all duration-200 ease-out will-change-transform
                               ${isHovered ? 'scale-105' : ''}
                             `}>
-                              <Icon className="w-4 h-4 md:w-6 md:h-6 text-gray-600 group-hover:text-blue-600" />
+                              <Icon className="w-4 h-4 md:w-6 md:h-6 text-gray-600 group-hover:text-[#047BCA]" />
                             </div>
                           </div> */}
 
                           {/* Title */}
                           <div className="mb-3 md:mb-4">
-                            <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 leading-tight group-hover:text-blue-600 transition-colors duration-300">
+                            <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 leading-tight group-hover:text-[#047BCA] transition-colors duration-300">
                               {service.title}
                             </h3>
-                            <div className="w-8 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 mt-2 group-hover:w-12 transition-all duration-300"></div>
+                            <div className="w-8 h-0.5 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] mt-2 group-hover:w-12 transition-all duration-300"></div>
                           </div>
 
                           {/* Features */}
@@ -271,7 +271,7 @@ export function ServicesSection() {
                             {service.features.map((feature, idx) => (
                               <div key={idx} className="flex items-start">
                                 <div className={`
-                                  w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-blue-500 group-hover:bg-blue-600
+                                  w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#1C7E4E] group-hover:bg-[#047BCA]
                                   mt-1.5 mr-3 flex-shrink-0
                                   transform transition-all duration-150 ease-out
                                   ${isHovered ? 'scale-105' : ''}
@@ -293,7 +293,7 @@ export function ServicesSection() {
             <button
               onClick={goToNext}
               disabled={isTransitioning}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg hover:shadow-xl flex items-center justify-center text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed will-change-transform"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-full shadow-lg hover:shadow-xl flex items-center justify-center text-white hover:from-[#145C38] hover:to-[#0369A1] transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed will-change-transform"
               aria-label="Next services"
             >
               <ChevronRight className={`w-5 h-5 md:w-6 md:h-6 transition-transform duration-200 ${isTransitioning ? 'animate-pulse' : ''}`} />

@@ -21,7 +21,7 @@ export default function AdminHeader() {
         <div className="flex items-center justify-between">
           {/* Left side - Logo and title */}
           <div className="flex items-center space-x-4">
-            <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <div className="h-8 w-8 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">VS</span>
             </div>
             <div>
@@ -43,8 +43,8 @@ export default function AdminHeader() {
                 onClick={() => setShowUserMenu(!showUserMenu)}
                 className="flex items-center space-x-3 p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <User className="h-4 w-4 text-blue-600" />
+                <div className="h-8 w-8 bg-green-50 rounded-full flex items-center justify-center">
+                  <User className="h-4 w-4 text-[#047BCA]" />
                 </div>
                 <div className="text-left">
                   <p className="text-sm font-medium text-gray-900">

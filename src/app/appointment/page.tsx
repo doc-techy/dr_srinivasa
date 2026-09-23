@@ -25,22 +25,22 @@ export default function AppointmentPage() {
                   <h3 className="text-xl font-bold text-gray-900 mb-2">
                     Dr. Srinivasa C
                   </h3>
-                  <p className="text-blue-600 font-semibold">
+                  <p className="text-[#047BCA] font-semibold">
                     Consultant Rheumatologist
                   </p>
                 </div>
                 
                 <div className="space-y-3 text-sm text-gray-600">
                   <div className="flex items-center">
-                    <Award className="w-4 h-4 mr-3 text-blue-500" />
+                    <Award className="w-4 h-4 mr-3 text-[#047BCA]" />
                     <span><strong>Experience:</strong> 10+ years in rheumatology</span>
                   </div>
                   <div className="flex items-center">
-                    <MapPin className="w-4 h-4 mr-3 text-blue-500" />
+                    <MapPin className="w-4 h-4 mr-3 text-[#047BCA]" />
                     <span><strong>Location:</strong> Hulimavu, Bangalore</span>
                   </div>
                   <div className="flex items-center">
-                    <User className="w-4 h-4 mr-3 text-blue-500" />
+                    <User className="w-4 h-4 mr-3 text-[#047BCA]" />
                     <span><strong>Languages:</strong> English, Hindi, Kannada</span>
                   </div>
                 </div>
@@ -49,17 +49,17 @@ export default function AppointmentPage() {
               {/* Office Hours */}
               {/* <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
                 <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                  <Clock className="w-5 h-5 mr-2 text-blue-500" />
+                  <Clock className="w-5 h-5 mr-2 text-[#047BCA]" />
                   Office Hours
                 </h3>
                 <div className="space-y-3 text-sm text-gray-600">
                   <div className="flex justify-between items-center">
                     <span className="font-medium">Monday - Friday</span>
-                    <span className="text-blue-600 font-semibold">9:00 AM - 6:00 PM</span>
+                    <span className="text-[#047BCA] font-semibold">9:00 AM - 6:00 PM</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="font-medium">Saturday</span>
-                    <span className="text-blue-600 font-semibold">9:00 AM - 2:00 PM</span>
+                    <span className="text-[#047BCA] font-semibold">9:00 AM - 2:00 PM</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="font-medium">Sunday</span>
@@ -69,14 +69,14 @@ export default function AppointmentPage() {
               </div> */}
 
               {/* Contact Info */}
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
+              <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl p-6 border border-[#047BCA]/20">
                 <h3 className="text-xl font-bold text-gray-900 mb-4">
                   Need Immediate Help?
                 </h3>
                 <div className="space-y-4">
                   <div className="flex items-center">
-                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                      <Phone className="w-5 h-5 text-blue-600" />
+                    <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center mr-4">
+                      <Phone className="w-5 h-5 text-[#047BCA]" />
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900">Appointments</p>
@@ -84,8 +84,8 @@ export default function AppointmentPage() {
                     </div>
                   </div>
                   <div className="flex items-center">
-                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                      <Mail className="w-5 h-5 text-blue-600" />
+                    <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center mr-4">
+                      <Mail className="w-5 h-5 text-[#047BCA]" />
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900">Email Support</p>

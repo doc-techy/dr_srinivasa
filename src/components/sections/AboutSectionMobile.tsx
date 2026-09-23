@@ -70,13 +70,13 @@ export function AboutSectionMobile() {
 
         {/* Mobile Toggle Switch */}
         <div className="mb-6">
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-1 flex border border-gray-200/50">
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-1 flex border border-gray-200/50">
             <button
               onClick={() => setActiveTab('experience')}
               className={`flex-1 py-3 px-4 rounded-lg text-sm font-semibold transition-all duration-300 ease-in-out flex items-center justify-center ${
                 activeTab === 'experience'
                   ? 'bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white shadow-lg'
-                  : 'text-gray-700 hover:text-purple-600 hover:bg-purple-50/50'
+                  : 'text-gray-700 hover:text-[#047BCA] hover:bg-green-50/50'
               }`}
             >
               <Calendar className={`w-4 h-4 mr-2 transition-all duration-300 ${activeTab === 'experience' ? 'rotate-12' : 'rotate-0'}`} />
@@ -87,7 +87,7 @@ export function AboutSectionMobile() {
               className={`flex-1 py-3 px-4 rounded-lg text-sm font-semibold transition-all duration-300 ease-in-out flex items-center justify-center ${
                 activeTab === 'education'
                   ? 'bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white shadow-lg'
-                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
+                  : 'text-gray-700 hover:text-[#047BCA] hover:bg-green-50/50'
               }`}
             >
               <GraduationCap className={`w-4 h-4 mr-2 transition-all duration-300 ${activeTab === 'education' ? 'rotate-12' : 'rotate-0'}`} />
@@ -97,7 +97,7 @@ export function AboutSectionMobile() {
         </div>
 
         {/* Mobile Content */}
-        <div className="bg-blue-50/80 backdrop-blur-sm rounded-2xl border border-gray-100 p-4">
+        <div className="bg-green-50/80 backdrop-blur-sm rounded-2xl border border-gray-100 p-4">
           
           {/* Dynamic Section Header */}
           <div className="text-center mb-4">
@@ -128,20 +128,20 @@ export function AboutSectionMobile() {
                 {education.map((edu, index) => (
                   <div 
                     key={`edu-${index}`} 
-                    className="bg-white backdrop-blur-sm rounded-xl p-3 border border-blue-200/50 transition-all duration-500 ease-in-out transform hover:scale-[1.02] hover:shadow-lg mb-3"
+                    className="bg-white backdrop-blur-sm rounded-xl p-3 border border-[#047BCA]/20/50 transition-all duration-500 ease-in-out transform hover:scale-[1.02] hover:shadow-lg mb-3"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
                       <h4 className="text-base font-bold text-gray-900 transition-all duration-300">{edu.degree}</h4>
-                      <div className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold mt-1 sm:mt-0 w-fit transition-all duration-300 hover:bg-blue-200">
+                      <div className="bg-green-50 text-[#047BCA] px-2 py-1 rounded-full text-xs font-semibold mt-1 sm:mt-0 w-fit transition-all duration-300 hover:bg-green-100">
                         {edu.year}
                       </div>
                     </div>
-                    <h5 className="text-sm font-semibold text-blue-700 mb-1 transition-all duration-300">
+                    <h5 className="text-sm font-semibold text-[#047BCA] mb-1 transition-all duration-300">
                       {edu.institution}
                     </h5>
                     <p className="text-xs text-gray-600 flex items-center">
-                      <MapPin className="w-3 h-3 mr-1 text-blue-500 flex-shrink-0 transition-all duration-300" />
+                      <MapPin className="w-3 h-3 mr-1 text-[#047BCA] flex-shrink-0 transition-all duration-300" />
                       {edu.location}
                     </p>
                   </div>
@@ -168,7 +168,7 @@ export function AboutSectionMobile() {
                       {exp.hospital}
                     </h5>
                     <p className="text-xs text-gray-600 flex items-center">
-                      <MapPin className="w-3 h-3 mr-1 text-purple-500 flex-shrink-0 transition-all duration-300" />
+                      <MapPin className="w-3 h-3 mr-1 text-[#047BCA] flex-shrink-0 transition-all duration-300" />
                       {exp.location}
                     </p>
                   </div>

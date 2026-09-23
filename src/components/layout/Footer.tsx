@@ -5,8 +5,8 @@ export function Footer() {
     <footer className="relative bg-gray-900 text-white">
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
-        <div className="absolute top-0 left-1/4 w-64 h-64 bg-gradient-to-br from-amber-200/10 to-transparent rounded-full blur-2xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-gradient-to-br from-orange-200/10 to-transparent rounded-full blur-2xl"></div>
+        <div className="absolute top-0 left-1/4 w-64 h-64 bg-gradient-to-br from-[#047BCA]/10 to-transparent rounded-full blur-2xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-gradient-to-br from-[#1C7E4E]/10 to-transparent rounded-full blur-2xl"></div>
       </div>
       
       <div className="relative z-10 h-1 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-500"></div>

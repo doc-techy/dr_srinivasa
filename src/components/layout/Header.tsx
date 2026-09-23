@@ -14,6 +14,7 @@ export function Header() {
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
     { name: 'Services', href: '#services' },
+    { name: 'Videos', href: '#videos' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -48,7 +49,7 @@ export function Header() {
                 <Stethoscope className="w-6 h-6 text-white" />
               </div>
               <div className="whitespace-nowrap">
-                <h1 className="text-3xl font-display font-bold text-white">
+                <h1 className="text-3xl font-sans font-bold text-white">
                   Dr. Srinivasa C
                 </h1>
               </div>
@@ -69,7 +70,7 @@ export function Header() {
                       <Link
                         key={item.name}
                         href={linkHref}
-                        className="px-5 py-3 rounded-lg text-white hover:text-blue-200 font-semibold text-base lg:text-xl transition-all duration-300"
+                        className="px-5 py-3 rounded-lg text-white hover:text-green-100 font-semibold text-base lg:text-xl transition-all duration-300"
                       >
                         {item.name}
                       </Link>
@@ -80,7 +81,7 @@ export function Header() {
                       <button
                         key={item.name}
                         onClick={() => scrollToSection(item.href)}
-                        className="px-5 py-3 rounded-lg text-white hover:text-blue-200 font-semibold text-base lg:text-xl transition-all duration-300"
+                        className="px-5 py-3 rounded-lg text-white hover:text-green-100 font-semibold text-base lg:text-xl transition-all duration-300"
                       >
                         {item.name}
                       </button>
@@ -92,7 +93,7 @@ export function Header() {
               {/* CTA Button */}
               <Link
                 href="/appointment"
-                className="px-3 py-2 bg-white text-blue-600 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-all duration-300 whitespace-nowrap"
+                className="px-3 py-2 bg-white text-[#047BCA] rounded-lg font-semibold text-sm hover:bg-green-50 transition-all duration-300 whitespace-nowrap"
               >
                 Book Appointment
               </Link>
@@ -118,7 +119,7 @@ export function Header() {
           'lg:hidden transition-all duration-700 ease-in-out overflow-hidden',
           isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         )}>
-          <div className="bg-gradient-to-r from-blue-600/98 via-purple-600/95 to-pink-600/90 backdrop-blur-2xl border-t border-purple-500/30">
+          <div className="bg-gradient-to-r from-[#1C7E4E]/98 to-[#047BCA]/95 backdrop-blur-2xl border-t border-[#047BCA]/30">
             <div className="container-custom py-8">
               <nav className="space-y-3">
                 {navigation.map((item) => {
@@ -133,7 +134,7 @@ export function Header() {
                       <Link
                         key={item.name}
                         href={linkHref}
-                        className="block px-5 py-4 rounded-lg text-white hover:text-blue-200 font-semibold text-lg transition-all duration-300"
+                        className="block px-5 py-4 rounded-lg text-white hover:text-green-100 font-semibold text-lg transition-all duration-300"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {item.name}
@@ -145,17 +146,17 @@ export function Header() {
                       <button
                         key={item.name}
                         onClick={() => scrollToSection(item.href)}
-                        className="block px-5 py-4 rounded-lg text-white hover:text-blue-200 font-semibold text-lg transition-all duration-300 w-full text-left"
+                        className="block px-5 py-4 rounded-lg text-white hover:text-green-100 font-semibold text-lg transition-all duration-300 w-full text-left"
                       >
                         {item.name}
                       </button>
                     );
                   }
                 })}
-                <div className="pt-6 pb-6 border-t border-blue-400/30">
+                <div className="pt-6 pb-6 border-t border-white/30">
                   <Link
                     href="/appointment"
-                    className="flex items-center justify-center w-full px-6 py-3 bg-white text-blue-600 rounded-lg font-semibold text-base hover:bg-blue-50 transition-all duration-300"
+                    className="flex items-center justify-center w-full px-6 py-3 bg-white text-[#047BCA] rounded-lg font-semibold text-base hover:bg-green-50 transition-all duration-300"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Book Appointment

@@ -14,7 +14,7 @@ export default function AdminSettingsPage() {
         {/* Profile Settings */}
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center space-x-3 mb-4">
-            <User className="h-6 w-6 text-blue-600" />
+            <User className="h-6 w-6 text-[#047BCA]" />
             <h2 className="text-lg font-semibold text-gray-900">Profile Information</h2>
           </div>
           
@@ -98,7 +98,7 @@ export default function AdminSettingsPage() {
         {/* System Information */}
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center space-x-3 mb-4">
-            <Database className="h-6 w-6 text-purple-600" />
+            <Database className="h-6 w-6 text-[#047BCA]" />
             <h2 className="text-lg font-semibold text-gray-900">System Information</h2>
           </div>
           

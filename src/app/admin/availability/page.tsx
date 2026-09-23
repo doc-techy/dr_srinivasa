@@ -228,7 +228,7 @@ export default function AvailabilityPage() {
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleEdit(availability)}
-                        className="text-blue-600 hover:text-blue-900"
+                        className="text-[#047BCA] hover:text-blue-900"
                       >
                         <Edit className="h-4 w-4" />
                       </button>
@@ -306,7 +306,7 @@ export default function AvailabilityPage() {
                     id="is_active"
                     checked={formData.is_active}
                     onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-[#047BCA] focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <label htmlFor="is_active" className="ml-2 block text-sm text-gray-900">
                     Active

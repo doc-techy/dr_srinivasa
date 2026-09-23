@@ -126,7 +126,7 @@ export default function BlogsPage() {
             {/* Back Button */}
             <button
               onClick={() => setSelectedBlog(null)}
-              className="flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-8 transition-colors duration-200"
+              className="flex items-center gap-2 text-[#047BCA] hover:text-[#047BCA] mb-8 transition-colors duration-200"
             >
               <ArrowLeft className="w-5 h-5" />
               <span className="font-medium">Back to Blogs</span>
@@ -135,7 +135,7 @@ export default function BlogsPage() {
             {/* Blog Content */}
             <article className="bg-white rounded-3xl shadow-xl overflow-hidden">
               {/* Blog Image */}
-              <div className="relative h-64 md:h-80 bg-gradient-to-br from-blue-100 to-purple-100">
+              <div className="relative h-64 md:h-80 bg-gradient-to-br from-green-50 to-blue-50">
                 <img
                   src={selectedBlog.image}
                   alt={selectedBlog.title}
@@ -236,7 +236,7 @@ export default function BlogsPage() {
               className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group"
             >
               {/* Blog Image */}
-              <div className="relative h-48 bg-gradient-to-br from-blue-100 to-purple-100">
+              <div className="relative h-48 bg-gradient-to-br from-green-50 to-blue-50">
                 <img
                   src={blog.image}
                   alt={blog.title}
@@ -255,7 +255,7 @@ export default function BlogsPage() {
 
               {/* Blog Content */}
               <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+                <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#047BCA] transition-colors duration-200">
                   {blog.title}
                 </h3>
                 

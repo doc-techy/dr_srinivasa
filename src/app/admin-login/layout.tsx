@@ -14,7 +14,7 @@ export default function AdminLoginLayout({
         <title>Admin Login - Dr. Vivek Shetty</title>
         <meta name="description" content="Admin login for Dr. Vivek Shetty appointment management system" />
       </head>
-      <body className="font-sans antialiased min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <body className="font-sans antialiased min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
         <ClientProviders>
           {children}
         </ClientProviders>
