@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { Menu, X, Stethoscope } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function Header() {
@@ -39,32 +39,16 @@ export function Header() {
         className="fixed top-0 left-0 right-0 z-50 w-full bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] backdrop-blur-xl shadow-xl"
       >
         <div className="container-custom">
-          <div className="flex h-20 items-center justify-between">
-            {/* Logo */}
-            <button 
-              onClick={() => scrollToSection('#home')}
-              className="flex items-center space-x-4"
-            >
-              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-xl border border-white/30">
-                <Stethoscope className="w-6 h-6 text-white" />
-              </div>
-              <div className="whitespace-nowrap">
-                <h1 className="text-3xl font-sans font-bold text-white">
-                  Dr. Srinivasa C
-                </h1>
-              </div>
-            </button>
-
+          <div className="flex h-20 items-center justify-end">
             {/* Desktop Navigation & CTA */}
             <div className="hidden lg:flex items-center space-x-6">
               <nav className="flex items-center space-x-2">
-                {navigation.map((item, index) => {
+                {navigation.map((item) => {
                   const isHomepage = pathname === '/';
                   const isExternalPage = item.href.startsWith('/');
                   const isAnchorLink = item.href.startsWith('#');
                   
                   if (isExternalPage || (isAnchorLink && !isHomepage)) {
-                    // For external pages or anchor links when not on homepage, use Link
                     const linkHref = isAnchorLink && !isHomepage ? `/${item.href}` : item.href;
                     return (
                       <Link
@@ -76,7 +60,6 @@ export function Header() {
                       </Link>
                     );
                   } else {
-                    // For anchor links on homepage, use button with scroll
                     return (
                       <button
                         key={item.name}
@@ -128,7 +111,6 @@ export function Header() {
                   const isAnchorLink = item.href.startsWith('#');
                   
                   if (isExternalPage || (isAnchorLink && !isHomepage)) {
-                    // For external pages or anchor links when not on homepage, use Link
                     const linkHref = isAnchorLink && !isHomepage ? `/${item.href}` : item.href;
                     return (
                       <Link
@@ -141,7 +123,6 @@ export function Header() {
                       </Link>
                     );
                   } else {
-                    // For anchor links on homepage, use button with scroll
                     return (
                       <button
                         key={item.name}
