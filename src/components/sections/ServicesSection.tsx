@@ -34,12 +34,12 @@ export function ServicesSection() {
       id: 1,
       category: 'rheumatology',
       icon: Activity,
-      title: 'Inflammatory Joint Disease',
+      title: 'Joint Pains and Arthritis',
       subtitle: '',
       description: '',
       features: [
-        'Rheumatoid arthritis and other inflammatory arthritis',
-        'Assessment of pain, swelling, and stiffness',
+        'Evaluation of joint pain, swelling, and stiffness',
+        'Care for inflammatory and degenerative arthritis',
         'Treatment planned around diagnosis and disease activity',
         'Focus on protecting joints and daily function'
       ],
@@ -47,8 +47,8 @@ export function ServicesSection() {
     {
       id: 2,
       category: 'rheumatology',
-      icon: Heart,
-      title: 'Connective Tissue Disorders',
+      icon: Shield,
+      title: 'Autoimmune Diseases',
       subtitle: '',
       description: '',
       features: [
@@ -61,8 +61,22 @@ export function ServicesSection() {
     {
       id: 3,
       category: 'rheumatology',
-      icon: Shield,
-      title: 'Vasculitis',
+      icon: Layers,
+      title: 'Back and Spine Problems',
+      subtitle: '',
+      description: '',
+      features: [
+        'Inflammatory and mechanical back pain',
+        'Assessment of stiffness and mobility',
+        'Care for spondyloarthritis when indicated',
+        'Plans to improve comfort and function'
+      ],
+    },
+    {
+      id: 4,
+      category: 'rheumatology',
+      icon: Heart,
+      title: 'Blood Vessel Inflammation (Vasculitis)',
       subtitle: '',
       description: '',
       features: [
@@ -73,10 +87,38 @@ export function ServicesSection() {
       ],
     },
     {
-      id: 4,
+      id: 5,
       category: 'rheumatology',
-      icon: Layers,
-      title: 'Osteoporosis & Bone Health',
+      icon: Zap,
+      title: 'Gout and Uric Acid Problems',
+      subtitle: '',
+      description: '',
+      features: [
+        'Acute gout flares and chronic uric acid disease',
+        'Diagnosis of crystal arthritis',
+        'Urate-lowering therapy when needed',
+        'Advice to reduce repeat attacks'
+      ],
+    },
+    {
+      id: 6,
+      category: 'rheumatology',
+      icon: Activity,
+      title: 'Muscle Pain and Weakness',
+      subtitle: '',
+      description: '',
+      features: [
+        'Evaluation of muscle pain and weakness',
+        'Assessment for inflammatory myopathies',
+        'Investigation matched to clinical findings',
+        'Treatment and rehabilitation guidance'
+      ],
+    },
+    {
+      id: 7,
+      category: 'rheumatology',
+      icon: Target,
+      title: 'Bone and Calcium Problems (Osteoporosis)',
       subtitle: '',
       description: '',
       features: [
@@ -87,31 +129,45 @@ export function ServicesSection() {
       ],
     },
     {
-      id: 5,
-      category: 'procedures',
-      icon: Target,
-      title: 'Joint Injections',
+      id: 8,
+      category: 'rheumatology',
+      icon: Stethoscope,
+      title: 'Soft Tissue and Tendon Pain',
       subtitle: '',
       description: '',
       features: [
-        'Intra-articular injections for inflamed joints',
-        'Ultrasound and CT-guided injections when needed',
-        'Used to reduce pain and swelling',
-        'Planned as part of overall rheumatology care'
+        'Tendon, ligament, and soft-tissue pain',
+        'Assessment of bursitis and enthesitis',
+        'Conservative care and targeted therapy',
+        'Support for return to daily activity'
       ],
     },
     {
-      id: 6,
-      category: 'procedures',
-      icon: Stethoscope,
-      title: 'Musculoskeletal Ultrasound',
+      id: 9,
+      category: 'rheumatology',
+      icon: Sparkles,
+      title: 'Body Pain and Fatigue (Fibromyalgia)',
       subtitle: '',
       description: '',
       features: [
-        'Bedside look at joints, tendons, and soft tissue',
-        'Helps confirm inflammation',
-        'Guides selected procedures',
-        'Supports day-to-day clinical decisions'
+        'Widespread body pain and fatigue',
+        'Fibromyalgia evaluation and counselling',
+        'Sleep, activity, and symptom strategies',
+        'Multimodal care for better day-to-day comfort'
+      ],
+    },
+    {
+      id: 10,
+      category: 'rheumatology',
+      icon: Users,
+      title: 'Joint Problems in Children (JIA)',
+      subtitle: '',
+      description: '',
+      features: [
+        'Juvenile idiopathic arthritis (JIA)',
+        'Child-focused assessment of joint symptoms',
+        'Monitoring growth and disease activity',
+        'Family-centred treatment planning'
       ],
     },
   ];
@@ -179,7 +235,7 @@ export function ServicesSection() {
             
             {/* Description */}
             <p className="hidden md:block text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
-              Rheumatology care for joint disease, autoimmune conditions, vasculitis, osteoporosis, and related procedures
+              Rheumatology care for joint pain, arthritis, autoimmune disease, vasculitis, osteoporosis, and related conditions
             </p>
             
             {/* Stats */}

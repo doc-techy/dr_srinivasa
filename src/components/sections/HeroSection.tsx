@@ -32,41 +32,27 @@ export function HeroSection() {
   ];
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center pt-28 md:pt-24 lg:pt-20 overflow-hidden">
+    <section id="home" className="relative min-h-screen flex items-start lg:items-center pt-20 sm:pt-24 lg:pt-20 overflow-hidden">
 
-      <div className="container-custom relative z-10">
-        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-6 xl:gap-12 items-center min-h-[calc(100vh-8rem)] sm:min-h-[calc(100vh-7.5rem)] md:min-h-[calc(100vh-7rem)] lg:min-h-[calc(100vh-6.5rem)] xl:min-h-[calc(100vh-6rem)]">
-          {/* Right Content - Modern Image Container (Mobile First) */}
-          <div className={`relative transition-all duration-1000 delay-300 lg:order-2 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+      <div className="container-custom relative z-10 w-full">
+        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-6 xl:gap-12 items-start lg:items-center min-h-[calc(100vh-5rem)] sm:min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-5rem)]">
+          {/* Doctor Image — edge-to-edge on mobile, flush under header */}
+          <div className={`relative transition-all duration-1000 delay-300 order-1 lg:order-2 mt-0 sm:mt-6 lg:mt-0 -mx-5 sm:mx-0 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="relative">
-              {/* Main Image Container */}
-              <div className="relative w-full max-w-lg md:max-w-md lg:max-w-lg xl:max-w-2xl mx-auto">
-                {/* Background Glow */}
-                <div className="absolute -inset-4 md:-inset-3 lg:-inset-4 xl:-inset-6 bg-gradient-to-r from-[#1C7E4E]/30 to-[#047BCA]/20 rounded-3xl blur-2xl"></div>
-                
-                {/* Image Container */}
-                <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl p-4 md:p-3 lg:p-4 xl:p-6 shadow-2xl border border-white/50">
-                    <div className="relative w-full h-[350px] md:h-[300px] lg:h-[340px] xl:h-[500px] 2xl:h-[580px] rounded-2xl overflow-hidden">
-                    {/* Mobile Image */}
+              <div className="relative bg-transparent sm:bg-white/90 backdrop-blur-none sm:backdrop-blur-sm border-0 sm:border sm:border-white/50 rounded-none sm:rounded-3xl p-0 sm:p-3 md:p-4 lg:p-6 shadow-none sm:shadow-2xl overflow-hidden w-full sm:max-w-sm md:max-w-md lg:max-w-xl sm:mx-auto">
+                {/* Soft glow — desktop only */}
+                <div className="hidden sm:block absolute -inset-4 bg-gradient-to-r from-[#1C7E4E]/30 to-[#047BCA]/20 rounded-3xl blur-2xl -z-10"></div>
+
+                <div className="relative w-full sm:max-w-sm md:max-w-md lg:max-w-xl sm:mx-auto">
+                  <div className="relative rounded-none sm:rounded-2xl overflow-hidden">
                     <Image
                       src="/images/doctor-profile.png"
                       alt="Dr. Srinivasa C - Consultant Rheumatologist"
-                      fill
-                      className="object-cover object-top md:hidden"
+                      width={800}
+                      height={800}
+                      className="w-full h-auto object-cover object-top"
                       priority
                     />
-                    
-                    {/* Desktop Image */}
-                    <Image
-                      src="/images/doctor-profile.png"
-                      alt="Dr. Srinivasa C - Consultant Rheumatologist"
-                      fill
-                      className="object-cover object-top hidden md:block"
-                      priority
-                    />
-                    
-                    {/* Image Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
                   </div>
                 </div>
               </div>
@@ -74,7 +60,7 @@ export function HeroSection() {
           </div>
 
           {/* Left Content (Mobile Second) */}
-          <div className={`space-y-3 md:space-y-3 lg:space-y-4 xl:space-y-6 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`space-y-3 md:space-y-3 lg:space-y-4 xl:space-y-6 order-2 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {/* Badge */}
             {/* <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-50 to-blue-100 border border-[#047BCA]/20 rounded-full">
               <Award className="w-4 h-4 text-[#047BCA] mr-2" />
