@@ -7,6 +7,7 @@ import ClientProviders from "@/components/providers/ClientProviders";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 
 import JsonLd from "@/components/seo/JsonLd";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: {
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('http://localhost:3001'),
+  metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: '/',
   },
@@ -38,9 +39,9 @@ export const metadata: Metadata = {
     ]
   },
   openGraph: {
-    title: "Dr. Srinivasa C | Head & Neck Surgical Oncologist",
+    title: "Dr. Srinivasa C | Rheumatologist in Bangalore",
     description: "Rheumatology consultation with Dr. Srinivasa C at Hulimavu, Bangalore.",
-    url: 'http://localhost:3001',
+    url: SITE_URL,
     siteName: 'Dr. Srinivasa C',
     images: [
       {

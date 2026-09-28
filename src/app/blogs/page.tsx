@@ -1,164 +1,147 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, Clock, User, ArrowLeft, Eye, Tag } from 'lucide-react';
-import Link from 'next/link';
+import { Calendar, Clock, User, ArrowLeft, Tag, BookOpen } from 'lucide-react';
 
 interface Blog {
   id: string;
   title: string;
   excerpt: string;
-  content: string;
+  content: string[];
   author: string;
   date: string;
   readTime: string;
   category: string;
-  image: string;
-  views: number;
 }
 
-const sampleBlogs: Blog[] = [
+const AUTHOR = 'Dr. Srinivasa C Clinic';
+
+const blogs: Blog[] = [
   {
     id: '1',
-    title: 'Understanding Head & Neck Cancer: Early Detection and Prevention',
-    excerpt: 'Learn about the early signs of head and neck cancer and how early detection can significantly improve treatment outcomes.',
-    content: 'Head and neck cancer is a complex group of cancers that can affect various parts of the head and neck region. Early detection is crucial for successful treatment outcomes. In this comprehensive guide, we explore the early warning signs, risk factors, and prevention strategies that can help save lives...',
-    author: 'Dr. Vivek Shetty',
-    date: '2024-01-15',
-    readTime: '8 min read',
-    category: 'Cancer Education',
-    image: 'https://picsum.photos/400/250?random=1',
-    views: 1250
+    title: 'Rheumatoid Arthritis: Early Signs You Should Not Ignore',
+    excerpt: 'Morning stiffness, swollen finger joints and tiredness can be early signs of rheumatoid arthritis. Early treatment protects your joints.',
+    content: [
+      'Rheumatoid arthritis (RA) is an autoimmune disease in which the body\'s immune system attacks the lining of the joints. It most often affects the small joints of the hands and feet, usually on both sides of the body.',
+      'Common early signs include joint pain and swelling, stiffness in the morning that lasts more than 30 minutes, difficulty making a fist, and general tiredness or low-grade fever.',
+      'Early diagnosis matters. Modern medicines can control inflammation and prevent permanent joint damage when started early. If you have joint swelling or morning stiffness lasting several weeks, consult a rheumatologist.',
+    ],
+    author: AUTHOR,
+    date: '2026-09-20',
+    readTime: '4 min read',
+    category: 'Arthritis',
   },
   {
     id: '2',
-    title: 'Advances in Minimally Invasive Head & Neck Surgery',
-    excerpt: 'Discover the latest techniques in minimally invasive surgery that are revolutionizing head and neck cancer treatment.',
-    content: 'The field of head and neck surgery has seen remarkable advances in minimally invasive techniques. These innovative approaches offer patients faster recovery times, reduced scarring, and improved outcomes. This article explores the cutting-edge technologies and surgical methods...',
-    author: 'Dr. Vivek Shetty',
-    date: '2024-01-10',
-    readTime: '12 min read',
-    category: 'Surgical Techniques',
-    image: 'https://picsum.photos/400/250?random=2',
-    views: 890
+    title: 'Gout and Uric Acid: What Causes Sudden Joint Attacks',
+    excerpt: 'Gout causes sudden, severe pain and swelling, often in the big toe. Learn what triggers attacks and how uric acid can be controlled.',
+    content: [
+      'Gout happens when uric acid builds up in the blood and forms crystals in a joint. The result is a sudden attack of intense pain, redness and swelling, very often in the big toe, ankle or knee.',
+      'Attacks can be triggered by alcohol, sugary drinks, large meals rich in red meat or seafood, dehydration, and some medicines.',
+      'A high uric acid level alone does not always need treatment, but repeated gout attacks usually do. With the right medicines and lifestyle changes, most people can prevent further attacks and joint damage. Do not stop or start uric acid medicines without medical advice.',
+    ],
+    author: AUTHOR,
+    date: '2026-09-12',
+    readTime: '4 min read',
+    category: 'Gout',
   },
   {
     id: '3',
-    title: 'Nutrition and Recovery After Head & Neck Surgery',
-    excerpt: 'Essential dietary guidelines and nutritional support strategies for patients recovering from head and neck surgery.',
-    content: 'Proper nutrition plays a vital role in the recovery process after head and neck surgery. This comprehensive guide covers dietary modifications, nutritional supplements, and practical tips to support healing and maintain quality of life during recovery...',
-    author: 'Dr. Vivek Shetty',
-    date: '2024-01-05',
-    readTime: '10 min read',
-    category: 'Patient Care',
-    image: 'https://picsum.photos/400/250?random=3',
-    views: 2100
+    title: 'Lupus and Other Autoimmune Diseases: A Simple Guide',
+    excerpt: 'Autoimmune diseases like lupus can affect the joints, skin, kidneys and more. Here is what patients and families should know.',
+    content: [
+      'In autoimmune diseases, the immune system mistakenly attacks the body\'s own tissues. Systemic lupus erythematosus (SLE), Sjögren\'s syndrome, scleroderma and myositis are some examples.',
+      'Symptoms vary widely and may include joint pain, skin rashes (especially after sun exposure), mouth ulcers, hair loss, dry eyes or mouth, fatigue and unexplained fevers.',
+      'These conditions are long-term, but with regular follow-up and appropriate treatment most patients lead active lives. Blood tests and regular monitoring help detect organ involvement early.',
+    ],
+    author: AUTHOR,
+    date: '2026-09-05',
+    readTime: '5 min read',
+    category: 'Autoimmune',
   },
   {
     id: '4',
-    title: 'Reconstructive Surgery: Restoring Function and Appearance',
-    excerpt: 'Understanding the role of reconstructive surgery in restoring both function and appearance after cancer treatment.',
-    content: 'Reconstructive surgery is a crucial component of comprehensive head and neck cancer care. This article explains the various reconstruction techniques, timing considerations, and how these procedures help patients regain both physical function and confidence...',
-    author: 'Dr. Vivek Shetty',
-    date: '2023-12-28',
-    readTime: '15 min read',
-    category: 'Reconstruction',
-    image: 'https://picsum.photos/400/250?random=4',
-    views: 1560
+    title: 'Osteoporosis: Protecting Your Bones After 40',
+    excerpt: 'Osteoporosis weakens bones silently until a fracture happens. Simple checks and habits can keep your bones strong.',
+    content: [
+      'Osteoporosis is a condition in which bones become thin and fragile, making fractures of the hip, spine and wrist more likely. It often causes no symptoms until a bone breaks.',
+      'Risk is higher in women after menopause, older adults, people on long-term steroid medicines, and those with low body weight, smoking or a family history of fractures.',
+      'A bone density (DEXA) scan helps diagnose osteoporosis. Adequate calcium and vitamin D, regular weight-bearing exercise and, when needed, medicines can reduce fracture risk.',
+    ],
+    author: AUTHOR,
+    date: '2026-08-28',
+    readTime: '4 min read',
+    category: 'Bone Health',
   },
   {
     id: '5',
-    title: 'The Role of Multidisciplinary Care in Cancer Treatment',
-    excerpt: 'Learn how a team-based approach improves outcomes for head and neck cancer patients.',
-    content: 'Multidisciplinary care brings together specialists from various fields to provide comprehensive cancer treatment. This collaborative approach ensures that patients receive the best possible care with coordinated treatment plans tailored to their specific needs...',
-    author: 'Dr. Vivek Shetty',
-    date: '2023-12-20',
-    readTime: '7 min read',
-    category: 'Treatment Approach',
-    image: 'https://picsum.photos/400/250?random=5',
-    views: 980
+    title: 'Back Pain in Young Adults: Could It Be Spondyloarthritis?',
+    excerpt: 'Back pain that is worse in the morning and improves with activity may be inflammatory. Learn the signs of ankylosing spondylitis.',
+    content: [
+      'Most back pain is mechanical and improves with rest. Inflammatory back pain is different: it usually starts before age 40, comes on gradually, is worse in the morning or after rest, and improves with movement.',
+      'Ankylosing spondylitis and related conditions (spondyloarthritis) can also cause heel pain, eye inflammation and swelling of other joints.',
+      'Early diagnosis with a rheumatologist, along with regular exercise and appropriate medicines, helps control pain and keeps the spine flexible.',
+    ],
+    author: AUTHOR,
+    date: '2026-08-20',
+    readTime: '4 min read',
+    category: 'Arthritis',
   },
   {
     id: '6',
-    title: 'Latest Research in Head & Neck Oncology',
-    excerpt: 'Stay updated with the most recent research findings and emerging treatments in head and neck oncology.',
-    content: 'The field of head and neck oncology continues to evolve with new research and treatment modalities. This article highlights recent breakthroughs, ongoing clinical trials, and promising developments that are shaping the future of cancer care...',
-    author: 'Dr. Vivek Shetty',
-    date: '2023-12-15',
-    readTime: '11 min read',
-    category: 'Research',
-    image: 'https://picsum.photos/400/250?random=6',
-    views: 1750
-  }
+    title: 'Preparing for Your First Rheumatology Visit',
+    excerpt: 'A little preparation helps you get the most out of your consultation. Here is what to bring and what to expect.',
+    content: [
+      'Bring all previous medical reports, blood test results, X-rays or scans, and a list of the medicines you currently take, including supplements.',
+      'Note down your symptoms: which joints are affected, when the pain started, how long morning stiffness lasts, and anything that makes it better or worse.',
+      'The doctor will take a detailed history, examine your joints and may advise blood tests or imaging. Please arrive 15 minutes before your appointment time.',
+    ],
+    author: AUTHOR,
+    date: '2026-08-12',
+    readTime: '3 min read',
+    category: 'Patient Guide',
+  },
 ];
 
-const categories = ['All', 'Cancer Education', 'Surgical Techniques', 'Patient Care', 'Reconstruction', 'Treatment Approach', 'Research'];
+const categories = ['All', ...Array.from(new Set(blogs.map(blog => blog.category)))];
+
+const formatDate = (dateString: string) =>
+  new Date(dateString).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
 
 export default function BlogsPage() {
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const filteredBlogs = sampleBlogs.filter(blog => 
-    selectedCategory === 'All' || blog.category === selectedCategory
-  );
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  const formatViews = (views: number) => {
-    if (views >= 1000) {
-      return `${(views / 1000).toFixed(1)}K`;
-    }
-    return `${views}`;
-  };
+  const filteredBlogs = blogs.filter(blog => selectedCategory === 'All' || blog.category === selectedCategory);
 
   if (selectedBlog) {
     return (
       <div className="min-h-screen pt-32 pb-16">
-        {/* Blog Detail View */}
         <div className="container-custom py-12">
           <div className="max-w-4xl mx-auto">
-            {/* Back Button */}
             <button
               onClick={() => setSelectedBlog(null)}
-              className="flex items-center gap-2 text-[#047BCA] hover:text-[#047BCA] mb-8 transition-colors duration-200"
+              className="flex items-center gap-2 text-[#047BCA] hover:text-[#0369A1] mb-8 transition-colors duration-200"
             >
               <ArrowLeft className="w-5 h-5" />
               <span className="font-medium">Back to Blogs</span>
             </button>
 
-            {/* Blog Content */}
             <article className="bg-white rounded-3xl shadow-xl overflow-hidden">
-              {/* Blog Image */}
-              <div className="relative h-64 md:h-80 bg-gradient-to-br from-green-50 to-blue-50">
-                <img
-                  src={selectedBlog.image}
-                  alt={selectedBlog.title}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="relative h-40 md:h-56 bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] flex items-center justify-center">
+                <BookOpen className="w-16 h-16 text-white/80" />
                 <div className="absolute top-6 left-6">
-                  <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
                     {selectedBlog.category}
                   </span>
                 </div>
               </div>
 
-              {/* Blog Header */}
               <div className="p-8">
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
                   {selectedBlog.title}
                 </h1>
 
-                {/* Blog Meta */}
                 <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 mb-6">
                   <div className="flex items-center gap-2">
                     <User className="w-4 h-4" />
@@ -172,22 +155,14 @@ export default function BlogsPage() {
                     <Clock className="w-4 h-4" />
                     <span>{selectedBlog.readTime}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Eye className="w-4 h-4" />
-                    <span>{formatViews(selectedBlog.views)} views</span>
-                  </div>
                 </div>
 
-                {/* Blog Content */}
-                <div className="prose prose-lg max-w-none">
-                  <p className="text-gray-700 leading-relaxed mb-6">
-                    {selectedBlog.content}
-                  </p>
-                  <p className="text-gray-700 leading-relaxed mb-6">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </p>
-                  <p className="text-gray-700 leading-relaxed">
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                <div className="max-w-none space-y-5">
+                  {selectedBlog.content.map((paragraph, index) => (
+                    <p key={index} className="text-gray-700 text-lg leading-relaxed">{paragraph}</p>
+                  ))}
+                  <p className="text-sm text-gray-500 italic border-t border-gray-100 pt-5">
+                    This article is for general information only and is not a substitute for a medical consultation.
                   </p>
                 </div>
               </div>
@@ -200,16 +175,17 @@ export default function BlogsPage() {
 
   return (
     <div className="min-h-screen pt-32 pb-16">
-      {/* Page Header */}
       <div className="container-custom py-16">
         <div className="text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             <span className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent">Blogs</span>
           </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Patient education on arthritis, autoimmune diseases, gout and bone health.
+          </p>
         </div>
       </div>
 
-      {/* Filter Section */}
       <div className="container-custom py-8">
         <div className="flex flex-wrap justify-center gap-3 mb-8">
           {categories.map((category) => (
@@ -227,7 +203,6 @@ export default function BlogsPage() {
           ))}
         </div>
 
-        {/* Blogs Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredBlogs.map((blog) => (
             <article
@@ -235,49 +210,30 @@ export default function BlogsPage() {
               onClick={() => setSelectedBlog(blog)}
               className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group"
             >
-              {/* Blog Image */}
-              <div className="relative h-48 bg-gradient-to-br from-green-50 to-blue-50">
-                <img
-                  src={blog.image}
-                  alt={blog.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="relative h-32 bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] flex items-center justify-center">
+                <BookOpen className="w-10 h-10 text-white/80 group-hover:scale-110 transition-transform duration-300" />
                 <div className="absolute top-4 left-4">
-                  <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                  <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold">
                     {blog.category}
                   </span>
                 </div>
               </div>
 
-              {/* Blog Content */}
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#047BCA] transition-colors duration-200">
                   {blog.title}
                 </h3>
-                
                 <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed">
                   {blog.excerpt}
                 </p>
-                
-                {/* Blog Meta */}
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
-                      <span>{formatDate(blog.date)}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      <span>{blog.readTime}</span>
-                    </div>
+                <div className="flex items-center gap-4 text-xs text-gray-500">
+                  <div className="flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />
+                    <span>{formatDate(blog.date)}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Eye className="w-3 h-3" />
-                    <span>{formatViews(blog.views)}</span>
+                    <Clock className="w-3 h-3" />
+                    <span>{blog.readTime}</span>
                   </div>
                 </div>
               </div>
@@ -285,7 +241,6 @@ export default function BlogsPage() {
           ))}
         </div>
 
-        {/* No Blogs Message */}
         {filteredBlogs.length === 0 && (
           <div className="text-center py-12">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">

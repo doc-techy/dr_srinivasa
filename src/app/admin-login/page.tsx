@@ -61,7 +61,7 @@ export default function AdminLoginPage() {
             <Lock className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900">Admin Login</h1>
-          <p className="text-gray-600 mt-2">Dr. Vivek Shetty - Appointment Management</p>
+          <p className="text-gray-600 mt-2">Dr. Srinivasa C - Appointment Management</p>
         </div>
 
         {/* Login Form */}

@@ -26,7 +26,7 @@ export default function AdminHeader() {
             </div>
             <div>
               <h1 className="text-xl font-semibold text-gray-900">Admin Dashboard</h1>
-              <p className="text-sm text-gray-500">Dr. Vivek Shetty - Appointment Management</p>
+              <p className="text-sm text-gray-500">Dr. Srinivasa C - Appointment Management</p>
             </div>
           </div>
 

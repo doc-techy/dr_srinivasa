@@ -191,11 +191,11 @@ export const mockApi = {
     return {
       success: true,
       data: {
-        name: 'Dr. Vivek Shetty',
-        specialization: 'Head & Neck Oncology',
-        experience: '9 years',
-        qualifications: ['MBBS', 'MS General Surgery', 'Fellowship in Head and Neck Surgical Oncology'],
-        location: 'SPARSH Hospital, Hennur Road',
+        name: 'Dr. Srinivasa C',
+        specialization: 'Rheumatology',
+        experience: '10+ years',
+        qualifications: ['MBBS', 'MD (General Medicine)', 'DM (Rheumatology)'],
+        location: 'Hulimavu, Bangalore',
         languages: ['English', 'Hindi', 'Kannada']
       }
     };
@@ -208,21 +208,21 @@ export const mockApi = {
       data: [
         {
           id: 1,
-          title: 'Head & Neck Surgery',
-          description: 'Advanced surgical procedures for head and neck conditions',
-          icon: 'surgery'
+          title: 'Joint Pains and Arthritis',
+          description: 'Diagnosis and treatment of rheumatoid arthritis, osteoarthritis and other joint conditions',
+          icon: 'joints'
         },
         {
           id: 2,
-          title: 'Oncology Consultation',
-          description: 'Comprehensive cancer care and treatment planning',
+          title: 'Autoimmune Diseases',
+          description: 'Care for lupus, Sjögren\'s syndrome, scleroderma and related conditions',
           icon: 'consultation'
         },
         {
           id: 3,
-          title: 'Reconstructive Surgery',
-          description: 'Restorative procedures following cancer treatment',
-          icon: 'reconstruction'
+          title: 'Gout and Uric Acid Problems',
+          description: 'Managing gout attacks and long-term uric acid control',
+          icon: 'gout'
         }
       ]
     };
@@ -252,7 +252,7 @@ export const mockApi = {
         {
           id: 1,
           title: 'Educational Video 1',
-          description: 'Learn about head and neck surgery procedures',
+          description: 'Understanding rheumatoid arthritis',
           thumbnail: 'https://picsum.photos/400/225?random=1',
           duration: '5:30'
         }

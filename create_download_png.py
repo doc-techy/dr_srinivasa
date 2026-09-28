@@ -53,7 +53,7 @@ def create_download_png():
         draw.rectangle([cross_x - cross_height, cross_y - cross_width, cross_x + cross_height, cross_y + cross_width], fill=blue)
         
         # Save PNG
-        filename = f'public/dr_vivek_favicon_{size}x{size}.png'
+        filename = f'public/dr_srinivasa_favicon_{size}x{size}.png'
         img.save(filename, format='PNG')
         print(f"Created {filename}")
     

@@ -59,7 +59,7 @@ export function AboutSection() {
           </h2>
           
           {/* <p className="hidden md:block text-sm md:text-2xl lg:text-3xl text-gray-600 max-w-5xl mx-auto leading-relaxed px-4">
-            A dedicated specialist with comprehensive education and extensive clinical experience in head and neck oncology.
+            A dedicated specialist with comprehensive education and extensive clinical experience in rheumatology.
           </p> */}
         </div>
 

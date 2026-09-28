@@ -6,65 +6,9 @@ import { useEffect, useRef } from 'react';
 export function TestimonialsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const testimonials = [
-    {
-      name: 'Sreekanth MS',
-      role: 'Patient',
-      content: "Dr Vivek is considered to be one of best doctor in my life in difficult situation. Your consulting and caring and follow up really appreciated. Thank you and wish all the best to your carries.",
-      rating: 5,
-      treatment: 'Head & Neck Surgery'
-    },
-    {
-      name: 'chandan ba95',
-      role: 'Family Member',
-      content: "My grandmother underwent C.A. mandible surgery performed by Dr. Vivek Shetty. Despite having thyroid and hypertension issues, and being 70 years old, the surgery was successfully carried out amidst so many challenges. Now she is comfortably living with us. Thank you very much, Sir.",
-      rating: 5,
-      treatment: 'Mandible Cancer Surgery'
-    },
-    {
-      name: 'Abinav',
-      role: 'Parent',
-      content: "My 9-year-old son had swelling in the right parotid gland. Dr. Shetty explained everything in layman's terms, managed the surgery with care, and it's been over 4 years since. My son is doing great. Highly recommend Dr. Shetty!",
-      rating: 5,
-      treatment: 'Parotid Gland Surgery'
-    },
-    {
-      name: 'Sandy Flies',
-      role: 'Family Member',
-      content: "Dr Vivek Shetty treated my father in 4th stage cancer. While others had no hope, his treatment gave my father 3+ years of happy, pain-free life. A miracle and a blessing. Highly recommend!",
-      rating: 5,
-      treatment: 'Stage 4 Cancer Treatment'
-    },
-    {
-      name: 'Sunil Pathak',
-      role: 'Patient',
-      content: "I'm extremely satisfied with Dr. Vivek Shetty’s care. His professionalism, empathy, and clear communication made the experience excellent. Highly recommended!",
-      rating: 5,
-      treatment: 'Head & Neck Oncology'
-    },
-    {
-      name: 'Lowell Monis',
-      role: 'Family Member',
-      content: "My uncle had metastasis of unknown origin. Dr. Shetty coordinated a multidisciplinary treatment plan with excellent follow-up and results. A compassionate, skilled doctor we trust deeply.",
-      rating: 5,
-      treatment: 'Metastasis - Neck Lymph Node'
-    },
-    {
-      name: 'Shivakumar Baradol',
-      role: 'Patient',
-      content: "Good.",
-      rating: 5,
-      treatment: 'General Consultation'
-    },
-    {
-      name: 'Shahid',
-      role: 'Patient',
-      content: "Dr. Shetty is genuine, experienced, and kind. Always responsive and helpful. A doctor you can trust blindly. Truly thankful for his professionalism and care.",
-      rating: 5,
-      treatment: 'Head & Neck Oncology'
-    }
-  ];
-  ;
+  // Add real patient reviews here (e.g. from the clinic's Google Business profile).
+  // The section stays hidden while this list is empty.
+  const testimonials: { name: string; role: string; content: string; rating: number; treatment: string }[] = [];
 
   // Create duplicated testimonials for infinite scroll
   const duplicatedTestimonials = [...testimonials, ...testimonials, ...testimonials];
@@ -115,6 +59,8 @@ export function TestimonialsSection() {
       clearTimeout(timeoutId);
     };
   }, []);
+
+  if (testimonials.length === 0) return null;
 
   return (
     <section className="pb-20">

@@ -17,9 +17,9 @@ export function HeroSection() {
   }, []);
 
   const features = [
-    'Advanced Surgical Techniques',
-    'Minimally Invasive Procedures',
-    'Comprehensive Care Plans',
+    'Arthritis & Joint Care',
+    'Autoimmune Disease Management',
+    'Bone & Muscle Health',
     'Patient-Centered Approach'
   ];
 
@@ -64,7 +64,7 @@ export function HeroSection() {
             {/* Badge */}
             {/* <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-50 to-blue-100 border border-[#047BCA]/20 rounded-full">
               <Award className="w-4 h-4 text-[#047BCA] mr-2" />
-              <span className="text-sm font-semibold text-[#047BCA]">Senior Consultant • SPARSH Hospital</span>
+              <span className="text-sm font-semibold text-[#047BCA]">Consultant Rheumatologist • Hulimavu</span>
             </div> */}
 
             {/* Main Heading */}
@@ -157,7 +157,7 @@ export function HeroSection() {
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-3xl p-4 md:p-6 lg:p-8 max-w-4xl w-full shadow-2xl border border-gray-200">
             <div className="flex justify-between items-center mb-4 md:mb-6">
-              <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900">Dr. Vivek Shetty - Introduction</h3>
+              <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900">Dr. Srinivasa C - Introduction</h3>
               <button
                 onClick={() => setIsVideoOpen(false)}
                 className="w-8 h-8 md:w-10 md:h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200"

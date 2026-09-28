@@ -11,8 +11,8 @@ export default function AdminLoginLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Admin Login - Dr. Vivek Shetty</title>
-        <meta name="description" content="Admin login for Dr. Vivek Shetty appointment management system" />
+        <title>Admin Login - Dr. Srinivasa C</title>
+        <meta name="description" content="Admin login for Dr. Srinivasa C appointment management system" />
       </head>
       <body className="font-sans antialiased min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
         <ClientProviders>

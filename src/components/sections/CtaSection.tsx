@@ -37,7 +37,7 @@ export function CtaSection() {
         </div>
       </div>
         
-      {/* Why Choose Dr. Vivek Shetty Section - Same Width as Below Components */}
+      {/* Why Choose Dr. Srinivasa C Section - Same Width as Below Components */}
       <div className="mb-16 w-full px-4">
         <div className="max-w-7xl mx-auto">
             <div className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-2xl p-3 md:p-8 lg:p-12 text-white shadow-2xl relative overflow-hidden">

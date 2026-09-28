@@ -1,11 +1,13 @@
+import { SITE_URL } from '@/lib/site';
+
 export default function JsonLd() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Physician',
     name: 'Dr. Srinivasa C',
-    image: '/images/doctor-profile.png',
+    image: `${SITE_URL}/images/doctor-profile.png`,
     description: 'Consultant Rheumatologist in Hulimavu, Bangalore. MBBS, MD (General Medicine), DM (Rheumatology).',
-    url: 'https://www.drsrinivasac.com',
+    url: SITE_URL,
     address: {
       '@type': 'PostalAddress',
       streetAddress: '#251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road',

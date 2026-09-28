@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import { VideoSection } from '@/components/sections/VideoSection';
 
 export const metadata: Metadata = {
-  title: 'Educational Videos - Dr. Vivek Shetty',
-  description: 'Watch educational videos by Dr. Vivek Shetty on Head & Neck Oncology, surgical procedures, and patient care.',
-  keywords: ['educational videos', 'head neck oncology', 'surgical procedures', 'Dr. Vivek Shetty', 'medical education'],
+  title: 'Educational Videos - Dr. Srinivasa C',
+  description: 'Patient education videos from Dr. Srinivasa C, Consultant Rheumatologist, on arthritis, autoimmune diseases, gout, osteoporosis, and joint care.',
+  keywords: ['rheumatology videos', 'arthritis', 'autoimmune disease', 'joint pain', 'Dr. Srinivasa C', 'rheumatologist Bangalore'],
 };
 
 export default function VideosPage() {
@@ -18,8 +18,8 @@ export default function VideosPage() {
               Educational Videos
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Learn from Dr. Vivek Shetty&apos;s expertise through comprehensive educational videos 
-              covering Head & Neck Oncology, surgical procedures, and patient care.
+              Simple, practical videos from Dr. Srinivasa C on arthritis, autoimmune diseases,
+              bone health, and living well with joint and muscle conditions.
             </p>
           </div>
         </div>
