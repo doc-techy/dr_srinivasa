@@ -1,19 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Ban, CalendarX, History, Pencil, Plus, Trash2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiClient } from '@/lib/api';
-import { 
-  Calendar, 
-  Clock, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Save,
-  X,
-  AlertCircle,
-  BarChart3
-} from 'lucide-react';
+import {
+  Card, EmptyState, ErrorBanner, Modal, PageHeader, Spinner, StatCard,
+  btnDanger, btnPrimary, btnSecondary, formatDate, formatTime, iconBtn, inputClass, labelClass, todayISO,
+} from '@/components/admin/ui';
 
 interface BlockedSlot {
   id: number;
@@ -21,380 +15,232 @@ interface BlockedSlot {
   start_time: string;
   end_time: string;
   reason: string;
-  created_at: string;
-  updated_at: string;
 }
 
-interface NewBlockedSlot {
-  date: string;
-  start_time: string;
-  end_time: string;
-  reason: string;
-}
-
-interface BlockedSlotsSummary {
+interface BlockedSummary {
   total_blocked: number;
   this_week: number;
   this_month: number;
   upcoming: number;
 }
 
+type BlockedForm = Omit<BlockedSlot, 'id'>;
+
+const DAY_START = '00:00';
+const DAY_END = '23:59';
+
+const isWholeDay = (slot: Pick<BlockedSlot, 'start_time' | 'end_time'>) => slot.start_time === DAY_START && slot.end_time === DAY_END;
+
 export default function BlockedSlotsPage() {
   const { tokens } = useAuth();
-  const [blockedSlots, setBlockedSlots] = useState<BlockedSlot[]>([]);
-  const [summary, setSummary] = useState<BlockedSlotsSummary | null>(null);
+  const [slots, setSlots] = useState<BlockedSlot[]>([]);
+  const [summary, setSummary] = useState<BlockedSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [formData, setFormData] = useState<NewBlockedSlot>({
-    date: new Date().toISOString().split('T')[0],
-    start_time: '09:00',
-    end_time: '17:00',
-    reason: ''
-  });
+  const [editing, setEditing] = useState<BlockedSlot | null>(null);
+  const [form, setForm] = useState<BlockedForm | null>(null);
+  const [formError, setFormError] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [showPast, setShowPast] = useState(false);
+
+  const load = useCallback(async () => {
+    if (!tokens?.access) return;
+    const [slotsRes, summaryRes] = await Promise.all([
+      apiClient.getBlockedSlots(tokens.access),
+      apiClient.getBlockedSlotsSummary(tokens.access),
+    ]);
+    if (slotsRes.success && slotsRes.data) setSlots(slotsRes.data.blocked_slots);
+    else setError(slotsRes.error || 'Could not load blocked time.');
+    setSummary(summaryRes.data?.summary ?? null);
+    setLoading(false);
+  }, [tokens?.access]);
 
   useEffect(() => {
-    fetchBlockedSlots();
-    fetchSummary();
-  }, [tokens]);
+    load();
+  }, [load]);
 
-  const fetchBlockedSlots = async () => {
-    if (!tokens?.access) return;
+  const today = todayISO();
+  const upcoming = useMemo(() => slots.filter(slot => slot.date >= today), [slots, today]);
+  const past = useMemo(() => slots.filter(slot => slot.date < today).reverse(), [slots, today]);
 
-    try {
-      setLoading(true);
-      const response = await apiClient.getBlockedSlots(tokens.access);
-      
-      if (response.success && response.data) {
-        setBlockedSlots(response.data.blocked_slots);
-      } else {
-        setError('Failed to load blocked slots data');
-      }
-    } catch (err) {
-      setError('Failed to load blocked slots data');
-      console.error('Blocked slots error:', err);
-    } finally {
-      setLoading(false);
-    }
+  const openCreate = () => {
+    setEditing(null);
+    setForm({ date: today, start_time: DAY_START, end_time: DAY_END, reason: '' });
+    setFormError('');
   };
 
-  const fetchSummary = async () => {
-    if (!tokens?.access) return;
-
-    try {
-      const response = await apiClient.getBlockedSlotsSummary(tokens.access);
-      if (response.success && response.data) {
-        setSummary(response.data.summary);
-      }
-    } catch (err) {
-      console.error('Summary error:', err);
-    }
+  const openEdit = (slot: BlockedSlot) => {
+    setEditing(slot);
+    setForm({ date: slot.date, start_time: slot.start_time, end_time: slot.end_time, reason: slot.reason });
+    setFormError('');
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const closeForm = () => {
+    setForm(null);
+    setEditing(null);
+  };
+
+  const save = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!tokens?.access) return;
-
-    try {
-      if (editingId) {
-        // Update existing blocked slot
-        const response = await apiClient.updateBlockedSlot(editingId, formData, tokens.access);
-        if (response.success) {
-          fetchBlockedSlots();
-          fetchSummary();
-          resetForm();
-        }
-      } else {
-        // Create new blocked slot
-        const response = await apiClient.createBlockedSlot(formData, tokens.access);
-        if (response.success) {
-          fetchBlockedSlots();
-          fetchSummary();
-          resetForm();
-        }
-      }
-    } catch (err) {
-      console.error('Save error:', err);
+    if (!tokens?.access || !form) return;
+    setSaving(true);
+    const response = editing
+      ? await apiClient.updateBlockedSlot(editing.id, form, tokens.access)
+      : await apiClient.createBlockedSlot(form, tokens.access);
+    setSaving(false);
+    if (!response.success) {
+      setFormError(response.error || 'Could not save this block.');
+      return;
     }
+    closeForm();
+    load();
   };
 
-  const handleEdit = (blockedSlot: BlockedSlot) => {
-    setFormData({
-      date: blockedSlot.date,
-      start_time: blockedSlot.start_time,
-      end_time: blockedSlot.end_time,
-      reason: blockedSlot.reason
-    });
-    setEditingId(blockedSlot.id);
-    setShowForm(true);
-  };
-
-  const handleDelete = async (id: number) => {
+  const remove = async (slot: BlockedSlot) => {
     if (!tokens?.access) return;
-    
-    if (confirm('Are you sure you want to delete this blocked slot?')) {
-      try {
-        const response = await apiClient.deleteBlockedSlot(id, tokens.access);
-        if (response.success) {
-          fetchBlockedSlots();
-          fetchSummary();
-        }
-      } catch (err) {
-        console.error('Delete error:', err);
-      }
-    }
+    if (!confirm(`Unblock ${formatDate(slot.date)}? Patients will be able to book this time again.`)) return;
+    const response = await apiClient.deleteBlockedSlot(slot.id, tokens.access);
+    if (!response.success) setError(response.error || 'Could not remove this block.');
+    closeForm();
+    load();
   };
 
-  const resetForm = () => {
-    setFormData({
-      date: new Date().toISOString().split('T')[0],
-      start_time: '09:00',
-      end_time: '17:00',
-      reason: ''
-    });
-    setEditingId(null);
-    setShowForm(false);
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+  const SlotRow = ({ slot, muted = false }: { slot: BlockedSlot; muted?: boolean }) => (
+    <li className="flex items-center gap-4 px-6 py-4">
+      <div className={`w-14 flex-shrink-0 rounded-xl py-2 text-center ${muted ? 'bg-gray-50' : 'bg-gradient-to-br from-green-50 to-blue-50'}`}>
+        <p className={`text-xs font-semibold uppercase ${muted ? 'text-gray-400' : 'text-[#1C7E4E]'}`}>
+          {formatDate(slot.date, { month: 'short' })}
+        </p>
+        <p className={`text-xl font-bold leading-none ${muted ? 'text-gray-400' : 'text-[#047BCA]'}`}>
+          {formatDate(slot.date, { day: 'numeric' })}
+        </p>
       </div>
-    );
-  }
+      <div className="flex-1 min-w-0">
+        <p className={`font-semibold ${muted ? 'text-gray-500' : 'text-gray-900'}`}>
+          {formatDate(slot.date, { weekday: 'long' })} · {isWholeDay(slot) ? 'Whole day' : `${formatTime(slot.start_time)} – ${formatTime(slot.end_time)}`}
+        </p>
+        <p className="text-sm text-gray-500 truncate">{slot.reason || 'No reason given'}</p>
+      </div>
+      {!muted && (
+        <div className="flex gap-1.5">
+          <button onClick={() => openEdit(slot)} title="Edit" className={iconBtn}>
+            <Pencil className="w-4 h-4" />
+          </button>
+          <button onClick={() => remove(slot)} title="Unblock" className={`${iconBtn} hover:!border-red-300 hover:!text-red-600`}>
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+    </li>
+  );
+
+  if (loading) return <Spinner label="Loading blocked time…" />;
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Blocked Slots</h1>
-          <p className="text-gray-600 mt-1">Manage blocked time slots when doctor is unavailable</p>
-        </div>
-        <button
-          onClick={() => setShowForm(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
-        >
-          <Plus className="h-4 w-4" />
-          <span>Add Blocked Slot</span>
-        </button>
-      </div>
+      <PageHeader
+        title="Blocked Time"
+        subtitle="Close the clinic for leave, holidays or emergencies. Blocked slots disappear from the booking page."
+        actions={
+          <button onClick={openCreate} className={btnPrimary}>
+            <Plus className="w-4 h-4" /> Block time
+          </button>
+        }
+      />
 
-      {/* Summary Cards */}
+      {error && <ErrorBanner message={error} onClose={() => setError('')} />}
+
       {summary && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-red-100 rounded-lg">
-                <Calendar className="h-6 w-6 text-red-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Blocked</p>
-                <p className="text-2xl font-bold text-gray-900">{summary.total_blocked}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-yellow-100 rounded-lg">
-                <Clock className="h-6 w-6 text-yellow-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">This Week</p>
-                <p className="text-2xl font-bold text-gray-900">{summary.this_week}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-green-50 rounded-lg">
-                <BarChart3 className="h-6 w-6 text-[#047BCA]" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">This Month</p>
-                <p className="text-2xl font-bold text-gray-900">{summary.this_month}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <Calendar className="h-6 w-6 text-green-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Upcoming</p>
-                <p className="text-2xl font-bold text-gray-900">{summary.upcoming}</p>
-              </div>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <StatCard label="Upcoming blocks" value={summary.upcoming} icon={Ban} tone="brand" />
+          <StatCard label="This week" value={summary.this_week} icon={CalendarX} tone="green" />
+          <StatCard label="This month" value={summary.this_month} icon={CalendarX} tone="blue" />
         </div>
       )}
 
-      {/* Error Message */}
-      {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center space-x-2">
-          <AlertCircle className="h-5 w-5 text-red-600" />
-          <span className="text-red-800">{error}</span>
+      <Card>
+        <div className="px-6 py-4 border-b border-gray-100">
+          <h2 className="text-lg font-bold text-gray-900">Upcoming</h2>
         </div>
+        {upcoming.length === 0 ? (
+          <EmptyState icon={Ban} title="No upcoming blocks" text="All regular weekly hours are open for booking." />
+        ) : (
+          <ul className="divide-y divide-gray-100">
+            {upcoming.map(slot => <SlotRow key={slot.id} slot={slot} />)}
+          </ul>
+        )}
+      </Card>
+
+      {past.length > 0 && (
+        <Card>
+          <button onClick={() => setShowPast(open => !open)} className="w-full flex items-center justify-between px-6 py-4 text-left">
+            <span className="flex items-center gap-2 font-bold text-gray-700">
+              <History className="w-4 h-4 text-gray-400" /> Past blocks ({past.length})
+            </span>
+            <span className="text-sm font-semibold text-[#047BCA]">{showPast ? 'Hide' : 'Show'}</span>
+          </button>
+          {showPast && (
+            <ul className="divide-y divide-gray-100 border-t border-gray-100">
+              {past.map(slot => <SlotRow key={slot.id} slot={slot} muted />)}
+            </ul>
+          )}
+        </Card>
       )}
 
-      {/* Blocked Slots List */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Date
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Time
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Reason
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {blockedSlots.map((slot) => (
-                <tr key={slot.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {formatDate(slot.date)}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      {slot.start_time} - {slot.end_time}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="text-sm text-gray-900 max-w-xs truncate">
-                      {slot.reason || 'No reason provided'}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => handleEdit(slot)}
-                        className="text-[#047BCA] hover:text-blue-900"
-                      >
-                        <Edit className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(slot.id)}
-                        className="text-red-600 hover:text-red-900"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Form Modal */}
-      {showForm && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div className="mt-3">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-medium text-gray-900">
-                  {editingId ? 'Edit Blocked Slot' : 'Add Blocked Slot'}
-                </h3>
-                <button
-                  onClick={resetForm}
-                  className="text-gray-400 hover:text-gray-600"
-                >
-                  <X className="h-6 w-6" />
+      {form && (
+        <Modal title={editing ? 'Edit blocked time' : 'Block time'} onClose={closeForm}>
+          <form onSubmit={save} className="space-y-4">
+            {formError && <ErrorBanner message={formError} />}
+            <div>
+              <label className={labelClass}>Date</label>
+              <input type="date" required min={today} value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} className={inputClass} />
+            </div>
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={isWholeDay(form)}
+                onChange={e => setForm(e.target.checked
+                  ? { ...form, start_time: DAY_START, end_time: DAY_END }
+                  : { ...form, start_time: '09:00', end_time: '12:00' })}
+                className="w-4 h-4 rounded border-gray-300 text-[#047BCA] focus:ring-[#047BCA]/30"
+              />
+              <span className="text-sm font-medium text-gray-700">Block the whole day</span>
+            </label>
+            {!isWholeDay(form) && (
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className={labelClass}>From</label>
+                  <input type="time" required value={form.start_time} onChange={e => setForm({ ...form, start_time: e.target.value })} className={inputClass} />
+                </div>
+                <div>
+                  <label className={labelClass}>To</label>
+                  <input type="time" required value={form.end_time} onChange={e => setForm({ ...form, end_time: e.target.value })} className={inputClass} />
+                </div>
+              </div>
+            )}
+            <div>
+              <label className={labelClass}>Reason <span className="font-normal text-gray-400">(optional, only visible to admins)</span></label>
+              <input
+                value={form.reason}
+                maxLength={200}
+                onChange={e => setForm({ ...form, reason: e.target.value })}
+                placeholder="e.g. Conference, personal leave"
+                className={inputClass}
+              />
+            </div>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {editing && (
+                <button type="button" onClick={() => remove(editing)} className={btnDanger}>
+                  <Trash2 className="w-4 h-4" /> Unblock
                 </button>
+              )}
+              <div className="flex gap-2 ml-auto">
+                <button type="button" onClick={closeForm} className={btnSecondary}>Cancel</button>
+                <button type="submit" disabled={saving} className={btnPrimary}>{saving ? 'Saving…' : 'Save'}</button>
               </div>
-              
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Date</label>
-                  <input
-                    type="date"
-                    value={formData.date}
-                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Start Time</label>
-                  <input
-                    type="time"
-                    value={formData.start_time}
-                    onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">End Time</label>
-                  <input
-                    type="time"
-                    value={formData.end_time}
-                    onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Reason</label>
-                  <textarea
-                    value={formData.reason}
-                    onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-                    rows={3}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Enter reason for blocking this time slot..."
-                  />
-                </div>
-                
-                <div className="flex justify-end space-x-3">
-                  <button
-                    type="button"
-                    onClick={resetForm}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center space-x-2"
-                  >
-                    <Save className="h-4 w-4" />
-                    <span>{editingId ? 'Update' : 'Create'}</span>
-                  </button>
-                </div>
-              </form>
             </div>
-          </div>
-        </div>
+          </form>
+        </Modal>
       )}
     </div>
   );

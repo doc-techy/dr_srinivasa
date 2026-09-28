@@ -1,154 +1,94 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
+import { ArrowRight, Ban, CalendarClock, Clock, Mail, MapPin, ShieldCheck, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Settings, User, Shield, Bell, Database } from 'lucide-react';
+import { Card, PageHeader } from '@/components/admin/ui';
+
+function Section({ icon: Icon, title, children }: { icon: typeof User; title: string; children: React.ReactNode }) {
+  return (
+    <Card className="p-6">
+      <div className="flex items-center gap-3 mb-5">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] flex items-center justify-center">
+          <Icon className="w-5 h-5 text-white" />
+        </div>
+        <h2 className="text-lg font-bold text-gray-900">{title}</h2>
+      </div>
+      {children}
+    </Card>
+  );
+}
+
+function Row({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 py-2.5 border-b border-gray-100 last:border-0">
+      <dt className="text-sm text-gray-500">{label}</dt>
+      <dd className="text-sm font-semibold text-gray-900 break-all">{value}</dd>
+    </div>
+  );
+}
 
 export default function AdminSettingsPage() {
   const { user } = useAuth();
+  const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(' ');
 
   return (
     <div className="space-y-6">
-      {/* Settings Sections */}
+      <PageHeader title="Settings" subtitle="Your account and how online booking works." />
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Profile Settings */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center space-x-3 mb-4">
-            <User className="h-6 w-6 text-[#047BCA]" />
-            <h2 className="text-lg font-semibold text-gray-900">Profile Information</h2>
-          </div>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-              <p className="text-sm text-gray-900">{user?.first_name} {user?.last_name}</p>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <p className="text-sm text-gray-900">{user?.email}</p>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
-              <p className="text-sm text-gray-900">{user?.username}</p>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
-              <p className="text-sm text-gray-900">
-                {user?.is_superuser ? 'Super Admin' : user?.is_staff ? 'Admin' : 'User'}
-              </p>
-            </div>
-          </div>
-        </div>
+        <Section icon={User} title="Your account">
+          <dl>
+            <Row label="Name" value={fullName || '—'} />
+            <Row label="Username" value={user?.username} />
+            <Row label="Email" value={user?.email || '—'} />
+            <Row
+              label="Access"
+              value={
+                <span className="inline-flex items-center gap-1 text-[#1C7E4E]">
+                  <ShieldCheck className="w-4 h-4" /> {user?.is_superuser ? 'Super admin' : 'Clinic admin'}
+                </span>
+              }
+            />
+          </dl>
+          <p className="mt-4 text-xs text-gray-500">To change your password, ask the website administrator to reset it on the server.</p>
+        </Section>
 
-        {/* Security Settings */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center space-x-3 mb-4">
-            <Shield className="h-6 w-6 text-green-600" />
-            <h2 className="text-lg font-semibold text-gray-900">Security</h2>
-          </div>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-              <div>
-                <p className="text-sm font-medium text-green-800">JWT Authentication</p>
-                <p className="text-xs text-green-600">Secure token-based authentication enabled</p>
-              </div>
-              <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-            </div>
-            
-            <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-              <div>
-                <p className="text-sm font-medium text-green-800">Admin Access</p>
-                <p className="text-xs text-green-600">Full administrative privileges granted</p>
-              </div>
-              <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-            </div>
-          </div>
-        </div>
+        <Section icon={Clock} title="Booking rules">
+          <dl>
+            <Row label="Booking window" value="Next 30 days" />
+            <Row label="Same-day bookings" value="At least 30 min ahead" />
+            <Row label="New bookings start as" value="Pending (you confirm)" />
+            <Row label="One patient per slot" value="Yes" />
+          </dl>
+        </Section>
 
-        {/* Notification Settings */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center space-x-3 mb-4">
-            <Bell className="h-6 w-6 text-yellow-600" />
-            <h2 className="text-lg font-semibold text-gray-900">Notifications</h2>
-          </div>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-900">Email Notifications</p>
-                <p className="text-xs text-gray-500">Receive notifications for new appointments</p>
-              </div>
-              <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-900">Status Updates</p>
-                <p className="text-xs text-gray-500">Get notified when appointment status changes</p>
-              </div>
-              <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-            </div>
-          </div>
-        </div>
+        <Section icon={Mail} title="Email notifications">
+          <ul className="space-y-3 text-sm text-gray-600">
+            <li>Patients get an email when they book, and again when you confirm or cancel, if they gave an email address.</li>
+            <li>Marking a visit as completed does not email the patient.</li>
+            <li>Clinic alerts for new bookings go to the addresses configured on the server.</li>
+          </ul>
+        </Section>
 
-        {/* System Information */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center space-x-3 mb-4">
-            <Database className="h-6 w-6 text-[#047BCA]" />
-            <h2 className="text-lg font-semibold text-gray-900">System Information</h2>
+        <Section icon={MapPin} title="Clinic">
+          <p className="text-sm text-gray-600 leading-relaxed">
+            #251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road, Hulimavu, Bangalore 560076
+          </p>
+          <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <Link href="/admin/availability" className="group flex items-center gap-3 rounded-xl border border-gray-200 p-3 hover:border-[#047BCA] transition-colors">
+              <CalendarClock className="w-5 h-5 text-[#1C7E4E]" />
+              <span className="flex-1 text-sm font-semibold text-gray-700 group-hover:text-[#047BCA]">Weekly hours</span>
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#047BCA]" />
+            </Link>
+            <Link href="/admin/blocked-slots" className="group flex items-center gap-3 rounded-xl border border-gray-200 p-3 hover:border-[#047BCA] transition-colors">
+              <Ban className="w-5 h-5 text-[#1C7E4E]" />
+              <span className="flex-1 text-sm font-semibold text-gray-700 group-hover:text-[#047BCA]">Blocked time</span>
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#047BCA]" />
+            </Link>
           </div>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">API Version</label>
-              <p className="text-sm text-gray-900">v1.0.0</p>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Backend Status</label>
-              <div className="flex items-center space-x-2">
-                <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-                <p className="text-sm text-green-600">Connected</p>
-              </div>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Database</label>
-              <p className="text-sm text-gray-900">PostgreSQL</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left">
-            <div className="text-sm font-medium text-gray-900">Export Data</div>
-            <div className="text-xs text-gray-500">Download appointment data</div>
-          </button>
-          
-          <button className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left">
-            <div className="text-sm font-medium text-gray-900">Backup System</div>
-            <div className="text-xs text-gray-500">Create system backup</div>
-          </button>
-          
-          <button className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left">
-            <div className="text-sm font-medium text-gray-900">View Logs</div>
-            <div className="text-xs text-gray-500">System activity logs</div>
-          </button>
-          
-          <button className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left">
-            <div className="text-sm font-medium text-gray-900">System Health</div>
-            <div className="text-xs text-gray-500">Check system status</div>
-          </button>
-        </div>
+        </Section>
       </div>
     </div>
   );

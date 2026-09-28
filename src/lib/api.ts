@@ -85,8 +85,21 @@ export interface AppointmentFormData {
   reason?: string;
 }
 
+export interface AppointmentPagination {
+  current_page: number;
+  total_pages: number;
+  total_count: number;
+  has_next: boolean;
+  has_previous: boolean;
+}
+
+export interface AppointmentFilters {
+  status?: string;
+  date?: string;
+}
+
 export interface BookedAppointment {
-  appointment_id: string;
+  appointment_id: number;
   patient_name?: string;
   patient_email?: string;
   patient_phone?: string;
@@ -206,17 +219,21 @@ export class ApiClient {
     });
   }
 
-  async getAppointments(page: number = 1, limit: number = 10, accessToken?: string): Promise<ApiResponse<{ appointments: BookedAppointment[]; pagination: any }>> {
+  async getAppointments(page: number = 1, limit: number = 10, accessToken?: string, filters: AppointmentFilters = {}): Promise<ApiResponse<{ appointments: BookedAppointment[]; pagination: AppointmentPagination }>> {
     if (this.useMock) {
-      return mockApi.getAppointments();
+      return mockApi.getAppointments() as any;
     }
     
     const headers: Record<string, string> = {};
     if (accessToken) {
       headers['Authorization'] = `Bearer ${accessToken}`;
     }
+
+    const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+    if (filters.status) params.set('status', filters.status);
+    if (filters.date) params.set('date', filters.date);
     
-    return this.request<{ appointments: BookedAppointment[]; pagination: any }>(`${API_CONFIG.ENDPOINTS.APPOINTMENTS}?page=${page}&limit=${limit}`, {
+    return this.request<{ appointments: BookedAppointment[]; pagination: AppointmentPagination }>(`${API_CONFIG.ENDPOINTS.APPOINTMENTS}?${params}`, {
       headers,
     });
   }

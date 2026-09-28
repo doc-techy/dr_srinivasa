@@ -1,29 +1,7 @@
-'use client';
-
 import Link from 'next/link';
-import { ArrowRight, Phone, Calendar, MessageCircle, Mail, CheckCircle, Award, Microscope, Heart, Users, MapPin } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowRight, Phone, Calendar, Award, Microscope, Heart, Users, MapPin } from 'lucide-react';
 
 export function CtaSection() {
-  const [email, setEmail] = useState('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    setIsSubscribed(true);
-    setIsLoading(false);
-    setEmail('');
-    
-    // Reset success message after 3 seconds
-    setTimeout(() => setIsSubscribed(false), 3000);
-  };
-
   return (
     <section className="py-20 min-h-screen flex flex-col items-center justify-center">
       <div className="w-full px-4">
@@ -186,110 +164,6 @@ export function CtaSection() {
               #251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road, Hulimavu, Bangalore 560076
             </p>
           </div>
-
-
-        {/* Newsletter Subscription Section */}
-        <div className="mt-16">
-          <div className="relative bg-gradient-to-br from-[#145C38] via-[#1C7E4E] to-[#047BCA] rounded-3xl p-6 md:p-8 text-white shadow-2xl overflow-hidden">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute inset-0" style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/svg%3E")`,
-              }} />
-            </div>
-            
-            <div className="relative z-10">
-              <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-                {/* Left Content */}
-                <div className="flex-1 text-center lg:text-left">
-                  <div className="flex items-center justify-center lg:justify-start gap-3 mb-3">
-                    <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-xl flex items-center justify-center shadow-lg">
-                      <Mail className="w-5 h-5 md:w-6 md:h-6 text-white" />
-                    </div>
-                    <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-white">
-                      Stay Updated with Health Insights
-                    </h3>
-                  </div>
-                  <p className="text-white/80 text-xs md:text-sm max-w-md mx-auto lg:mx-0">
-                    Clinic notes and updates from Dr. Srinivasa C. 
-                    health tips, and educational content.
-                  </p>
-                </div>
-
-                {/* Right Content - Form */}
-                <div className="flex-1 max-w-md w-full">
-                  {isSubscribed ? (
-                    <div className="text-center py-4">
-                      <CheckCircle className="w-10 h-10 text-green-400 mx-auto mb-2" />
-                      <p className="text-green-300 font-semibold text-sm">
-                        Thank you for subscribing!
-                      </p>
-                    </div>
-                  ) : (
-                    <form onSubmit={handleNewsletterSubmit} className="space-y-3">
-                      <div className="flex gap-3">
-                        <div className="flex-1">
-                          <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email address"
-                            required
-                            className="w-full px-4 md:px-5 py-3 md:py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 text-xs md:text-sm placeholder-blue-200 text-white"
-                          />
-                        </div>
-                        <button
-                          type="submit"
-                          disabled={isLoading}
-                          className="px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white rounded-xl font-semibold hover:from-[#145C38] hover:to-[#0369A1] transition-all duration-200 transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center min-w-[120px] md:min-w-[140px]"
-                        >
-                          {isLoading ? (
-                            <>
-                              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                              <span className="text-xs">Subscribing...</span>
-                            </>
-                          ) : (
-                            <>
-                              <span className="text-xs md:text-sm">Subscribe</span>
-                              <ArrowRight className="w-3 h-3 md:w-4 md:h-4 ml-2" />
-                            </>
-                          )}
-                        </button>
-                      </div>
-                      <p className="text-xs text-green-100 text-center">
-                        We respect your privacy. Unsubscribe at any time.
-                      </p>
-                    </form>
-                  )}
-                </div>
-              </div>
-
-              {/* Feature Icons */}
-              <div className="mt-6 flex justify-center lg:justify-start">
-                <div className="flex items-center gap-6">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-white/10 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs">📚</span>
-                    </div>
-                    <span className="text-xs text-white/80 font-medium">Educational Content</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-white/10 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs">💡</span>
-                    </div>
-                    <span className="text-xs text-white/80 font-medium">Health Tips</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-white/10 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs">🔬</span>
-                    </div>
-                    <span className="text-xs text-white/80 font-medium">Latest Research</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       </div>
     </section>

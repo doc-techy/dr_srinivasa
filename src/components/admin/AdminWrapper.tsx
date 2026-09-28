@@ -1,79 +1,36 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
-interface AdminWrapperProps {
-  children: React.ReactNode;
+function FullScreenMessage({ text }: { text: string }) {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-green-50 to-blue-50 flex items-center justify-center">
+      <div className="text-center">
+        <Loader2 className="w-10 h-10 animate-spin text-[#047BCA] mx-auto mb-3" />
+        <p className="text-gray-600">{text}</p>
+      </div>
+    </div>
+  );
 }
 
-export default function AdminWrapper({ children }: AdminWrapperProps) {
+export default function AdminWrapper({ children }: { children: React.ReactNode }) {
   const { user, tokens, loading, isAdmin } = useAuth();
   const router = useRouter();
-  const pathname = usePathname();
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const hasSession = !!tokens?.access && !!user && isAdmin;
 
   useEffect(() => {
-    console.log('🔐 AdminWrapper: Auth state check', { 
-      loading, 
-      hasTokens: !!tokens?.access, 
-      hasUser: !!user, 
-      isAdmin, 
-      isRedirecting,
-      pathname
-    });
-
-    // Only redirect if we're not already redirecting and not on login page
-    // Add a small delay to prevent rapid redirects
-    if (!loading && !isRedirecting && pathname !== '/admin-login') {
-      if (!tokens?.access || !user || !isAdmin) {
-        console.log('🔐 AdminWrapper: Redirecting to login - no valid admin session');
-        setIsRedirecting(true);
-        // Use setTimeout to prevent immediate redirect loops
-        setTimeout(() => {
-          router.replace('/admin-login');
-        }, 100);
-      }
+    if (!loading && !hasSession && !isRedirecting) {
+      setIsRedirecting(true);
+      router.replace('/admin-login');
     }
-  }, [loading, tokens, user, isAdmin, router, isRedirecting, pathname]);
+    if (hasSession) setIsRedirecting(false);
+  }, [loading, hasSession, isRedirecting, router]);
 
-  // Reset redirecting state when auth state changes
-  useEffect(() => {
-    if (tokens?.access && user && isAdmin) {
-      setIsRedirecting(false);
-    }
-  }, [tokens, user, isAdmin]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#047BCA]"></div>
-      </div>
-    );
-  }
-
-  if (isRedirecting) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#047BCA] mx-auto mb-4"></div>
-          <p className="text-gray-600">Redirecting to login...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!tokens?.access || !user || !isAdmin) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#047BCA] mx-auto mb-4"></div>
-          <p className="text-gray-600">Redirecting to login...</p>
-        </div>
-      </div>
-    );
-  }
-
+  if (loading) return <FullScreenMessage text="Loading admin…" />;
+  if (!hasSession) return <FullScreenMessage text="Redirecting to login…" />;
   return <>{children}</>;
 }

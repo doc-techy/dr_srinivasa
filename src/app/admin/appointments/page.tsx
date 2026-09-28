@@ -1,433 +1,333 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { apiClient, BookedAppointment } from '@/lib/api';
-import { 
-  Calendar, 
-  Search, 
-  Filter, 
-  MoreVertical,
-  CheckCircle,
-  XCircle,
-  Clock,
-  Edit,
-  Trash2,
-  Eye,
-  Shield
+import React, { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {
+  CalendarDays, Check, CheckCheck, ChevronLeft, ChevronRight, Eye, Mail, MessageSquare, Phone, Search, Trash2, X,
 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { apiClient, type AppointmentPagination, type BookedAppointment } from '@/lib/api';
+import { notifyAdminStatsChanged } from '@/components/admin/AdminShell';
+import {
+  Card, EmptyState, ErrorBanner, Modal, PageHeader, Spinner, StatusBadge,
+  btnDanger, btnPrimary, btnSecondary, formatDate, formatTime, iconBtn, inputClass,
+} from '@/components/admin/ui';
 
-interface Appointment {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  date: string;
-  time: string;
-  message: string;
-  status: string;
-  created_at: string;
-  updated_at: string;
-}
+type Action = 'confirm' | 'cancel' | 'complete';
 
-interface PaginationInfo {
-  total: number;
-  totalPages: number;
-  currentPage: number;
-  limit: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-}
+const STATUS_TABS = [
+  { value: '', label: 'All' },
+  { value: 'pending', label: 'Pending' },
+  { value: 'confirmed', label: 'Confirmed' },
+  { value: 'completed', label: 'Completed' },
+  { value: 'cancelled', label: 'Cancelled' },
+];
 
-export default function AdminAppointmentsPage() {
+const PAGE_SIZE = 20;
+
+const availableActions = (status: BookedAppointment['status']): Action[] => {
+  if (status === 'pending') return ['confirm', 'cancel'];
+  if (status === 'confirmed') return ['complete', 'cancel'];
+  return [];
+};
+
+const actionMeta: Record<Action, { label: string; icon: typeof Check; hover: string }> = {
+  confirm: { label: 'Confirm', icon: Check, hover: 'hover:!border-[#1C7E4E] hover:!text-[#1C7E4E]' },
+  complete: { label: 'Mark completed', icon: CheckCheck, hover: 'hover:!border-[#047BCA] hover:!text-[#047BCA]' },
+  cancel: { label: 'Cancel', icon: X, hover: 'hover:!border-red-300 hover:!text-red-600' },
+};
+
+function AppointmentsContent() {
   const { tokens } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const status = searchParams.get('status') ?? '';
+  const date = searchParams.get('date') ?? '';
+
   const [appointments, setAppointments] = useState<BookedAppointment[]>([]);
-  const [pagination, setPagination] = useState<PaginationInfo | null>(null);
+  const [pagination, setPagination] = useState<AppointmentPagination | null>(null);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedAppointment, setSelectedAppointment] = useState<BookedAppointment | null>(null);
-  const [showModal, setShowModal] = useState(false);
+  const [busyId, setBusyId] = useState<number | null>(null);
+  const [selected, setSelected] = useState<BookedAppointment | null>(null);
+
+  const setFilter = (key: 'status' | 'date', value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) params.set(key, value);
+    else params.delete(key);
+    setPage(1);
+    router.replace(params.toString() ? `${pathname}?${params}` : pathname);
+  };
+
+  const load = useCallback(async () => {
+    if (!tokens?.access) return;
+    setLoading(true);
+    const response = await apiClient.getAppointments(page, PAGE_SIZE, tokens.access, { status, date });
+    if (response.success && response.data) {
+      setAppointments(response.data.appointments);
+      setPagination(response.data.pagination);
+      setError('');
+    } else {
+      setError(response.error || 'Could not load appointments.');
+    }
+    setLoading(false);
+  }, [tokens?.access, page, status, date]);
 
   useEffect(() => {
-    fetchAppointments();
-  }, [tokens, currentPage, statusFilter]);
+    load();
+  }, [load]);
 
-  const fetchAppointments = async () => {
-    if (!tokens?.access) return;
-
-    try {
-      setLoading(true);
-      const response = await apiClient.getAppointments(currentPage, 10, tokens.access);
-      
-      if (response.success && response.data) {
-        setAppointments(response.data.appointments);
-        setPagination(response.data.pagination);
-      } else {
-        setError('Failed to load appointments');
-      }
-    } catch (err) {
-      setError('Failed to load appointments');
-      console.error('Appointments error:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleStatusChange = async (appointmentId: number, newStatus: string) => {
-    if (!tokens?.access) return;
-
-    try {
-      const response = await apiClient.updateAppointment(
-        appointmentId, 
-        { status: newStatus } as any, 
-        tokens.access
-      );
-      
-      if (response.success) {
-        // Refresh appointments
-        fetchAppointments();
-      }
-    } catch (err) {
-      console.error('Status update error:', err);
-    }
-  };
-
-  const handleAdminAction = async (appointmentId: number, action: 'confirm' | 'cancel') => {
-    if (!tokens?.access) return;
-
-    try {
-      const response = await apiClient.adminAppointmentAction(appointmentId, action, tokens.access);
-      
-      if (response.success) {
-        // Refresh appointments
-        fetchAppointments();
-      }
-    } catch (err) {
-      console.error('Admin action error:', err);
-    }
-  };
-
-  const handleDelete = async (appointmentId: number) => {
-    if (!tokens?.access) return;
-
-    if (confirm('Are you sure you want to delete this appointment?')) {
-      try {
-        const response = await apiClient.deleteAppointment(appointmentId, tokens.access);
-        
-        if (response.success) {
-          fetchAppointments();
-        }
-      } catch (err) {
-        console.error('Delete error:', err);
-      }
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'pending': return 'text-yellow-600 bg-yellow-100';
-      case 'confirmed': return 'text-green-600 bg-green-100';
-      case 'completed': return 'text-blue-600 bg-blue-100';
-      case 'cancelled': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'pending': return Clock;
-      case 'confirmed': return CheckCircle;
-      case 'completed': return CheckCircle;
-      case 'cancelled': return XCircle;
-      default: return Clock;
-    }
-  };
-
-  const filteredAppointments = appointments.filter(appointment => {
-    const matchesSearch = (appointment.patient_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
-                         (appointment.patient_email?.toLowerCase() || '').includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || appointment.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
+  const visible = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    if (!term) return appointments;
+    return appointments.filter(a =>
+      [a.patient_name, a.patient_email, a.patient_phone, a.reason].some(field => field?.toLowerCase().includes(term)),
     );
-  }
+  }, [appointments, search]);
+
+  const runAction = async (appointment: BookedAppointment, action: Action) => {
+    if (!tokens?.access) return;
+    if (action === 'cancel' && !confirm(`Cancel ${appointment.patient_name}'s appointment?${appointment.patient_email ? ' The patient will be emailed.' : ''}`)) return;
+    setBusyId(appointment.appointment_id);
+    const response = await apiClient.adminAppointmentAction(appointment.appointment_id, action, tokens.access);
+    setBusyId(null);
+    if (!response.success) {
+      setError(response.error || 'Action failed.');
+      return;
+    }
+    const updated = (response.data as { appointment?: BookedAppointment })?.appointment;
+    if (updated && selected?.appointment_id === updated.appointment_id) setSelected(updated);
+    notifyAdminStatsChanged();
+    load();
+  };
+
+  const remove = async (appointment: BookedAppointment) => {
+    if (!tokens?.access) return;
+    if (!confirm(`Permanently delete ${appointment.patient_name}'s appointment? This cannot be undone.`)) return;
+    setBusyId(appointment.appointment_id);
+    const response = await apiClient.deleteAppointment(appointment.appointment_id, tokens.access);
+    setBusyId(null);
+    if (!response.success) {
+      setError(response.error || 'Could not delete the appointment.');
+      return;
+    }
+    setSelected(null);
+    notifyAdminStatsChanged();
+    load();
+  };
+
+  const ActionButtons = ({ appointment }: { appointment: BookedAppointment }) => (
+    <div className="flex items-center gap-1.5">
+      <button onClick={() => setSelected(appointment)} title="View details" className={iconBtn}>
+        <Eye className="w-4 h-4" />
+      </button>
+      {availableActions(appointment.status).map(action => {
+        const meta = actionMeta[action];
+        return (
+          <button
+            key={action}
+            onClick={() => runAction(appointment, action)}
+            disabled={busyId === appointment.appointment_id}
+            title={meta.label}
+            className={`${iconBtn} ${meta.hover}`}
+          >
+            <meta.icon className="w-4 h-4" />
+          </button>
+        );
+      })}
+    </div>
+  );
 
   return (
     <div className="space-y-6">
+      <PageHeader
+        title="Appointments"
+        subtitle={pagination ? `${pagination.total_count} appointment${pagination.total_count === 1 ? '' : 's'}${status ? ` · ${status}` : ''}${date ? ` · ${formatDate(date)}` : ''}` : undefined}
+      />
 
-      {/* Filters */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex flex-col sm:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search appointments..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-          </div>
+      {error && <ErrorBanner message={error} onClose={() => setError('')} />}
 
-          {/* Status Filter */}
-          <div className="sm:w-48">
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      <Card className="p-4 space-y-4">
+        <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
+          {STATUS_TABS.map(tab => (
+            <button
+              key={tab.value}
+              onClick={() => setFilter('status', tab.value)}
+              className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
+                status === tab.value
+                  ? 'bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white shadow-md'
+                  : 'bg-gray-50 text-gray-600 hover:bg-gradient-to-r hover:from-green-50 hover:to-blue-50 hover:text-[#047BCA]'
+              }`}
             >
-              <option value="all">All Status</option>
-              <option value="pending">Pending</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-          </div>
+              {tab.label}
+            </button>
+          ))}
         </div>
-      </div>
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-3">
+          <div className="relative">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search name, phone, email or reason"
+              className={`${inputClass} pl-10`}
+            />
+          </div>
+          <input type="date" value={date} onChange={e => setFilter('date', e.target.value)} className={inputClass} aria-label="Filter by date" />
+          {(status || date || search) && (
+            <button onClick={() => { setSearch(''); setPage(1); router.replace(pathname); }} className={btnSecondary}>
+              Clear filters
+            </button>
+          )}
+        </div>
+      </Card>
 
-      {/* Appointments List */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Patient
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Contact
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Date & Time
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredAppointments.map((appointment) => {
-                const StatusIcon = getStatusIcon(appointment.status);
-                return (
-                  <tr key={appointment.appointment_id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {appointment.patient_name || 'N/A'}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          ID: #{appointment.appointment_id}
-                        </div>
-                      </div>
+      <Card className="overflow-hidden">
+        {loading ? (
+          <Spinner label="Loading appointments…" />
+        ) : visible.length === 0 ? (
+          <EmptyState icon={CalendarDays} title="No appointments found" text={search || status || date ? 'Try changing the filters.' : 'New bookings from the website will appear here.'} />
+        ) : (
+          <>
+            <table className="hidden md:table w-full text-sm">
+              <thead>
+                <tr className="bg-gradient-to-r from-green-50 to-blue-50 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  <th className="px-6 py-3">Patient</th>
+                  <th className="px-6 py-3">Date &amp; time</th>
+                  <th className="px-6 py-3">Reason</th>
+                  <th className="px-6 py-3">Status</th>
+                  <th className="px-6 py-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {visible.map(appointment => (
+                  <tr key={appointment.appointment_id} className="hover:bg-gray-50/60">
+                    <td className="px-6 py-4">
+                      <p className="font-semibold text-gray-900">{appointment.patient_name}</p>
+                      <p className="text-gray-500">{appointment.patient_phone}</p>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{appointment.patient_email || 'N/A'}</div>
-                      <div className="text-sm text-gray-500">{appointment.patient_phone || 'N/A'}</div>
+                      <p className="font-medium text-gray-900">{formatDate(appointment.appointment_date)}</p>
+                      <p className="text-gray-500">{formatTime(appointment.appointment_time)}</p>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{appointment.appointment_date}</div>
-                      <div className="text-sm text-gray-500">{appointment.appointment_time}</div>
+                    <td className="px-6 py-4 max-w-xs">
+                      <p className="text-gray-600 truncate">{appointment.reason || '—'}</p>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(appointment.status)}`}>
-                        <StatusIcon className="h-3 w-3 mr-1" />
-                        {appointment.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex items-center space-x-2">
-                        <button
-                          onClick={() => {
-                            setSelectedAppointment(appointment);
-                            setShowModal(true);
-                          }}
-                          className="text-blue-600 hover:text-blue-900"
-                        >
-                          <Eye className="h-4 w-4" />
-                        </button>
-                        
-                        {appointment.status === 'pending' && (
-                          <>
-                            <button
-                              onClick={() => handleStatusChange(parseInt(appointment.appointment_id), 'confirmed')}
-                              className="text-green-600 hover:text-green-900"
-                              title="Confirm Appointment"
-                            >
-                              <CheckCircle className="h-4 w-4" />
-                            </button>
-                            
-                            <button
-                              onClick={() => handleStatusChange(parseInt(appointment.appointment_id), 'cancelled')}
-                              className="text-red-600 hover:text-red-900"
-                              title="Cancel Appointment"
-                            >
-                              <XCircle className="h-4 w-4" />
-                            </button>
-
-                            <button
-                              onClick={() => handleAdminAction(parseInt(appointment.appointment_id), 'confirm')}
-                              className="text-blue-600 hover:text-blue-900"
-                              title="Admin Confirm (Email Action)"
-                            >
-                              <Shield className="h-4 w-4" />
-                            </button>
-                          </>
-                        )}
-                        
-                        <button
-                          onClick={() => handleDelete(parseInt(appointment.appointment_id))}
-                          className="text-red-600 hover:text-red-900"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
+                    <td className="px-6 py-4"><StatusBadge status={appointment.status} /></td>
+                    <td className="px-6 py-4">
+                      <div className="flex justify-end"><ActionButtons appointment={appointment} /></div>
                     </td>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                ))}
+              </tbody>
+            </table>
 
-        {/* Pagination */}
-        {pagination && pagination.totalPages > 1 && (
-          <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-            <div className="flex-1 flex justify-between sm:hidden">
-              <button
-                onClick={() => setCurrentPage(currentPage - 1)}
-                disabled={!pagination.hasPreviousPage}
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Previous
+            <ul className="md:hidden divide-y divide-gray-100">
+              {visible.map(appointment => (
+                <li key={appointment.appointment_id} className="p-4 space-y-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-gray-900 truncate">{appointment.patient_name}</p>
+                      <p className="text-sm text-gray-500">
+                        {formatDate(appointment.appointment_date)} · {formatTime(appointment.appointment_time)}
+                      </p>
+                    </div>
+                    <StatusBadge status={appointment.status} />
+                  </div>
+                  {appointment.reason && <p className="text-sm text-gray-600 line-clamp-2">{appointment.reason}</p>}
+                  <ActionButtons appointment={appointment} />
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+
+        {pagination && pagination.total_pages > 1 && (
+          <div className="flex items-center justify-between gap-3 px-6 py-4 border-t border-gray-100">
+            <p className="text-sm text-gray-500">
+              Page {pagination.current_page} of {pagination.total_pages}
+            </p>
+            <div className="flex gap-2">
+              <button onClick={() => setPage(p => p - 1)} disabled={!pagination.has_previous} className={btnSecondary}>
+                <ChevronLeft className="w-4 h-4" /> Previous
               </button>
-              <button
-                onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={!pagination.hasNextPage}
-                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Next
+              <button onClick={() => setPage(p => p + 1)} disabled={!pagination.has_next} className={btnSecondary}>
+                Next <ChevronRight className="w-4 h-4" />
               </button>
-            </div>
-            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-              <div>
-                <p className="text-sm text-gray-700">
-                  Showing{' '}
-                  <span className="font-medium">
-                    {((currentPage - 1) * pagination.limit) + 1}
-                  </span>{' '}
-                  to{' '}
-                  <span className="font-medium">
-                    {Math.min(currentPage * pagination.limit, pagination.total)}
-                  </span>{' '}
-                  of{' '}
-                  <span className="font-medium">{pagination.total}</span>{' '}
-                  results
-                </p>
-              </div>
-              <div>
-                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                  <button
-                    onClick={() => setCurrentPage(currentPage - 1)}
-                    disabled={!pagination.hasPreviousPage}
-                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                    disabled={!pagination.hasNextPage}
-                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Next
-                  </button>
-                </nav>
-              </div>
             </div>
           </div>
         )}
-      </div>
+      </Card>
 
-      {/* Appointment Detail Modal */}
-      {showModal && selectedAppointment && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div className="mt-3">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-medium text-gray-900">Appointment Details</h3>
+      {selected && (
+        <Modal title="Appointment details" onClose={() => setSelected(null)}>
+          <div className="space-y-5">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xl font-bold text-gray-900">{selected.patient_name}</p>
+                <p className="text-sm text-gray-500">Booking #{selected.appointment_id}</p>
+              </div>
+              <StatusBadge status={selected.status} />
+            </div>
+
+            <div className="rounded-2xl bg-gradient-to-br from-green-50 to-blue-50 p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Visit</p>
+              <p className="text-lg font-bold text-gray-900">
+                {formatDate(selected.appointment_date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+              </p>
+              <p className="text-[#047BCA] font-semibold">{formatTime(selected.appointment_time)}</p>
+            </div>
+
+            <dl className="space-y-3 text-sm">
+              <div className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-gray-400" />
+                <a href={`tel:${selected.patient_phone}`} className="font-medium text-gray-900 hover:text-[#047BCA]">{selected.patient_phone}</a>
+              </div>
+              {selected.patient_email && (
+                <div className="flex items-center gap-3">
+                  <Mail className="w-4 h-4 text-gray-400" />
+                  <a href={`mailto:${selected.patient_email}`} className="font-medium text-gray-900 hover:text-[#047BCA] break-all">{selected.patient_email}</a>
+                </div>
+              )}
+              <div className="flex items-start gap-3">
+                <MessageSquare className="w-4 h-4 text-gray-400 mt-0.5" />
+                <p className="text-gray-700 whitespace-pre-wrap">{selected.reason || 'No reason given'}</p>
+              </div>
+            </dl>
+
+            <p className="text-xs text-gray-400">
+              Requested {new Date(selected.created_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
+            </p>
+
+            <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
+              {availableActions(selected.status).map(action => (
                 <button
-                  onClick={() => setShowModal(false)}
-                  className="text-gray-400 hover:text-gray-600"
+                  key={action}
+                  onClick={() => runAction(selected, action)}
+                  disabled={busyId === selected.appointment_id}
+                  className={action === 'cancel' ? btnDanger : btnPrimary}
                 >
-                  <XCircle className="h-6 w-6" />
+                  {actionMeta[action].label}
                 </button>
-              </div>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Patient Name</label>
-                  <p className="mt-1 text-sm text-gray-900">{selectedAppointment.patient_name}</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Email</label>
-                  <p className="mt-1 text-sm text-gray-900">{selectedAppointment.patient_email}</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Phone</label>
-                  <p className="mt-1 text-sm text-gray-900">{selectedAppointment.patient_phone}</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Date & Time</label>
-                  <p className="mt-1 text-sm text-gray-900">
-                    {selectedAppointment.appointment_date} at {selectedAppointment.appointment_time}
-                  </p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Status</label>
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(selectedAppointment.status)}`}>
-                    {selectedAppointment.status}
-                  </span>
-                </div>
-                
-                {selectedAppointment.notes && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Notes</label>
-                    <p className="mt-1 text-sm text-gray-900">{selectedAppointment.notes}</p>
-                  </div>
-                )}
-              </div>
-              
-              <div className="mt-6 flex justify-end space-x-3">
-                <button
-                  onClick={() => setShowModal(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
-                >
-                  Close
-                </button>
-              </div>
+              ))}
+              <button onClick={() => remove(selected)} disabled={busyId === selected.appointment_id} className={`${btnSecondary} ml-auto`}>
+                <Trash2 className="w-4 h-4" /> Delete
+              </button>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
     </div>
+  );
+}
+
+export default function AppointmentsPage() {
+  return (
+    <Suspense fallback={<Spinner label="Loading appointments…" />}>
+      <AppointmentsContent />
+    </Suspense>
   );
 }

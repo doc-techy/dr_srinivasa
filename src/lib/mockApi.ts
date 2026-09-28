@@ -14,7 +14,7 @@ const MOCK_AVAILABLE_SLOTS = [
 
 const MOCK_BOOKED_APPOINTMENTS: BookedAppointment[] = [
   {
-    appointment_id: 'apt_001',
+    appointment_id: 1,
     patient_name: 'John Doe',
     patient_email: 'john@example.com',
     patient_phone: '‪9886432371‬',
@@ -26,7 +26,7 @@ const MOCK_BOOKED_APPOINTMENTS: BookedAppointment[] = [
     updated_at: '2024-01-10T10:00:00Z',
   },
   {
-    appointment_id: 'apt_002',
+    appointment_id: 2,
     patient_name: 'Jane Smith',
     patient_email: 'jane@example.com',
     patient_phone: '9876543211',
@@ -106,7 +106,7 @@ export const mockApi = {
 
     // Create mock appointment
     const newAppointment: BookedAppointment = {
-      appointment_id: `apt_${Date.now()}`,
+      appointment_id: Date.now(),
       patient_name: formData.name,
       patient_email: formData.email,
       patient_phone: formData.phone,
