@@ -1,0 +1,10 @@
+New appointment request #{{ appointment.id }}
+
+Name: {{ appointment.name }}
+Phone: {{ appointment.phone }}
+Email: {{ appointment.email|default:"-" }}
+Date: {{ appointment.date|date:"l, j F Y" }}
+Time: {{ appointment.time|time:"g:i A" }}
+Reason: {{ appointment.message|default:"-" }}
+
+Confirm or cancel it from the website admin dashboard.

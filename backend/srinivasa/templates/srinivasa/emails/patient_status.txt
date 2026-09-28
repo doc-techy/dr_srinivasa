@@ -1,0 +1,10 @@
+Dear {{ appointment.name }},
+
+Your appointment with Dr. Srinivasa C on {{ appointment.date|date:"l, j F Y" }} at {{ appointment.time|time:"g:i A" }} has been {{ appointment.status }}.
+{% if appointment.status == "confirmed" %}
+Please arrive 15 minutes early and bring any previous reports and prescriptions.
+{% else %}
+If you would like to book another time, please visit the website or contact the clinic.
+{% endif %}
+{{ clinic_name }}
+{{ clinic_address }}

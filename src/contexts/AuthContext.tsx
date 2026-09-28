@@ -12,6 +12,7 @@ interface User {
   last_name: string;
   is_staff: boolean;
   is_superuser: boolean;
+  is_admin?: boolean;
 }
 
 interface AuthContextType {
@@ -43,7 +44,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  const isAdmin = user?.is_staff || user?.is_superuser || false;
+  // Staff accounts on the shared server belong to other doctors, so only the
+  // Srinivasa-specific admin check grants access here.
+  const isAdmin = user?.is_admin ?? false;
+
+  const withAdminFlag = async (userData: User, accessToken: string): Promise<User | null> => {
+    const adminCheck = await apiClient.checkAdmin(accessToken);
+    return adminCheck.success && adminCheck.data?.is_admin ? { ...userData, is_admin: true } : null;
+  };
 
   // Check for existing tokens on mount
   useEffect(() => {
@@ -68,7 +76,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const response = await apiClient.verifyToken(parsedTokens.access);
             if (response.success && response.data?.valid) {
               console.log('✅ AuthContext: Token is valid, setting user');
-              setUser(response.data.user);
+              const adminUser = await withAdminFlag(response.data.user, parsedTokens.access);
+              if (adminUser) {
+                setUser(adminUser);
+              } else {
+                localStorage.removeItem('admin_tokens');
+                setTokens(null);
+                setUser(null);
+              }
             } else {
               console.log('❌ AuthContext: Token invalid, attempting refresh');
               // Token invalid, try to refresh
@@ -85,8 +100,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                   
                   // Get user profile with new token
                   const userResponse = await apiClient.getUserProfile(refreshResponse.data.access);
-                  if (userResponse.success && userResponse.data) {
-                    setUser(userResponse.data.user);
+                  const adminUser = userResponse.success && userResponse.data
+                    ? await withAdminFlag(userResponse.data.user, refreshResponse.data.access)
+                    : null;
+                  if (adminUser) {
+                    setUser(adminUser);
+                  } else {
+                    localStorage.removeItem('admin_tokens');
+                    setTokens(null);
+                    setUser(null);
                   }
                 } else {
                   console.log('❌ AuthContext: Token refresh failed, clearing tokens');
@@ -137,27 +159,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const { tokens: newTokens, user: userData } = response.data;
         console.log('🔐 AuthContext: Login successful, checking admin privileges...');
         
-        // Check if user is admin
-        const adminCheck = await apiClient.checkAdmin(newTokens.access);
-        
-        if (adminCheck.success && adminCheck.data?.is_admin) {
+        const adminUser = await withAdminFlag(userData, newTokens.access);
+        if (adminUser) {
           console.log('✅ AuthContext: User is admin, setting authentication state');
           setTokens(newTokens);
-          setUser(userData);
+          setUser(adminUser);
           localStorage.setItem('admin_tokens', JSON.stringify(newTokens));
           return true;
-        } else {
-          console.log('❌ AuthContext: User is not admin, login failed');
-          // Also check if user has staff/superuser flags as fallback
-          if (userData?.is_staff || userData?.is_superuser) {
-            console.log('✅ AuthContext: User has staff/superuser flags, allowing access');
-            setTokens(newTokens);
-            setUser(userData);
-            localStorage.setItem('admin_tokens', JSON.stringify(newTokens));
-            return true;
-          }
-          return false;
         }
+        console.log('❌ AuthContext: User is not a Dr. Srinivasa admin, login failed');
+        return false;
       }
       console.log('❌ AuthContext: Login failed - invalid credentials');
       return false;

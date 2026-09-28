@@ -1,11 +1,14 @@
 /**
  * API Configuration and Client
- * Centralized API management for the Dr. Vivek Shetty website
+ * Centralized API management for the Dr. Srinivasa C website
  */
+
+// Shared login lives under /auth; everything appointment-related is scoped to /srinivasa.
+const DOCTOR = '/srinivasa';
 
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'https://techy.zapto.org:8000/api',
+  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'https://3-110-119-176.sslip.io/api',
   ENDPOINTS: {
     // Authentication endpoints
     AUTH: {
@@ -15,28 +18,26 @@ export const API_CONFIG = {
       REFRESH: '/auth/refresh/',
       VERIFY: '/auth/token/verify/',
       USER_PROFILE: '/auth/profile/',
-      CHECK_ADMIN: '/auth/check-admin/',
+      CHECK_ADMIN: `${DOCTOR}/auth/check-admin/`,
     },
     
     // Appointment related endpoints
-    APPOINTMENTS: '/appointments/',
-    APPOINTMENT_DETAIL: '/appointment/',
-    APPOINTMENT_STATS: '/appointments/stats/',
-    CONFIRM_APPOINTMENT: '/appointments/',
-    CANCEL_APPOINTMENT: '/appointments/',
-    ADMIN_APPOINTMENT_ACTION: '/admin/appointments/',
-    APPOINTMENT_ACTION_PAGE: '/appointment-action/',
+    APPOINTMENTS: `${DOCTOR}/appointments/`,
+    APPOINTMENT_DETAIL: `${DOCTOR}/appointments/`,
+    APPOINTMENT_STATS: `${DOCTOR}/appointments/stats/`,
+    ADMIN_APPOINTMENT_ACTION: `${DOCTOR}/admin/appointments/`,
     
     // Available slots (public endpoints)
-    AVAILABLE_SLOTS: '/available-slots/',
-    DETAILED_SLOTS: '/slots/detailed/',
+    AVAILABLE_SLOTS: `${DOCTOR}/available-slots/`,
+    AVAILABLE_DATES: `${DOCTOR}/available-dates/`,
+    DETAILED_SLOTS: `${DOCTOR}/slots/detailed/`,
     
     // Doctor availability endpoints (admin only)
-    AVAILABILITY: '/availability/',
+    AVAILABILITY: `${DOCTOR}/availability/`,
     
     // Blocked slots management (admin only)
-    BLOCKED_SLOTS: '/blocked-slots/',
-    BLOCKED_SLOTS_SUMMARY: '/blocked-slots/summary/',
+    BLOCKED_SLOTS: `${DOCTOR}/blocked-slots/`,
+    BLOCKED_SLOTS_SUMMARY: `${DOCTOR}/blocked-slots/summary/`,
     
     // Email template management (admin only)
     // EMAIL_TEMPLATES: '/email-templates/',
@@ -67,6 +68,11 @@ export interface AvailableSlotsResponse {
   date: string;
   available_slots: AvailableSlot[];
   total_available: number;
+}
+
+export interface AvailableDate {
+  date: string;
+  available_count: number;
 }
 
 export interface AppointmentFormData {
@@ -178,11 +184,16 @@ export class ApiClient {
   }
 
   // Appointment APIs
-  async getAvailableSlots(): Promise<ApiResponse<AvailableSlotsResponse>> {
+  async getAvailableSlots(date?: string): Promise<ApiResponse<AvailableSlotsResponse>> {
     if (this.useMock) {
       return mockApi.getAvailableSlots();
     }
-    return this.request<AvailableSlotsResponse>(API_CONFIG.ENDPOINTS.AVAILABLE_SLOTS);
+    const query = date ? `?date=${encodeURIComponent(date)}` : '';
+    return this.request<AvailableSlotsResponse>(`${API_CONFIG.ENDPOINTS.AVAILABLE_SLOTS}${query}`);
+  }
+
+  async getAvailableDates(days: number = 14): Promise<ApiResponse<{ success: boolean; dates: AvailableDate[] }>> {
+    return this.request<{ success: boolean; dates: AvailableDate[] }>(`${API_CONFIG.ENDPOINTS.AVAILABLE_DATES}?days=${days}`);
   }
 
   async bookAppointment(appointmentData: AppointmentFormData): Promise<ApiResponse<BookedAppointment>> {
@@ -245,22 +256,10 @@ export class ApiClient {
     });
   }
 
-  async confirmAppointment(appointmentId: number): Promise<ApiResponse<{ appointment: BookedAppointment }>> {
-    return this.request<{ appointment: BookedAppointment }>(`${API_CONFIG.ENDPOINTS.CONFIRM_APPOINTMENT}${appointmentId}/confirm/`, {
-      method: 'POST',
-    });
-  }
-
-  async cancelAppointment(appointmentId: number): Promise<ApiResponse<{ appointment: BookedAppointment }>> {
-    return this.request<{ appointment: BookedAppointment }>(`${API_CONFIG.ENDPOINTS.CANCEL_APPOINTMENT}${appointmentId}/cancel/`, {
-      method: 'POST',
-    });
-  }
-
   // Admin appointment action method
-  async adminAppointmentAction(appointmentId: number, action: 'confirm' | 'cancel', accessToken: string): Promise<ApiResponse> {
+  async adminAppointmentAction(appointmentId: number, action: 'confirm' | 'cancel' | 'complete', accessToken: string): Promise<ApiResponse> {
     return this.request(`${API_CONFIG.ENDPOINTS.ADMIN_APPOINTMENT_ACTION}${appointmentId}/${action}/`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Authorization': `Bearer ${accessToken}`,
       },
@@ -581,7 +580,7 @@ export const handleApiError = (error: string): string => {
     'Appointment conflict': 'You already have an appointment at this time.',
   };
 
-  return errorMessages[error] || 'An unexpected error occurred. Please try again.';
+  return errorMessages[error] || error || 'An unexpected error occurred. Please try again.';
 };
 
 // Enhanced error handling for API responses

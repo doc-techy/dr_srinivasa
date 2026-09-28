@@ -1,0 +1,12 @@
+Dear {{ appointment.name }},
+
+Thank you for requesting an appointment with Dr. Srinivasa C, Consultant Rheumatologist.
+
+Date: {{ appointment.date|date:"l, j F Y" }}
+Time: {{ appointment.time|time:"g:i A" }}
+Status: Pending confirmation
+
+The clinic will confirm your appointment shortly. Please arrive 15 minutes early and bring any previous reports and prescriptions.
+
+{{ clinic_name }}
+{{ clinic_address }}
