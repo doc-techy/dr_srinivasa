@@ -32,7 +32,7 @@ export function HeroSection() {
   ];
 
   return (
-    <section id="home" className="relative min-h-screen flex items-start lg:items-center pt-20 sm:pt-24 lg:pt-20 overflow-hidden">
+    <section id="home" className="relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-24 overflow-hidden">
 
       <div className="container-custom relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-6 xl:gap-12 items-start lg:items-center min-h-[calc(100vh-5rem)] sm:min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-5rem)]">

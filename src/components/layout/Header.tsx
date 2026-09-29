@@ -2,152 +2,125 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useEffect, useRef, useState } from 'react';
+
+const navigation = [
+  { name: 'Home', href: '#home' },
+  { name: 'About', href: '#about' },
+  { name: 'Services', href: '#services' },
+  { name: 'Videos', href: '#videos' },
+  { name: 'FAQ', href: '#faq' },
+  { name: 'Contact', href: '#contact' },
+];
+
+const desktopLinkClass = 'text-gray-700 hover:text-[#047BCA] transition-colors font-medium text-xs uppercase tracking-wider relative group py-2';
+const mobileLinkClass = 'text-left text-gray-700 hover:text-[#047BCA] hover:bg-gray-100 transition-all duration-300 font-medium text-sm uppercase tracking-wider py-2 px-4 rounded-lg';
 
 export function Header() {
   const pathname = usePathname();
+  const headerRef = useRef<HTMLElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const isHomepage = pathname === '/';
 
-  const navigation = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Videos', href: '#videos' },
-    { name: 'Contact', href: '#contact' },
-  ];
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollToSection = (href: string) => {
-    const elementId = href.replace('#', '');
-    const element = document.getElementById(elementId);
+    const element = document.getElementById(href.replace('#', ''));
     if (element) {
-      const headerHeight = 80; // Height of fixed header (h-20)
-      const elementPosition = element.offsetTop - headerHeight;
-      window.scrollTo({
-        top: elementPosition,
-        behavior: 'smooth'
-      });
+      const headerHeight = headerRef.current?.offsetHeight ?? 80;
+      window.scrollTo({ top: element.offsetTop - headerHeight, behavior: 'smooth' });
     }
-    setIsMenuOpen(false); // Close mobile menu
+    setIsMenuOpen(false);
+  };
+
+  const renderLink = (item: (typeof navigation)[number], className: string, underline: boolean) => {
+    const content = (
+      <>
+        {item.name}
+        {underline && <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] transition-all duration-300 group-hover:w-full"></span>}
+      </>
+    );
+    if (!isHomepage) {
+      return (
+        <Link key={item.name} href={`/${item.href}`} className={className} onClick={() => setIsMenuOpen(false)}>
+          {content}
+        </Link>
+      );
+    }
+    return (
+      <button key={item.name} onClick={() => scrollToSection(item.href)} className={className}>
+        {content}
+      </button>
+    );
   };
 
   return (
-    <>
-      {/* Main Navigation */}
-      <header
-        className="fixed top-0 left-0 right-0 z-50 w-full bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] backdrop-blur-xl shadow-xl"
-      >
-        <div className="container-custom">
-          <div className="flex h-20 items-center justify-end">
-            {/* Desktop Navigation & CTA */}
-            <div className="hidden lg:flex items-center space-x-6">
-              <nav className="flex items-center space-x-2">
-                {navigation.map((item) => {
-                  const isHomepage = pathname === '/';
-                  const isExternalPage = item.href.startsWith('/');
-                  const isAnchorLink = item.href.startsWith('#');
-                  
-                  if (isExternalPage || (isAnchorLink && !isHomepage)) {
-                    const linkHref = isAnchorLink && !isHomepage ? `/${item.href}` : item.href;
-                    return (
-                      <Link
-                        key={item.name}
-                        href={linkHref}
-                        className="px-5 py-3 rounded-lg text-white hover:text-green-100 font-semibold text-base lg:text-xl transition-all duration-300"
-                      >
-                        {item.name}
-                      </Link>
-                    );
-                  } else {
-                    return (
-                      <button
-                        key={item.name}
-                        onClick={() => scrollToSection(item.href)}
-                        className="px-5 py-3 rounded-lg text-white hover:text-green-100 font-semibold text-base lg:text-xl transition-all duration-300"
-                      >
-                        {item.name}
-                      </button>
-                    );
-                  }
-                })}
-              </nav>
+    <header
+      ref={headerRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-white/80 backdrop-blur-md shadow-xl border-b-2 border-[#047BCA]/50' : 'bg-white shadow-lg border-b-4 border-[#047BCA]'
+      }`}
+    >
+      {/* Top accent bar */}
+      <div className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] h-1"></div>
 
-              {/* CTA Button */}
-              <Link
-                href="/appointment"
-                className="px-3 py-2 bg-white text-[#047BCA] rounded-lg font-semibold text-sm hover:bg-green-50 transition-all duration-300 whitespace-nowrap"
-              >
-                Book Appointment
-              </Link>
+      <div className="max-w-[88rem] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        <div className="flex justify-between items-center py-6 sm:py-5 md:py-6">
+          <Link href="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
+            <div className="border-l-2 sm:border-l-4 border-[#1C7E4E] pl-2 sm:pl-3 md:pl-4">
+              <span className="block text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">Dr. Srinivasa C</span>
             </div>
+          </Link>
 
-            {/* Mobile menu button */}
+          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8 2xl:space-x-10">
+            {navigation.map(item => renderLink(item, desktopLinkClass, true))}
+            <Link
+              href="/appointment"
+              className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] hover:from-[#145C38] hover:to-[#0369A1] text-white px-8 py-3 font-semibold text-xs uppercase tracking-wider transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            >
+              Book Consultation
+            </Link>
+          </nav>
+
+          <div className="lg:hidden flex items-center">
             <button
-              className="lg:hidden p-3 rounded-lg bg-white/20 hover:bg-white/30 transition-all duration-300"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() => setIsMenuOpen(open => !open)}
+              className="w-10 h-10 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] hover:from-[#145C38] hover:to-[#0369A1] flex items-center justify-center text-white transition-all duration-300 rounded-lg shadow-lg hover:shadow-xl"
               aria-label="Toggle menu"
             >
-              {isMenuOpen ? (
-                <X className="h-6 w-6 text-white transition-all duration-300" />
-              ) : (
-                <Menu className="h-6 w-6 text-white transition-all duration-300" />
-              )}
+              <svg className={`w-5 h-5 transition-transform duration-300 ${isMenuOpen ? 'rotate-45' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        <div className={cn(
-          'lg:hidden transition-all duration-700 ease-in-out overflow-hidden',
-          isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        )}>
-          <div className="bg-gradient-to-r from-[#1C7E4E]/98 to-[#047BCA]/95 backdrop-blur-2xl border-t border-[#047BCA]/30">
-            <div className="container-custom py-8">
-              <nav className="space-y-3">
-                {navigation.map((item) => {
-                  const isHomepage = pathname === '/';
-                  const isExternalPage = item.href.startsWith('/');
-                  const isAnchorLink = item.href.startsWith('#');
-                  
-                  if (isExternalPage || (isAnchorLink && !isHomepage)) {
-                    const linkHref = isAnchorLink && !isHomepage ? `/${item.href}` : item.href;
-                    return (
-                      <Link
-                        key={item.name}
-                        href={linkHref}
-                        className="block px-5 py-4 rounded-lg text-white hover:text-green-100 font-semibold text-lg transition-all duration-300"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        {item.name}
-                      </Link>
-                    );
-                  } else {
-                    return (
-                      <button
-                        key={item.name}
-                        onClick={() => scrollToSection(item.href)}
-                        className="block px-5 py-4 rounded-lg text-white hover:text-green-100 font-semibold text-lg transition-all duration-300 w-full text-left"
-                      >
-                        {item.name}
-                      </button>
-                    );
-                  }
-                })}
-                <div className="pt-6 pb-6 border-t border-white/30">
-                  <Link
-                    href="/appointment"
-                    className="flex items-center justify-center w-full px-6 py-3 bg-white text-[#047BCA] rounded-lg font-semibold text-base hover:bg-green-50 transition-all duration-300"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Book Appointment
-                  </Link>
-                </div>
-              </nav>
+        <div className={`lg:hidden transition-all duration-500 ease-in-out overflow-hidden ${isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
+          <div className={`border-t py-6 transition-all duration-500 ${isScrolled ? 'border-gray-300/50 bg-white/60 backdrop-blur-md' : 'border-gray-300 bg-gray-50'}`}>
+            <div className={`flex flex-col space-y-6 transition-all duration-500 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+              {navigation.map(item => renderLink(item, mobileLinkClass, false))}
+              <div className="border-t border-gray-300 pt-4 px-4">
+                <Link
+                  href="/appointment"
+                  className="block bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] hover:from-[#145C38] hover:to-[#0369A1] text-white px-6 py-3 font-semibold text-sm uppercase tracking-wider text-center transition-all duration-300 rounded-lg hover:shadow-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Book Consultation
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 }
