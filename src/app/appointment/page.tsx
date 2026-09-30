@@ -1,21 +1,22 @@
 'use client';
 
 import { AppointmentBooking } from '@/components/sections/AppointmentBooking';
-import { Phone, Mail, MapPin, Clock, User, Award } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, User, Award, Instagram } from 'lucide-react';
+import { CONTACT } from '@/lib/site';
 
 export default function AppointmentPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-20">
+    <div className="min-h-screen bg-gray-50 pt-28 pb-16 sm:pt-32">
       <div className="container-custom">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-8">
+        <div className="max-w-6xl mx-auto min-w-0">
+          <div className="grid lg:grid-cols-3 gap-8 min-w-0">
             {/* Appointment Form */}
-            <div className="lg:col-span-2">
-              <AppointmentBooking className="mt-8 mb-8" />
+            <div className="lg:col-span-2 min-w-0">
+              <AppointmentBooking className="mb-8" />
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6 mt-8 mb-8">
+            <div className="space-y-6 mb-8 min-w-0">
               {/* Doctor Info */}
               <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hidden md:block">
                 <div className="text-center mb-6">
@@ -33,7 +34,7 @@ export default function AppointmentPage() {
                 <div className="space-y-3 text-sm text-gray-600">
                   <div className="flex items-center">
                     <Award className="w-4 h-4 mr-3 text-[#047BCA]" />
-                    <span><strong>Experience:</strong> 10+ years in rheumatology</span>
+                    <span><strong>Experience:</strong> 16+ years in rheumatology</span>
                   </div>
                   <div className="flex items-center">
                     <MapPin className="w-4 h-4 mr-3 text-[#047BCA]" />
@@ -79,8 +80,17 @@ export default function AppointmentPage() {
                       <Phone className="w-5 h-5 text-[#047BCA]" />
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">Appointments</p>
-                      <p className="text-sm text-gray-600">By appointment</p>
+                      <p className="font-semibold text-gray-900">Call</p>
+                      <a href={CONTACT.phoneHref} className="text-sm text-gray-600 hover:text-[#047BCA]">{CONTACT.phone}</a>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center mr-4">
+                      <Instagram className="w-5 h-5 text-[#047BCA]" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Instagram</p>
+                      <a href={CONTACT.instagramHref} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-600 hover:text-[#047BCA]">{CONTACT.instagram}</a>
                     </div>
                   </div>
                   <div className="flex items-center">

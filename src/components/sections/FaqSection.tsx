@@ -1,15 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { ArrowRight, ChevronDown, HelpCircle } from 'lucide-react';
+import { ChevronDown, HelpCircle } from 'lucide-react';
 import { FAQS } from '@/lib/faqs';
 
 export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-12 md:py-20">
+    <section className="pt-12 pb-4 md:pt-20 md:pb-6">
       <div className="container-custom">
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-4">
@@ -69,14 +68,8 @@ export function FaqSection() {
           })}
         </div>
 
-        <div className="mt-8 md:mt-12 text-center">
-          <p className="text-gray-600 mb-4">Have another question? Ask the doctor during your consultation.</p>
-          <Link
-            href="/appointment"
-            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] hover:from-[#145C38] hover:to-[#0369A1] text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
-          >
-            Book Appointment <ArrowRight className="w-5 h-5" />
-          </Link>
+        <div className="mt-6 md:mt-8 text-center">
+          <p className="text-gray-600">Have another question? Ask the doctor during your consultation.</p>
         </div>
       </div>
     </section>

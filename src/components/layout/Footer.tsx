@@ -1,4 +1,12 @@
 import Link from 'next/link';
+import { Instagram, MessageCircle, Phone } from 'lucide-react';
+import { CLINIC_NAME, CLINIC_TAGLINE, CONTACT } from '@/lib/site';
+
+const socials = [
+  { name: 'Instagram', href: CONTACT.instagramHref, Icon: Instagram },
+  { name: 'WhatsApp', href: CONTACT.whatsappHref, Icon: MessageCircle },
+  { name: 'Call', href: CONTACT.phoneHref, Icon: Phone },
+];
 
 const quickLinks = [
   { name: 'Home', href: '/' },
@@ -25,11 +33,26 @@ export function Footer() {
             <h3 className="text-xl font-bold mb-4 text-white">Dr. Srinivasa C</h3>
             <p className="text-[#047BCA] mb-4 font-medium">Consultant Rheumatologist</p>
             <div className="space-y-1 text-gray-300">
-              <p>🏥 Hulimavu Clinic</p>
+              <p>🏥 {CLINIC_NAME} ({CLINIC_TAGLINE})</p>
               <p>📍 #251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road, Hulimavu, Bengaluru 560076</p>
               <p>🕘 Mon – Sat · 09:00 am – 12:00 noon · 04:00 pm – 07:30 pm</p>
               <p>📅 Sunday holiday · Consultations by appointment</p>
               <p className="pt-3">🌐 Languages: English, Hindi, Kannada</p>
+              <p>📞 <a href={CONTACT.phoneHref} className="hover:text-white">{CONTACT.phone}</a></p>
+            </div>
+            <div className="flex gap-3 mt-5">
+              {socials.map(({ name, href, Icon }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={name}
+                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-to-r hover:from-[#1C7E4E] hover:to-[#047BCA] flex items-center justify-center transition-colors"
+                >
+                  <Icon className="w-5 h-5" />
+                </a>
+              ))}
             </div>
           </div>
 

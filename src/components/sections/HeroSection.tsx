@@ -117,7 +117,7 @@ export function HeroSection() {
             {/* Professional Stats */}
             <div className="grid grid-cols-2 gap-3 md:gap-2 lg:gap-3 max-w-md mx-auto lg:max-w-none lg:mx-0">
               <div className="text-center py-3 md:py-2 lg:py-3 xl:py-5 bg-white/80 backdrop-blur-sm rounded-xl border border-white/50 shadow-lg">
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent mb-1">10+</div>
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent mb-1">16+</div>
                 <div className="text-xs sm:text-sm text-gray-600 font-medium">Years in Rheumatology</div>
               </div>
               <div className="text-center py-3 md:py-2 lg:py-3 xl:py-5 bg-white/80 backdrop-blur-sm rounded-xl border border-white/50 shadow-lg">

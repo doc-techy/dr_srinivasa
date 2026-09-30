@@ -1,7 +1,8 @@
 'use client';
 
-import { GraduationCap, Calendar, CheckCircle, Award, Users, MapPin, Languages } from 'lucide-react';
+import { GraduationCap, Calendar, MapPin, Stethoscope, Building2 } from 'lucide-react';
 import { useState } from 'react';
+import { CLINIC_NAME } from '@/lib/site';
 
 export function AboutSection() {
   const [activeTab, setActiveTab] = useState<'education' | 'experience'>('experience');
@@ -28,24 +29,48 @@ export function AboutSection() {
 
   const experience = [
     {
-      title: 'Consultant Rheumatologist',
-      position: 'Clinic practice',
-      hospital: 'Hulimavu',
-      location: '#251, 11th Cross, Muthurayya Swamy Layout, Bangalore 560076',
+      hospital: `${CLINIC_NAME}, Hulimavu`,
+      location: '#251, 11th Cross, Muthurayya Swamy Layout, Hulimavu, Bangalore 560076',
       duration: 'Present',
       description: 'Outpatient rheumatology care',
-      isEmpty: false
+      Icon: Stethoscope,
+      current: true,
     },
     {
-      title: 'Consultant Rheumatology',
-      position: 'Hospital practice',
       hospital: 'Fortis Hospital, Bannerghatta Road',
       location: 'Opposite IIM, Bengaluru',
-      duration: '10+ years',
+      duration: '16+ years',
       description: 'Rheumatology consultation',
-      isEmpty: false
+      Icon: Building2,
+      current: false,
     },
   ];
+
+  const renderExperience = () => (
+    <ol className="relative ml-5 space-y-4 border-l-2 border-dashed border-[#047BCA]/30">
+      {experience.map(({ hospital, location, duration, description, Icon, current }) => (
+        <li key={hospital} className="relative pl-8">
+          <span className="absolute -left-[1.3rem] top-4 w-10 h-10 rounded-full bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] ring-4 ring-green-50 flex items-center justify-center shadow-md">
+            <Icon className="w-5 h-5 text-white" />
+          </span>
+          <div className="bg-white rounded-2xl p-4 lg:p-5 border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <h4 className="text-base lg:text-lg font-bold text-gray-900">{hospital}</h4>
+              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${current ? 'bg-green-100 text-[#1C7E4E]' : 'bg-blue-50 text-[#047BCA]'}`}>
+                {current && <span className="w-1.5 h-1.5 rounded-full bg-[#1C7E4E] animate-pulse" />}
+                {duration}
+              </span>
+            </div>
+            <p className="text-sm font-medium text-[#047BCA] mb-2">{description}</p>
+            <p className="text-sm text-gray-600 flex items-start">
+              <MapPin className="w-4 h-4 mr-1.5 mt-0.5 text-[#047BCA] flex-shrink-0" />
+              {location}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
 
   return (
     <section id="about" className="pt-4 pb-4 md:pt-8 md:pb-6 lg:pt-16 lg:pb-12">
@@ -162,45 +187,8 @@ export function AboutSection() {
                 
                 {/* Experience Content - Mobile: Conditional, Desktop: Hidden */}
                 {activeTab === 'experience' && (
-                  <div className="transition-all duration-500 ease-in-out opacity-100 translate-y-0 md:hidden">
-                    {experience.map((exp, index) => (
-                      <div 
-                        key={`exp-${index}`} 
-                        className={`backdrop-blur-sm rounded-xl p-2 md:p-2 lg:p-4 border transition-all duration-500 ease-in-out transform mb-1 md:mb-2 lg:mb-4 ${
-                          exp.isEmpty 
-                            ? 'bg-gray-100/50 border-gray-200/30 opacity-40' 
-                            : 'bg-white border-[#047BCA]/20/50 hover:scale-[1.02] hover:shadow-lg'
-                        }`}
-                        style={{ animationDelay: `${index * 100}ms` }}
-                      >
-                        {exp.isEmpty ? (
-                          <div className="h-16 md:h-20 lg:h-24 bg-gradient-to-b from-white via-white to-gray-100 rounded-lg flex items-center justify-center">
-                            {/* <div className="text-gray-400 text-xs md:text-sm font-medium">Coming Soon</div> */}
-                          </div>
-                        ) : (
-                          <>
-                            {exp.title && (
-                              <div className="text-sm font-semibold text-[#047BCA] mb-1 transition-all duration-300">
-                                {exp.title}
-                              </div>
-                            )}
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1 gap-1">
-                              <h4 className="text-base lg:text-lg font-bold text-gray-900 transition-all duration-300 flex-1 min-w-0">{exp.position}</h4>
-                              <div className="bg-gradient-to-r from-green-50 to-blue-50 text-[#047BCA] px-2.5 py-1 rounded-lg text-xs font-semibold mt-1 sm:mt-0 w-fit transition-all duration-300 hover:from-green-100 hover:to-blue-100">
-                                {exp.duration}
-                              </div>
-                            </div>
-                            <h5 className="text-sm font-medium bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent mb-1.5 transition-all duration-300">
-                              {exp.hospital}
-                            </h5>
-                            <p className="text-sm text-gray-600 flex items-center">
-                              <MapPin className="w-3 h-3 lg:w-4 lg:h-4 mr-1 text-[#047BCA] flex-shrink-0 transition-all duration-300" />
-                              {exp.location}
-                            </p>
-                          </>
-                        )}
-                      </div>
-                    ))}
+                  <div className="md:hidden pt-1">
+                    {renderExperience()}
                   </div>
                 )}
               </div>
@@ -217,41 +205,8 @@ export function AboutSection() {
               </div>
 
               {/* Experience Timeline for Desktop */}
-              <div className="space-y-2 md:space-y-2 lg:space-y-4 flex-1">
-                {experience.map((exp, index) => (
-                  <div key={index} className={`backdrop-blur-sm rounded-xl p-2 md:p-2 lg:p-4 border transition-all duration-500 ease-in-out transform mb-1 md:mb-2 lg:mb-4 ${
-                    exp.isEmpty 
-                      ? 'bg-gray-100/50 border-gray-200/30 opacity-40' 
-                      : 'bg-white border-[#047BCA]/20/50 hover:scale-[1.02] hover:shadow-lg'
-                  }`}>
-                    {exp.isEmpty ? (
-                      <div className="h-16 md:h-20 lg:h-24 bg-gradient-to-b from-white via-white to-gray-100 rounded-lg flex items-center justify-center">
-                        {/* <div className="text-gray-400 text-xs md:text-sm font-medium">Coming Soon</div> */}
-                      </div>
-                    ) : (
-                      <>
-                        {exp.title && (
-                          <div className="text-sm font-semibold text-[#047BCA] mb-1 transition-all duration-300">
-                            {exp.title}
-                          </div>
-                        )}
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1 gap-1">
-                          <h4 className="text-base lg:text-lg font-bold text-gray-900 transition-all duration-300 flex-1 min-w-0">{exp.position}</h4>
-                          <div className="bg-green-50 text-[#047BCA] px-2.5 py-1 rounded-lg text-xs font-semibold mt-1 sm:mt-0 w-fit transition-all duration-300 hover:bg-green-100">
-                            {exp.duration}
-                          </div>
-                        </div>
-                        <h5 className="text-sm font-medium text-[#047BCA] mb-1.5 transition-all duration-300">
-                          {exp.hospital}
-                        </h5>
-                        <p className="text-sm text-gray-600 flex items-center">
-                          <MapPin className="w-3 h-3 lg:w-4 lg:h-4 mr-1 text-[#047BCA] flex-shrink-0 transition-all duration-300" />
-                          {exp.location}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                ))}
+              <div className="flex-1">
+                {renderExperience()}
               </div>
             </div>
           </div>

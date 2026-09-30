@@ -4,13 +4,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { Calendar, Clock, MapPin, CheckCircle, Navigation, Loader2, AlertCircle, Sun, Moon } from 'lucide-react';
 import { useAppointments } from '@/hooks/useAppointments';
 import { apiUtils } from '@/lib/api';
+import { CLINIC_NAME, CLINIC_TAGLINE } from '@/lib/site';
 
 interface AppointmentBookingProps {
   className?: string;
 }
 
 const CLINIC = {
-  name: 'Hulimavu Clinic',
+  name: `${CLINIC_NAME} (${CLINIC_TAGLINE})`,
   address: '#251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road, Hulimavu, Bangalore 560076',
   hours: 'Mon–Sat: 9:00 AM – 12:00 PM and 4:00 PM – 7:30 PM. Sunday holiday.',
   mapLink: 'https://www.google.com/maps/search/?api=1&query=251+11th+Cross+Road+Muthurayya+Swamy+Layout+Hulimavu+Bangalore+560076',
@@ -99,7 +100,7 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
     fetchAvailableDates();
   };
 
-  const inputClass = 'w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-[#047BCA] focus:outline-none focus:ring-2 focus:ring-[#047BCA]/20';
+  const inputClass = 'w-full min-w-0 rounded-xl border border-gray-200 bg-white px-4 py-3 text-base text-gray-900 placeholder-gray-400 focus:border-[#047BCA] focus:outline-none focus:ring-2 focus:ring-[#047BCA]/20';
 
   const renderSlots = (label: string, Icon: typeof Sun, slots: string[]) => slots.length > 0 && (
     <div>
@@ -107,13 +108,13 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
         <Icon className="w-4 h-4 mr-2 text-[#047BCA]" />
         {label}
       </p>
-      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 min-w-0">
         {slots.map(time => (
           <button
             key={time}
             type="button"
             onClick={() => setSelectedTime(time)}
-            className={`rounded-lg border px-2 py-2 text-sm font-medium transition-all duration-200 ${
+            className={`min-w-0 rounded-lg border px-1 py-2.5 text-xs sm:text-sm font-medium leading-tight transition-all duration-200 ${
               selectedTime === time
                 ? 'border-transparent bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white shadow-md'
                 : 'border-gray-200 bg-white text-gray-700 hover:border-[#047BCA] hover:text-[#047BCA]'
@@ -127,9 +128,9 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
   );
 
   return (
-    <div className={`bg-white rounded-3xl shadow-2xl border border-gray-100 p-5 sm:p-8 ${className}`}>
-      <div className="text-center mb-8">
-        <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Book an Appointment</h2>
+    <div className={`bg-white rounded-3xl shadow-2xl border border-gray-100 p-4 sm:p-8 min-w-0 max-w-full overflow-hidden ${className}`}>
+      <div className="text-center mb-6 sm:mb-8">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Book an Appointment</h2>
         <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
           Pick a convenient slot at the Hulimavu clinic. The clinic will confirm your request.
         </p>
@@ -155,7 +156,7 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
           </button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-8 min-w-0">
           <section>
             <h3 className="flex items-center text-lg font-bold text-gray-900 mb-3">
               <Calendar className="w-5 h-5 mr-2 text-[#047BCA]" />
@@ -164,7 +165,7 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
             {datesLoading ? (
               <div className="flex items-center text-gray-500"><Loader2 className="w-5 h-5 mr-2 animate-spin" />Loading dates…</div>
             ) : (
-              <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
+              <div className="flex gap-2 w-full min-w-0 max-w-full overflow-x-auto overscroll-x-contain pb-2 snap-x">
                 {availableDates.map(({ date, available_count }) => {
                   const day = parseDate(date);
                   const disabled = available_count === 0;
@@ -175,7 +176,7 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
                       type="button"
                       disabled={disabled}
                       onClick={() => setSelectedDate(date)}
-                      className={`flex-shrink-0 w-[4.5rem] rounded-xl border px-2 py-3 text-center transition-all duration-200 ${
+                      className={`flex-shrink-0 snap-start w-[4.25rem] sm:w-[4.5rem] rounded-xl border px-2 py-3 text-center transition-all duration-200 ${
                         active
                           ? 'border-transparent bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] text-white shadow-md'
                           : disabled
@@ -232,7 +233,7 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
           <button
             type="submit"
             disabled={bookingLoading || !selectedTime}
-            className="w-full inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white text-lg font-semibold rounded-xl hover:from-[#145C38] hover:to-[#0369A1] focus:ring-4 focus:ring-[#047BCA]/30 transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full inline-flex items-center justify-center px-4 sm:px-6 py-4 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white text-base sm:text-lg font-semibold rounded-xl hover:from-[#145C38] hover:to-[#0369A1] focus:ring-4 focus:ring-[#047BCA]/30 transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
           >
             {bookingLoading ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : <Calendar className="w-5 h-5 mr-2" />}
             {selectedTime ? `Request ${apiUtils.formatTime(selectedTime)} appointment` : 'Select a time slot'}

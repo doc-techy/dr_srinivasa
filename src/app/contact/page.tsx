@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Calendar, Clock, Languages, MapPin, Navigation } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, Instagram, Languages, MapPin, MessageCircle, Navigation, Phone } from 'lucide-react';
+import { CLINIC_NAME, CLINIC_TAGLINE, CONTACT } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Contact & Clinic Location in Hulimavu',
@@ -66,7 +67,8 @@ export default function ContactPage() {
               <h2 className="flex items-center gap-3 text-xl font-bold text-gray-900 mb-5">
                 <MapPin className="w-6 h-6 text-[#047BCA]" /> Clinic location
               </h2>
-              <p className="font-semibold text-gray-900">Hulimavu Clinic</p>
+              <p className="font-semibold text-gray-900">{CLINIC_NAME}</p>
+              <p className="text-sm text-[#047BCA]">{CLINIC_TAGLINE}</p>
               <p className="text-gray-600 mt-1">{ADDRESS}</p>
               <div className="mt-5 rounded-2xl bg-gradient-to-br from-green-50 to-blue-50 p-4">
                 <p className="font-semibold text-gray-900 mb-2">How to reach</p>
@@ -92,6 +94,23 @@ export default function ContactPage() {
                 </div>
               </dl>
               <p className="text-sm text-gray-500 mt-4">Consultations are by appointment.</p>
+            </div>
+
+            <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+              <h2 className="flex items-center gap-3 text-xl font-bold text-gray-900 mb-5">
+                <Phone className="w-6 h-6 text-[#047BCA]" /> Phone & socials
+              </h2>
+              <div className="space-y-3">
+                <a href={CONTACT.phoneHref} className="flex items-center gap-3 text-gray-700 hover:text-[#047BCA]">
+                  <Phone className="w-5 h-5 text-[#047BCA]" /> {CONTACT.phone}
+                </a>
+                <a href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-gray-700 hover:text-[#047BCA]">
+                  <MessageCircle className="w-5 h-5 text-[#047BCA]" /> WhatsApp
+                </a>
+                <a href={CONTACT.instagramHref} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-gray-700 hover:text-[#047BCA]">
+                  <Instagram className="w-5 h-5 text-[#047BCA]" /> {CONTACT.instagram}
+                </a>
+              </div>
             </div>
 
             <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">

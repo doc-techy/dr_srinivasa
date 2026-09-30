@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { ArrowRight, Phone, Calendar, Award, Microscope, Heart, Users, MapPin } from 'lucide-react';
+import { CONTACT } from '@/lib/site';
 
 export function CtaSection() {
   return (
-    <section className="py-20 min-h-screen flex flex-col items-center justify-center">
+    <section className="pt-6 pb-12 md:pt-10 md:pb-16 flex flex-col items-center">
       <div className="w-full px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="flex justify-center items-center mb-12">
+          <div className="flex justify-center items-center mb-8 md:mb-10">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 md:whitespace-nowrap">
               <span className="block md:inline">Ready to Schedule</span>
               <span className="block md:inline bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent"><span className="hidden md:inline"> </span>Your Consultation?</span>
@@ -46,7 +47,7 @@ export function CtaSection() {
                       </div>
                     </div>
                     <h4 className="text-xs md:text-sm lg:text-base font-bold text-white mb-0.5 md:mb-1 group-hover:text-white transition-colors duration-300">
-                      10+ Years in Rheumatology
+                      16+ Years in Rheumatology
                     </h4>
                     <p className="text-white/80 group-hover:text-white transition-colors duration-300 text-xs lg:text-sm leading-tight">
                       Focused practice in joint, autoimmune, and bone disease
@@ -123,9 +124,9 @@ export function CtaSection() {
               <p className="text-gray-600 text-sm md:text-sm mb-3 md:mb-4">
                 Speak directly with our team
               </p>
-              <span className="inline-flex items-center text-[#047BCA] text-sm md:text-base">
-                By appointment
-              </span>
+              <a href={CONTACT.phoneHref} className="inline-flex items-center text-[#047BCA] text-sm md:text-base font-semibold">
+                {CONTACT.phone}
+              </a>
             </div>
 
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 md:p-6 shadow-lg border border-white/20">

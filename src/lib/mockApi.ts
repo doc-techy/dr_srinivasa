@@ -193,7 +193,7 @@ export const mockApi = {
       data: {
         name: 'Dr. Srinivasa C',
         specialization: 'Rheumatology',
-        experience: '10+ years',
+        experience: '16+ years',
         qualifications: ['MBBS', 'MD (General Medicine)', 'DM (Rheumatology)'],
         location: 'Hulimavu, Bangalore',
         languages: ['English', 'Hindi', 'Kannada']

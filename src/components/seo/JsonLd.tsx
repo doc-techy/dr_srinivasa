@@ -1,4 +1,4 @@
-import { SITE_URL } from '@/lib/site';
+import { CLINIC_NAME, CLINIC_TAGLINE, CONTACT, SITE_URL } from '@/lib/site';
 
 export default function JsonLd() {
   const jsonLd = {
@@ -32,7 +32,9 @@ export default function JsonLd() {
         closes: '19:30'
       }
     ],
-    sameAs: []
+    telephone: CONTACT.phone,
+    worksFor: { '@type': 'MedicalClinic', name: `${CLINIC_NAME} (${CLINIC_TAGLINE})` },
+    sameAs: [CONTACT.instagramHref]
   };
 
   return (
