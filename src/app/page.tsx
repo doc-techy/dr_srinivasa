@@ -1,6 +1,7 @@
 import { HeroSection } from '@/components/sections/HeroSection';
 import { AboutSection } from '@/components/sections/AboutSection';
 import { ServicesSection } from '@/components/sections/ServicesSection';
+import { ServicesOfferedSection } from '@/components/sections/ServicesOfferedSection';
 import { VideoSection } from '@/components/sections/VideoSection';
 import { FaqSection } from '@/components/sections/FaqSection';
 import { CtaSection } from '@/components/sections/CtaSection';
@@ -29,6 +30,7 @@ export default function Home() {
       <section id="services">
         <ServicesSection />
       </section>
+      <ServicesOfferedSection />
       <section id="videos">
         <VideoSection />
       </section>

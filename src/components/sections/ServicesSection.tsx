@@ -230,7 +230,7 @@ export function ServicesSection() {
             
             {/* Main Heading */}
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-4">
-              Specialized Services & <span className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent">Expertise</span>
+              Specialized <span className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent">Expertise</span>
             </h2>
             
             {/* Description */}
