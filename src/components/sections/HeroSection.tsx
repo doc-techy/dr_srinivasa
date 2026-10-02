@@ -35,6 +35,16 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-start lg:items-center pt-8 lg:pt-12 overflow-hidden">
 
       <div className="container-custom relative z-10 w-full">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-4">
+            Meet Our{' '}
+            <span className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent">Doctor</span>
+          </h2>
+          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            The rheumatologist behind every diagnosis and treatment plan at the clinic
+          </p>
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-6 xl:gap-12 items-start lg:items-center min-h-[calc(100vh-5rem)] sm:min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-5rem)]">
           {/* Doctor Image — edge-to-edge on mobile, flush under header */}
           <div className={`relative transition-all duration-1000 delay-300 order-1 lg:order-2 mt-0 sm:mt-6 lg:mt-0 -mx-5 sm:mx-0 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
