@@ -1,6 +1,4 @@
-import Link from 'next/link';
-import { ArrowRight, Phone, Calendar, Award, Microscope, Heart, Users, MapPin } from 'lucide-react';
-import { CONTACT } from '@/lib/site';
+import { Award, Microscope, Heart, Users } from 'lucide-react';
 
 export function CtaSection() {
   return (
@@ -17,7 +15,7 @@ export function CtaSection() {
       </div>
         
       {/* Why Choose Dr. Srinivasa C Section - Same Width as Below Components */}
-      <div className="mb-16 w-full px-4">
+      <div className="w-full px-4">
         <div className="max-w-7xl mx-auto">
             <div className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-2xl p-3 md:p-8 lg:p-12 text-white shadow-2xl relative overflow-hidden">
               {/* Animated Background */}
@@ -99,73 +97,6 @@ export function CtaSection() {
               </div>
             </div>
         </div>
-      </div>
-        
-      <div className="w-full px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
-            <div className="hidden md:block bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
-              <Calendar className="w-12 h-12 text-[#047BCA] mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Book Online</h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Schedule your appointment conveniently online
-              </p>
-              <Link
-                href="/appointment"
-                className="inline-flex items-center text-[#047BCA] hover:text-[#047BCA] transition-colors"
-              >
-                Book Now <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
-            </div>
-
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 md:p-6 shadow-lg border border-white/20">
-              <Phone className="w-8 h-8 md:w-12 md:h-12 text-[#047BCA] mx-auto mb-3 md:mb-4" />
-              <h3 className="text-base md:text-xl font-semibold text-gray-900 mb-2 md:mb-2">Call Us</h3>
-              <p className="text-gray-600 text-sm md:text-sm mb-3 md:mb-4">
-                Speak directly with our team
-              </p>
-              <a href={CONTACT.phoneHref} className="inline-flex items-center text-[#047BCA] text-sm md:text-base font-semibold">
-                {CONTACT.phone}
-              </a>
-            </div>
-
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 md:p-6 shadow-lg border border-white/20">
-              <MapPin className="w-8 h-8 md:w-12 md:h-12 text-[#047BCA] mx-auto mb-3 md:mb-4" />
-              <h3 className="text-base md:text-xl font-semibold text-gray-900 mb-2 md:mb-2">Location</h3>
-              <p className="text-gray-600 text-sm md:text-sm mb-3 md:mb-4">
-                Visit our clinic location
-              </p>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=251+11th+Cross+Road+Muthurayya+Swamy+Layout+Hulimavu+Bangalore+560076"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center text-[#047BCA] hover:text-[#047BCA] transition-colors text-sm md:text-base"
-              >
-                View on Maps <ArrowRight className="w-4 h-4 md:w-4 md:h-4 ml-1" />
-              </a>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/appointment"
-              className="inline-flex items-center justify-center px-12 md:px-16 py-4 md:py-5 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] hover:from-[#145C38] hover:to-[#0369A1] text-white rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-xl hover:shadow-2xl"
-            >
-              Book Appointment
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Link>
-          
-          </div>
-
-          <div className="mt-12 text-center">
-            <p className="text-gray-600 text-sm">
-              <strong>Clinic hours:</strong> Monday to Saturday, 9:00 AM – 12:00 noon and 4:00 PM – 7:30 PM. Sunday holiday.
-            </p>
-            <p className="text-gray-500 text-xs mt-2">
-              #251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road, Hulimavu, Bangalore 560076
-            </p>
-          </div>
-      </div>
       </div>
     </section>
   );

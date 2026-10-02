@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { CLINIC_NAME } from '@/lib/site';
 
 const navigation = [
   { name: 'Home', href: '#home' },
@@ -73,7 +74,7 @@ export function Header() {
         <div className="flex justify-between items-center py-6 sm:py-5 md:py-6">
           <Link href="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
             <div className="border-l-2 sm:border-l-4 border-[#1C7E4E] pl-2 sm:pl-3 md:pl-4">
-              <span className="block text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">Dr. Srinivasa C</span>
+              <span className="block text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">{CLINIC_NAME}</span>
             </div>
           </Link>
 

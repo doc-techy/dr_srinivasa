@@ -1,3 +1,4 @@
+import { RheumatologyIntroSection } from '@/components/sections/RheumatologyIntroSection';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { AboutSection } from '@/components/sections/AboutSection';
 import { ServicesSection } from '@/components/sections/ServicesSection';
@@ -22,6 +23,9 @@ export default function Home() {
     <div className="min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <section id="home">
+        <RheumatologyIntroSection />
+      </section>
+      <section id="doctor">
         <HeroSection />
       </section>
       <section id="about">

@@ -32,7 +32,7 @@ export function HeroSection() {
   ];
 
   return (
-    <section id="home" className="relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-24 overflow-hidden">
+    <section className="relative min-h-screen flex items-start lg:items-center pt-8 lg:pt-12 overflow-hidden">
 
       <div className="container-custom relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-6 xl:gap-12 items-start lg:items-center min-h-[calc(100vh-5rem)] sm:min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-5rem)]">
@@ -69,7 +69,7 @@ export function HeroSection() {
 
             {/* Main Heading */}
             <div className="space-y-3 sm:space-y-4 text-center lg:text-left">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                 <span className="block">Dr. Srinivasa C</span>
                 <span className="block mt-2 sm:mt-3 text-2xl sm:text-3xl lg:text-4xl bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent font-bold">
                   Consultant Rheumatologist
@@ -77,7 +77,7 @@ export function HeroSection() {
                 <span className="block mt-2 sm:mt-3 text-2xl sm:text-3xl lg:text-4xl bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent font-bold">
                   Joint & Autoimmune Care
                 </span>
-              </h1>
+              </h2>
               
               <p className="text-base sm:text-lg text-gray-600 leading-relaxed text-justify max-w-2xl mt-4">
               Dr. Srinivasa C is a Consultant Rheumatologist in Bangalore. He completed his MBBS from Vijayanagar Institute of Medical Sciences (VIMS), Bellary, MD in General Medicine from Sri Devaraj Urs Medical College, Kolar, and DM in Rheumatology from Nizam&apos;s Institute of Medical Sciences, Hyderabad. He cares for inflammatory and degenerative joint disease, connective tissue disorders, vasculitis, osteoporosis, and related immune conditions.              </p>
