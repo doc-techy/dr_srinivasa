@@ -74,9 +74,9 @@ export function RheumatologyIntroSection() {
       </div>
 
       <div className="container-custom w-full">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 xl:gap-16 items-center">
-          <div className="text-center lg:text-left">
-            <h1 className={`text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.05] ${reveal(150)}`}>
+        <div className="grid lg:grid-cols-2 gap-y-10 lg:gap-x-8 xl:gap-x-16 lg:gap-y-9">
+          <div className="text-center lg:text-left lg:self-end">
+            <h1 className={`text-[2.5rem] sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.05] ${reveal(150)}`}>
               What is{' '}
               <span className="relative inline-block">
                 <span className="gradient-text">Rheumatology?</span>
@@ -91,32 +91,17 @@ export function RheumatologyIntroSection() {
               </span>
             </h1>
 
-            <p className={`mt-6 text-base sm:text-lg leading-relaxed text-gray-600 max-w-xl mx-auto lg:mx-0 ${reveal(300)}`}>
+            <p className={`mt-6 text-[0.975rem] sm:text-lg leading-relaxed text-gray-600 max-w-xl mx-auto lg:mx-0 ${reveal(300)}`}>
               It is the branch of medicine that treats the{' '}
               <span className="font-semibold text-gray-900">joints, muscles, bones and immune system</span>. Many of these
               illnesses are autoimmune: the body’s defence turns on its own tissue and causes inflammation. Most can be
               controlled, and the earlier they are diagnosed, the better the joints are protected.
             </p>
-
-            <div className={`mt-9 max-w-xl mx-auto lg:mx-0 text-left ${reveal(500)}`}>
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-[#047BCA]">
-                Rheumatology at a glance
-              </h2>
-              <dl className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {rheumatologyFacts.map(({ value, text }) => (
-                  <div
-                    key={value}
-                    className="rounded-2xl border border-white/80 bg-white/80 p-4 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-                  >
-                    <dt className="text-2xl font-extrabold gradient-text-primary">{value}</dt>
-                    <dd className="mt-1 text-sm leading-relaxed text-gray-600">{text}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
           </div>
 
-          <div className={`transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+          <div
+            className={`lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:self-center transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+          >
             <div className="relative hidden lg:block mx-auto aspect-square w-full max-w-[600px]">
               <div className="absolute inset-[10%] rounded-full border-2 border-dashed border-[#047BCA]/20 animate-[spin_60s_linear_infinite]" />
               <div className="absolute inset-[24%] rounded-full border border-[#1C7E4E]/15" />
@@ -139,7 +124,7 @@ export function RheumatologyIntroSection() {
                   className="group absolute -translate-x-1/2 -translate-y-1/2"
                 >
                   <div
-                    className="float-animation flex w-44 items-center gap-3 rounded-2xl border border-white/80 bg-white/90 p-3 text-left shadow-xl shadow-gray-900/5 backdrop-blur transition-all duration-300 group-hover:border-[#1C7E4E]/30 group-hover:shadow-2xl"
+                    className="float-animation flex w-52 items-center gap-3 rounded-2xl border border-white/80 bg-white/90 p-3 text-left shadow-xl shadow-gray-900/5 backdrop-blur transition-all duration-300 group-hover:border-[#1C7E4E]/30 group-hover:shadow-2xl"
                     style={{ animationDelay: `${index * 0.6}s` }}
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
@@ -147,40 +132,63 @@ export function RheumatologyIntroSection() {
                     </span>
                     <span className="min-w-0">
                       <span className="block text-sm font-bold text-gray-900">{title}</span>
-                      <span className="block text-xs text-gray-500 truncate">{text}</span>
+                      <span className="block text-xs leading-snug text-gray-500">{text}</span>
                     </span>
                   </div>
                 </button>
               ))}
             </div>
 
-            <div className="lg:hidden rounded-3xl border border-white/80 bg-white/70 p-5 sm:p-6 shadow-xl backdrop-blur">
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] text-white">
-                  <Stethoscope className="h-6 w-6" />
-                </span>
-                <div>
-                  <p className="font-bold text-gray-900">What rheumatology covers</p>
-                  <p className="text-xs text-gray-500">Six body systems, one specialist</p>
+            <div className="lg:hidden">
+              <div className="relative mx-auto aspect-square w-full max-w-[380px]">
+                <div className="absolute inset-[6%] rounded-full border-2 border-dashed border-[#047BCA]/20 animate-[spin_60s_linear_infinite]" />
+                <div className="absolute inset-[22%] rounded-full border border-[#1C7E4E]/15" />
+
+                <div className="absolute inset-[31%] rounded-full shadow-xl shadow-[#047BCA]/30">
+                  <div className="absolute -inset-3 rounded-full bg-gradient-to-br from-[#1C7E4E]/30 to-[#047BCA]/30 blur-xl -z-10 pulse-animation" />
+                  <div className="flex h-full w-full flex-col items-center justify-center rounded-full bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] text-white">
+                    <Stethoscope className="h-7 w-7 sm:h-9 sm:w-9" strokeWidth={1.7} />
+                    <span className="mt-1 text-[0.8rem] sm:text-base font-bold tracking-tight">Rheumatology</span>
+                    <span className="text-[0.55rem] sm:text-[0.65rem] uppercase tracking-[0.18em] text-white/80">6 body systems</span>
+                  </div>
                 </div>
-              </div>
-              <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {focusAreas.map(({ title, text, icon: Icon }) => (
+
+                {focusAreas.map(({ title, icon: Icon }, index) => (
                   <button
                     key={title}
                     type="button"
                     onClick={() => scrollTo('services')}
-                    className="flex flex-col items-start gap-2 rounded-2xl border border-gray-100 bg-white p-3.5 text-left shadow-sm transition-all active:scale-[0.98] hover:border-[#1C7E4E]/30 hover:shadow-md"
+                    style={orbitPosition(index, focusAreas.length)}
+                    className="group absolute flex -translate-x-1/2 -translate-y-[1.625rem] flex-col items-center gap-1.5"
                   >
-                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#1C7E4E]/10 to-[#047BCA]/10 text-[#047BCA]">
-                      <Icon className="h-5 w-5" />
+                    <span className="flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-2xl border-[3px] border-white bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] text-white shadow-lg shadow-[#047BCA]/25 transition-transform duration-200 group-active:scale-95">
+                      <Icon className="h-6 w-6" />
                     </span>
-                    <span className="text-sm font-bold text-gray-900">{title}</span>
-                    <span className="-mt-1.5 text-xs text-gray-500">{text}</span>
+                    <span className="whitespace-nowrap rounded-full bg-white/90 px-2 py-0.5 text-[0.7rem] font-semibold leading-tight text-gray-800 shadow-sm">
+                      {title}
+                    </span>
                   </button>
                 ))}
               </div>
+              <p className="mt-7 text-center text-xs text-gray-500">Tap a system to see the conditions we treat</p>
             </div>
+          </div>
+
+          <div className={`lg:col-start-1 lg:row-start-2 lg:self-start w-full max-w-xl mx-auto lg:mx-0 ${reveal(500)}`}>
+            <h2 className="text-center lg:text-left text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#047BCA]">
+              Rheumatology at a glance
+            </h2>
+            <dl className="mt-4 grid grid-cols-2 gap-2.5 sm:gap-3">
+              {rheumatologyFacts.map(({ value, text }) => (
+                <div
+                  key={value}
+                  className="rounded-2xl border border-white/80 bg-white/80 p-3.5 sm:p-4 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <dt className="text-xl sm:text-2xl font-extrabold gradient-text-primary">{value}</dt>
+                  <dd className="mt-1 text-xs sm:text-sm leading-snug sm:leading-relaxed text-gray-600">{text}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
 

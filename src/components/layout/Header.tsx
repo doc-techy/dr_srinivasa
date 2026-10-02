@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { CLINIC_NAME } from '@/lib/site';
 
 const navigation = [
   { name: 'Home', href: '#home' },
@@ -71,11 +70,23 @@ export function Header() {
       <div className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] h-1"></div>
 
       <div className="max-w-[88rem] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-6 sm:py-5 md:py-6">
-          <Link href="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
-            <div className="border-l-2 sm:border-l-4 border-[#1C7E4E] pl-2 sm:pl-3 md:pl-4">
-              <span className="block text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">{CLINIC_NAME}</span>
-            </div>
+        <div className="flex justify-between items-center py-2.5 sm:py-3">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 min-w-0" onClick={() => setIsMenuOpen(false)}>
+            <img
+              src="/logo-mark.svg"
+              alt=""
+              className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 shrink-0"
+            />
+            <span className="min-w-0 leading-none">
+              <span className="block font-serif text-[11px] sm:text-sm md:text-base lg:text-lg font-semibold tracking-[0.08em] sm:tracking-[0.16em] text-[#1A3A6B] whitespace-nowrap">
+                ARTHO <span className="text-[#C07E16]">REHAUMA</span> CARE
+              </span>
+              <span className="mt-1.5 hidden sm:flex items-center gap-2 text-[9px] md:text-[11px] tracking-[0.22em] text-[#1A3A6B]">
+                <span className="h-px w-5 md:w-7 bg-[#D4922A]" />
+                CARE · RELIEF · MOBILITY
+                <span className="h-px w-5 md:w-7 bg-[#D4922A]" />
+              </span>
+            </span>
           </Link>
 
           <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8 2xl:space-x-10">
@@ -88,7 +99,7 @@ export function Header() {
             </Link>
           </nav>
 
-          <div className="lg:hidden flex items-center">
+          <div className="lg:hidden flex items-center shrink-0 ml-2">
             <button
               onClick={() => setIsMenuOpen(open => !open)}
               className="w-10 h-10 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] hover:from-[#145C38] hover:to-[#0369A1] flex items-center justify-center text-white transition-all duration-300 rounded-lg shadow-lg hover:shadow-xl"
