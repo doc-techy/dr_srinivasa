@@ -42,7 +42,7 @@ export default function AppointmentPage() {
                   </div>
                   <div className="flex items-center">
                     <User className="w-4 h-4 mr-3 text-[#047BCA]" />
-                    <span><strong>Languages:</strong> English, Hindi, Kannada</span>
+                    <span><strong>Languages:</strong> English, Hindi, Kannada, Telugu</span>
                   </div>
                 </div>
               </div>

@@ -41,8 +41,7 @@ export function Footer() {
               <p>🏥 {CLINIC_NAME} ({CLINIC_TAGLINE})</p>
               <p>📍 #251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road, Hulimavu, Bengaluru 560076</p>
               <p>🕘 Mon – Sat · 09:00 am – 12:00 noon · 04:00 pm – 07:30 pm</p>
-              <p>📅 Sunday holiday · Consultations by appointment</p>
-              <p className="pt-3">🌐 Languages: English, Hindi, Kannada</p>
+              <p className="pt-3">🌐 Languages: English, Hindi, Kannada, Telugu</p>
               <p>📞 <a href={CONTACT.phoneHref} className="hover:text-white">{CONTACT.phone}</a></p>
             </div>
             <div className="flex gap-3 mt-5">

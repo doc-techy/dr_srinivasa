@@ -196,7 +196,7 @@ export const mockApi = {
         experience: '16+ years',
         qualifications: ['MBBS', 'MD (General Medicine)', 'DM (Rheumatology)'],
         location: 'Hulimavu, Bangalore',
-        languages: ['English', 'Hindi', 'Kannada']
+        languages: ['English', 'Hindi', 'Kannada', 'Telugu']
       }
     };
   },

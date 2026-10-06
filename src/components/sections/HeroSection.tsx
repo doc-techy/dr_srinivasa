@@ -26,7 +26,7 @@ export function HeroSection() {
   const availability = [
     {
       name: 'Hulimavu, Bangalore',
-      timing: 'Mon–Fri · Morning 9:00 AM – 12:00 noon · Evening 4:00 PM – 7:30 PM',
+      timing: 'Mon–Sat · Morning 9:00 AM – 12:00 noon · Evening 4:00 PM – 7:30 PM',
       sunday: 'Sunday holiday'
     }
   ];

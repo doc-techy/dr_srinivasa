@@ -8,10 +8,10 @@ export function AboutSection() {
   const [activeTab, setActiveTab] = useState<'education' | 'experience'>('experience');
   const education = [
     {
-      degree: 'DM (Rheumatology)',
+      degree: 'DM (Rheumatology & Immunology)',
       institution: "Nizam's Institute of Medical Sciences",
       location: 'Hyderabad',
-      description: 'Super-speciality training in rheumatology'
+      description: 'Super-speciality training in rheumatology and immunology'
     },
     {
       degree: 'MD (General Medicine)',
@@ -41,6 +41,14 @@ export function AboutSection() {
       location: 'Opposite IIM, Bengaluru',
       duration: '16+ years',
       description: 'Rheumatology consultation',
+      Icon: Building2,
+      current: false,
+    },
+    {
+      hospital: 'Sakra World Hospital',
+      location: 'Devarabeesanahalli, Varthur Hobli, Bengaluru 560103',
+      duration: '2014 – 2019',
+      description: 'Associate Consultant – Rheumatology',
       Icon: Building2,
       current: false,
     },

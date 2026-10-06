@@ -118,7 +118,7 @@ export default function ContactPage() {
                 <Languages className="w-6 h-6 text-[#047BCA]" /> Languages spoken
               </h2>
               <div className="flex flex-wrap gap-2">
-                {['English', 'Hindi', 'Kannada'].map(language => (
+                {['English', 'Hindi', 'Kannada', 'Telugu'].map(language => (
                   <span key={language} className="px-3 py-1 bg-gradient-to-r from-green-50 to-blue-50 text-[#1C7E4E] rounded-full text-sm font-medium">
                     {language}
                   </span>
