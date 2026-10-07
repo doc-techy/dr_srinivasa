@@ -39,7 +39,7 @@ export function AboutSection() {
     {
       hospital: 'Fortis Hospital, Bannerghatta Road',
       location: 'Opposite IIM, Bengaluru',
-      duration: '16+ years',
+      duration: '',
       description: 'Rheumatology consultation',
       Icon: Building2,
       current: false,
@@ -64,10 +64,12 @@ export function AboutSection() {
           <div className="bg-white rounded-2xl p-4 lg:p-5 border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
             <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
               <h4 className="text-base lg:text-lg font-bold text-gray-900">{hospital}</h4>
-              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${current ? 'bg-green-100 text-[#1C7E4E]' : 'bg-blue-50 text-[#047BCA]'}`}>
-                {current && <span className="w-1.5 h-1.5 rounded-full bg-[#1C7E4E] animate-pulse" />}
-                {duration}
-              </span>
+              {duration && (
+                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${current ? 'bg-green-100 text-[#1C7E4E]' : 'bg-blue-50 text-[#047BCA]'}`}>
+                  {current && <span className="w-1.5 h-1.5 rounded-full bg-[#1C7E4E] animate-pulse" />}
+                  {duration}
+                </span>
+              )}
             </div>
             <p className="text-sm font-medium text-[#047BCA] mb-2">{description}</p>
             <p className="text-sm text-gray-600 flex items-start">

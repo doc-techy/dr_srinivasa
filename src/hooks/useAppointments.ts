@@ -4,11 +4,17 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { apiClient, AppointmentFormData, AvailableDate, handleApiError } from '@/lib/api';
+import { getScheduleDates, getScheduleSlots } from '@/lib/clinicSchedule';
+
+// Temporarily serve dates and slots from the fixed clinic schedule instead of the booking API.
+const USE_FIXED_SCHEDULE = true;
+const BOOKING_DAYS = 14;
 
 export interface UseAppointmentsReturn {
   // State
   availableDates: AvailableDate[];
   datesLoading: boolean;
+  datesError: string | null;
   availableSlots: string[];
   loading: boolean;
   error: string | null;
@@ -26,7 +32,8 @@ export interface UseAppointmentsReturn {
 
 export const useAppointments = (): UseAppointmentsReturn => {
   const [availableDates, setAvailableDates] = useState<AvailableDate[]>([]);
-  const [datesLoading, setDatesLoading] = useState(false);
+  const [datesLoading, setDatesLoading] = useState(true);
+  const [datesError, setDatesError] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,21 +42,31 @@ export const useAppointments = (): UseAppointmentsReturn => {
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
   const fetchAvailableDates = useCallback(async () => {
+    setDatesError(null);
+    if (USE_FIXED_SCHEDULE) {
+      setAvailableDates(getScheduleDates(BOOKING_DAYS));
+      setDatesLoading(false);
+      return;
+    }
     setDatesLoading(true);
-    const response = await apiClient.getAvailableDates(14);
-    if (response.success && response.data) {
+    const response = await apiClient.getAvailableDates(BOOKING_DAYS);
+    if (response.success && Array.isArray(response.data?.dates)) {
       setAvailableDates(response.data.dates);
-      setError(null);
     } else {
       setAvailableDates([]);
-      setError('Online booking is temporarily unavailable. Please try again shortly.');
+      setDatesError('Online booking is temporarily unavailable. Please try again shortly.');
     }
     setDatesLoading(false);
   }, []);
 
   const fetchAvailableSlots = useCallback(async (date: string) => {
-    setLoading(true);
     setError(null);
+    if (USE_FIXED_SCHEDULE) {
+      setAvailableSlots(getScheduleSlots(date));
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
     const response = await apiClient.getAvailableSlots(date);
     if (response.success && response.data) {
       setAvailableSlots(response.data.available_slots.filter(slot => slot.available).map(slot => slot.time));
@@ -100,6 +117,7 @@ export const useAppointments = (): UseAppointmentsReturn => {
   return {
     availableDates,
     datesLoading,
+    datesError,
     availableSlots,
     loading,
     error,

@@ -115,6 +115,8 @@ export interface BookedAppointment {
 // Import mock API
 import { mockApi, shouldUseMockApi } from './mockApi';
 
+const REQUEST_TIMEOUT_MS = 15000;
+
 // API Client Class
 export class ApiClient {
   private baseUrl: string;
@@ -136,6 +138,7 @@ export class ApiClient {
     };
 
     const config: RequestInit = {
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       ...options,
       headers: {
         ...defaultHeaders,
@@ -189,9 +192,10 @@ export class ApiClient {
       };
     } catch (error) {
       console.error('💥 API Request failed:', error);
+      const timedOut = error instanceof DOMException && error.name === 'TimeoutError';
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Network error',
+        error: timedOut ? 'Network error' : error instanceof Error ? error.message : 'Network error',
       };
     }
   }

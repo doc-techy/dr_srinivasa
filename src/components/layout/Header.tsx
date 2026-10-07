@@ -10,7 +10,7 @@ const navigation = [
   { name: 'Services', href: '#services' },
   { name: 'Videos', href: '#videos' },
   { name: 'FAQ', href: '#faq' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 const desktopLinkClass = 'text-gray-700 hover:text-[#047BCA] transition-colors font-medium text-xs uppercase tracking-wider relative group py-2';
@@ -19,6 +19,7 @@ const mobileLinkClass = 'text-left text-gray-700 hover:text-[#047BCA] hover:bg-g
 export function Header() {
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const isHomepage = pathname === '/';
@@ -32,7 +33,7 @@ export function Header() {
   const scrollToSection = (href: string) => {
     const element = document.getElementById(href.replace('#', ''));
     if (element) {
-      const headerHeight = headerRef.current?.offsetHeight ?? 80;
+      const headerHeight = (headerRef.current?.offsetHeight ?? 80) - (mobileMenuRef.current?.offsetHeight ?? 0);
       window.scrollTo({ top: element.offsetTop - headerHeight, behavior: 'smooth' });
     }
     setIsMenuOpen(false);
@@ -45,9 +46,10 @@ export function Header() {
         {underline && <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] transition-all duration-300 group-hover:w-full"></span>}
       </>
     );
-    if (!isHomepage) {
+    const isPage = item.href.startsWith('/');
+    if (isPage || !isHomepage) {
       return (
-        <Link key={item.name} href={`/${item.href}`} className={className} onClick={() => setIsMenuOpen(false)}>
+        <Link key={item.name} href={isPage ? item.href : `/${item.href}`} className={className} onClick={() => setIsMenuOpen(false)}>
           {content}
         </Link>
       );
@@ -116,7 +118,7 @@ export function Header() {
           </div>
         </div>
 
-        <div className={`lg:hidden transition-all duration-500 ease-in-out overflow-hidden ${isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div ref={mobileMenuRef} className={`lg:hidden transition-all duration-500 ease-in-out overflow-hidden ${isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
           <div className={`border-t py-6 transition-all duration-500 ${isScrolled ? 'border-gray-300/50 bg-white/60 backdrop-blur-md' : 'border-gray-300 bg-gray-50'}`}>
             <div className={`flex flex-col space-y-6 transition-all duration-500 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
               {navigation.map(item => renderLink(item, mobileLinkClass, false))}

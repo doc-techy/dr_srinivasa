@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Calendar, Clock, MapPin, CheckCircle, Navigation, Loader2, AlertCircle, Sun, Moon } from 'lucide-react';
+import { Calendar, Clock, MapPin, CheckCircle, Navigation, Loader2, AlertCircle, Sun, Moon, Phone, RefreshCw } from 'lucide-react';
 import { useAppointments } from '@/hooks/useAppointments';
 import { apiUtils } from '@/lib/api';
-import { CLINIC_NAME, CLINIC_TAGLINE } from '@/lib/site';
+import { CLINIC_NAME, CLINIC_TAGLINE, CONTACT } from '@/lib/site';
 
 interface AppointmentBookingProps {
   className?: string;
@@ -28,6 +28,7 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
   const {
     availableDates,
     datesLoading,
+    datesError,
     availableSlots,
     loading: slotsLoading,
     error,
@@ -164,6 +165,30 @@ export function AppointmentBooking({ className = '' }: AppointmentBookingProps) 
             </h3>
             {datesLoading ? (
               <div className="flex items-center text-gray-500"><Loader2 className="w-5 h-5 mr-2 animate-spin" />Loading dates…</div>
+            ) : datesError || availableDates.length === 0 ? (
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                <p className="flex items-start mb-3">
+                  <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+                  {datesError || 'No appointment dates are open right now.'} You can also call the clinic to book.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={fetchAvailableDates}
+                    className="inline-flex items-center rounded-lg bg-white border border-amber-300 px-4 py-2 font-semibold text-amber-800 hover:bg-amber-100"
+                  >
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    Try again
+                  </button>
+                  <a
+                    href={CONTACT.phoneHref}
+                    className="inline-flex items-center rounded-lg bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] px-4 py-2 font-semibold text-white"
+                  >
+                    <Phone className="w-4 h-4 mr-2" />
+                    Call {CONTACT.phone}
+                  </a>
+                </div>
+              </div>
             ) : (
               <div className="flex gap-2 w-full min-w-0 max-w-full overflow-x-auto overscroll-x-contain pb-2 snap-x">
                 {availableDates.map(({ date, available_count }) => {
