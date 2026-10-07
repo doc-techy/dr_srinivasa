@@ -77,9 +77,9 @@ export function RheumatologyIntroSection() {
         <div className="grid lg:grid-cols-2 gap-y-10 lg:gap-x-8 xl:gap-x-16 lg:gap-y-9">
           <div className="text-center lg:text-left lg:self-end">
             <h1 className={`text-[2.5rem] sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.05] ${reveal(150)}`}>
-              What is{' '}
+              Expert Care for{' '}
               <span className="relative inline-block">
-                <span className="gradient-text">Rheumatology?</span>
+                <span className="gradient-text">Healthy Joints</span>
                 <svg
                   aria-hidden
                   viewBox="0 0 300 12"
@@ -92,7 +92,7 @@ export function RheumatologyIntroSection() {
             </h1>
 
             <p className={`mt-6 text-[0.975rem] sm:text-lg leading-relaxed text-gray-600 max-w-xl mx-auto lg:mx-0 ${reveal(300)}`}>
-              It is the branch of medicine that treats the{' '}
+              Rheumatology is the branch of medicine that treats the{' '}
               <span className="font-semibold text-gray-900">joints, muscles, bones and immune system</span>. Many of these
               illnesses are autoimmune: the body’s defence turns on its own tissue and causes inflammation. Most can be
               controlled, and the earlier they are diagnosed, the better the joints are protected.

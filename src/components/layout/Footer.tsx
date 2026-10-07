@@ -32,7 +32,7 @@ export function Footer() {
           <div className="flex-1">
             <img
               src="/logo.svg"
-              alt="Artho Rehauma Care — Care, Relief, Mobility"
+              alt="Artho Rheuma Care — Care, Relief, Mobility"
               className="h-36 sm:h-44 w-auto bg-white rounded-2xl p-3 mb-5"
             />
             <h3 className="text-xl font-bold mb-4 text-white">Dr. Srinivasa C</h3>

@@ -79,7 +79,7 @@ export function Header() {
             />
             <span className="min-w-0 leading-none">
               <span className="block font-serif text-[11px] sm:text-sm md:text-base lg:text-lg font-semibold tracking-[0.08em] sm:tracking-[0.16em] text-[#1A3A6B] whitespace-nowrap">
-                ARTHO <span className="text-[#C07E16]">REHAUMA</span> CARE
+                ARTHO <span className="text-[#C07E16]">RHEUMA</span> CARE
               </span>
               <span className="mt-1.5 hidden sm:flex items-center gap-2 text-[9px] md:text-[11px] tracking-[0.22em] text-[#1A3A6B]">
                 <span className="h-px w-5 md:w-7 bg-[#D4922A]" />
