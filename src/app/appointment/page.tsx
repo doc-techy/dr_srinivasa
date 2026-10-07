@@ -1,8 +1,7 @@
 'use client';
 
 import { AppointmentBooking } from '@/components/sections/AppointmentBooking';
-import { Phone, Mail, MapPin, Clock, User, Award, Instagram } from 'lucide-react';
-import { CONTACT } from '@/lib/site';
+import { MapPin, Clock, User, Award } from 'lucide-react';
 
 export default function AppointmentPage() {
   return (
@@ -68,42 +67,6 @@ export default function AppointmentPage() {
                   </div>
                 </div>
               </div> */}
-
-              {/* Contact Info */}
-              <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl p-6 border border-[#047BCA]/20">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  Need Immediate Help?
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center mr-4">
-                      <Phone className="w-5 h-5 text-[#047BCA]" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Call</p>
-                      <a href={CONTACT.phoneHref} className="text-sm text-gray-600 hover:text-[#047BCA]">{CONTACT.phone}</a>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center mr-4">
-                      <Instagram className="w-5 h-5 text-[#047BCA]" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Instagram</p>
-                      <a href={CONTACT.instagramHref} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-600 hover:text-[#047BCA]">{CONTACT.instagram}</a>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center mr-4">
-                      <Mail className="w-5 h-5 text-[#047BCA]" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Email Support</p>
-                      <p className="text-sm text-gray-600">Email to be added</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               {/* Quick Info */}
               <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100">
