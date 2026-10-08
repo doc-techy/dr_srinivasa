@@ -1,12 +1,19 @@
-import { RheumatologyIntroSection } from '@/components/sections/RheumatologyIntroSection';
-import { HeroSection } from '@/components/sections/HeroSection';
-import { AboutSection } from '@/components/sections/AboutSection';
-import { ServicesSection } from '@/components/sections/ServicesSection';
-import { ServicesOfferedSection } from '@/components/sections/ServicesOfferedSection';
-import { VideoSection } from '@/components/sections/VideoSection';
-import { FaqSection } from '@/components/sections/FaqSection';
-import { CtaSection } from '@/components/sections/CtaSection';
+import { Sora } from 'next/font/google';
+import { HomeHero } from '@/components/home/HomeHero';
+import { TrustBand } from '@/components/home/TrustBand';
+import { DecodeSigns } from '@/components/home/DecodeSigns';
+import { SpecializedCare } from '@/components/home/SpecializedCare';
+import { MeetDoctor } from '@/components/home/MeetDoctor';
+import { HolisticCare } from '@/components/home/HolisticCare';
+import { CareCompanion } from '@/components/home/CareCompanion';
+import { VisitClinic } from '@/components/home/VisitClinic';
+import { Resources } from '@/components/home/Resources';
+import { FaqRows } from '@/components/home/FaqRows';
+import { FinalCta } from '@/components/home/FinalCta';
+import { Marquee } from '@/components/home/ui';
 import { FAQS } from '@/lib/faqs';
+
+const sora = Sora({ subsets: ['latin'], display: 'swap' });
 
 const faqJsonLd = {
   '@context': 'https://schema.org',
@@ -18,31 +25,51 @@ const faqJsonLd = {
   })),
 };
 
+const conditionsTreated = [
+  'Rheumatoid Arthritis',
+  'Ankylosing Spondylitis',
+  'Lupus (SLE)',
+  'Gout',
+  'Psoriatic Arthritis',
+  'Osteoarthritis',
+  'Vasculitis',
+  'Osteoporosis',
+  'Fibromyalgia',
+  'Sjögren’s Syndrome',
+  'Myositis',
+  'Arthritis in Children',
+];
+
+const anchor = 'scroll-mt-24 lg:scroll-mt-28';
+
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className={`${sora.className} min-h-screen bg-rc-offwhite text-rc-ink antialiased`}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <section id="home">
-        <RheumatologyIntroSection />
+        <HomeHero />
       </section>
-      <section id="doctor">
-        <HeroSection />
+      <Marquee items={conditionsTreated} className="bg-white" />
+      <TrustBand />
+      <DecodeSigns />
+      <section id="services" className={anchor}>
+        <SpecializedCare />
       </section>
-      <section id="about">
-        <AboutSection />
+      <section id="doctor" className={anchor}>
+        <MeetDoctor />
       </section>
-      <section id="services">
-        <ServicesSection />
+      <HolisticCare />
+      <CareCompanion />
+      <VisitClinic />
+      <section id="videos" className={anchor}>
+        <Resources />
       </section>
-      <ServicesOfferedSection />
-      <section id="videos">
-        <VideoSection />
+      <section id="faq" className={anchor}>
+        <FaqRows />
       </section>
-      <section id="faq">
-        <FaqSection />
-      </section>
-      <section id="contact">
-        <CtaSection />
+      <Marquee items={Array(8).fill('Live Pain-Free')} size="large" className="border-y border-rc-rule bg-rc-cream" />
+      <section id="contact" className={anchor}>
+        <FinalCta />
       </section>
     </div>
   );

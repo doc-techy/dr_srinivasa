@@ -13,6 +13,20 @@ module.exports = {
           green: '#1C7E4E',
           blue: '#047BCA',
         },
+        rc: {
+          teal: '#02968A',
+          'teal-dark': '#02776E',
+          aqua: '#27BBAA',
+          ink: '#2C3C38',
+          muted: '#5A6A66',
+          offwhite: '#F8FCFC',
+          mist: '#E8F0FA',
+          lemon: '#FAFE86',
+          cream: '#FFFFF2',
+          soft: '#7ABAB2',
+          line: '#DCEEEC',
+          rule: '#BBD3D0',
+        },
         primary: {
           50: '#f0fdf6',
           100: '#dcfce7',
@@ -116,6 +130,10 @@ module.exports = {
         'gradient': 'gradient 3s ease infinite',
         'bounce-slow': 'bounce 2s infinite',
         'spin-slow': 'spin 3s linear infinite',
+        'marquee': 'marquee 40s linear infinite',
+        'ripple': 'ripple 3.6s ease-out infinite',
+        'rc-fade': 'rcFade 0.6s ease-out both',
+        'rc-progress': 'rcProgress var(--rc-slide-ms, 4500ms) ease-in-out both',
       },
       keyframes: {
         fadeIn: {
@@ -145,6 +163,22 @@ module.exports = {
         gradient: {
           '0%, 100%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        ripple: {
+          '0%': { transform: 'scale(0.25)', opacity: '0.7' },
+          '100%': { transform: 'scale(1)', opacity: '0' },
+        },
+        rcFade: {
+          '0%': { transform: 'translateY(12px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        rcProgress: {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' },
         },
       },
       backgroundImage: {
