@@ -75,18 +75,19 @@ export function Header() {
         <div className="flex justify-between items-center py-2.5 sm:py-3">
           <Link href="/" className="flex items-center gap-2 sm:gap-3 min-w-0" onClick={() => setIsMenuOpen(false)}>
             <img
-              src="/logo-mark.svg"
+              src="/logo-mark.png"
               alt=""
-              className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 shrink-0"
+              className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 shrink-0 object-contain"
             />
             <span className="min-w-0 leading-none">
-              <span className="block font-serif text-[11px] sm:text-sm md:text-base lg:text-lg font-semibold tracking-[0.08em] sm:tracking-[0.16em] text-[#1A3A6B] whitespace-nowrap">
-                ARTHO <span className="text-[#C07E16]">RHEUMA</span> CARE
+              <span className="block text-[11px] sm:text-sm md:text-base lg:text-lg font-bold tracking-[0.08em] sm:tracking-[0.14em] whitespace-nowrap">
+                <span className="bg-gradient-to-r from-[#1FA97A] to-[#0B6FC2] bg-clip-text text-transparent">ARTHO</span>{' '}
+                <span className="text-[#2BB88A]">RHEUMA</span> <span className="text-[#1E90E8]">CARE</span>
               </span>
-              <span className="mt-1.5 hidden sm:flex items-center gap-2 text-[9px] md:text-[11px] tracking-[0.22em] text-[#1A3A6B]">
-                <span className="h-px w-5 md:w-7 bg-[#D4922A]" />
+              <span className="mt-1.5 hidden sm:flex items-center gap-2 text-[9px] md:text-[11px] tracking-[0.22em] text-[#5B6B85]">
+                <span className="h-px w-5 md:w-7 bg-[#5B6B85]" />
                 CARE · RELIEF · MOBILITY
-                <span className="h-px w-5 md:w-7 bg-[#D4922A]" />
+                <span className="h-px w-5 md:w-7 bg-[#5B6B85]" />
               </span>
             </span>
           </Link>

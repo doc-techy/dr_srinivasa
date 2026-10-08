@@ -213,9 +213,9 @@ export function ServicesSection() {
     <section id="services" className="pb-6 md:pb-12">
       <div className="container-custom">
         {/* Modern Header */}
-        <div className="text-center mb-4 pb-0 md:mb-16 md:pb-0">
+        <div className="relative text-center mb-4 pb-0 md:mb-16 md:pb-0">
           {/* Background Decoration */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-5">
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-5">
             <div className="w-96 h-96 bg-gradient-to-r from-[#1C7E4E]/40 to-[#047BCA]/40 rounded-full blur-3xl"></div>
           </div>
           

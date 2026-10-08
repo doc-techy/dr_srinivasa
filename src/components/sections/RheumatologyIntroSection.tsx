@@ -1,33 +1,41 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Great_Vibes } from 'next/font/google';
 import {
+  ArrowRight,
   Bone,
-  ChevronDown,
-  Droplets,
-  Dumbbell,
+  ChevronRight,
   Hand,
+  HeartHandshake,
+  MapPin,
+  MessageCircle,
   PersonStanding,
+  Phone,
+  ShieldCheck,
   ShieldPlus,
-  Stethoscope,
+  Users,
   type LucideIcon,
 } from 'lucide-react';
-type FocusArea = { title: string; text: string; icon: LucideIcon };
+import { CONTACT } from '@/lib/site';
 
-const focusAreas: FocusArea[] = [
-  { title: 'Joints', text: 'Inflammatory arthritis', icon: Hand },
-  { title: 'Immune system', text: 'Lupus, Sjögren’s', icon: ShieldPlus },
-  { title: 'Spine', text: 'Ankylosing spondylitis', icon: PersonStanding },
-  { title: 'Bones', text: 'Osteoporosis', icon: Bone },
-  { title: 'Blood vessels', text: 'Vasculitis', icon: Droplets },
-  { title: 'Muscles', text: 'Myositis, fibromyalgia', icon: Dumbbell },
+const script = Great_Vibes({ weight: '400', subsets: ['latin'] });
+
+type Item = { title: string; icon: LucideIcon; href: string };
+
+const trustPoints: Item[] = [
+  { title: 'Expert Care for All Ages', icon: Users, href: '/about' },
+  { title: 'Evidence Based Treatment', icon: ShieldCheck, href: '/services' },
+  { title: 'Personalised Long Term Care', icon: HeartHandshake, href: '/appointment' },
 ];
 
-const rheumatologyFacts = [
-  { value: '100+', text: 'Types of arthritis and related conditions are treated by rheumatologists.' },
-  { value: '3–6 months', text: 'The early window in rheumatoid arthritis when treatment best prevents joint damage.' },
-  { value: '9 in 10', text: 'People with lupus are women, most often diagnosed between 15 and 45.' },
-  { value: 'Any age', text: 'Rheumatic disease affects children and young adults too, not only the elderly.' },
+const conditions: Item[] = [
+  { title: 'Arthritis Management', icon: Hand, href: '/services' },
+  { title: 'Autoimmune Conditions', icon: ShieldPlus, href: '/services' },
+  { title: 'Joint Pain Care', icon: PersonStanding, href: '/services' },
+  { title: 'Bone & Muscle Health', icon: Bone, href: '/services' },
 ];
 
 const REVEAL_DELAYS = {
@@ -36,14 +44,34 @@ const REVEAL_DELAYS = {
   500: 'delay-500',
 } as const;
 
-const ORBIT_RADIUS = 40;
+const HERO_IMAGE = '/images/hero-mobility.jpg';
+const HERO_ALT = 'Woman stretching with a healthy, highlighted spine';
 
-function orbitPosition(index: number, total: number) {
-  const angle = (index / total) * 2 * Math.PI - Math.PI / 2;
-  return {
-    left: `${50 + ORBIT_RADIUS * Math.cos(angle)}%`,
-    top: `${50 + ORBIT_RADIUS * Math.sin(angle)}%`,
-  };
+const primaryBtn =
+  'group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#047BCA]/25 transition-all duration-300 hover:-translate-y-0.5 hover:from-[#145C38] hover:to-[#0369A1] hover:shadow-xl';
+
+function ContactRow() {
+  return (
+    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600">
+      <a href={CONTACT.phoneHref} className="inline-flex items-center gap-1.5 font-medium hover:text-[#047BCA]">
+        <Phone className="h-4 w-4 text-[#047BCA]" />
+        {CONTACT.phone}
+      </a>
+      <a
+        href={CONTACT.whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1.5 font-medium hover:text-[#1C7E4E]"
+      >
+        <MessageCircle className="h-4 w-4 text-[#1C7E4E]" />
+        WhatsApp
+      </a>
+      <span className="inline-flex items-center gap-1.5">
+        <MapPin className="h-4 w-4 text-gray-400" />
+        Bangalore
+      </span>
+    </div>
+  );
 }
 
 export function RheumatologyIntroSection() {
@@ -64,142 +92,140 @@ export function RheumatologyIntroSection() {
     `transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${REVEAL_DELAYS[delay]}`;
 
   return (
-    <section className="relative isolate overflow-hidden pt-28 pb-16 lg:pt-32 lg:pb-20 lg:min-h-screen flex items-center">
+    <section className="relative isolate overflow-hidden pt-24 pb-8 lg:pt-28 lg:pb-8">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-white to-sky-50" />
-        <div className="absolute -top-32 -left-32 h-[28rem] w-[28rem] rounded-full bg-[#1C7E4E]/20 blur-3xl" />
-        <div className="absolute top-1/3 -right-40 h-[32rem] w-[32rem] rounded-full bg-[#047BCA]/20 blur-3xl" />
-        <div className="absolute -bottom-40 left-1/3 h-80 w-80 rounded-full bg-emerald-200/40 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(#047BCA1f_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_75%)]" />
+        <div className="absolute -top-32 -left-32 h-[28rem] w-[28rem] rounded-full bg-[#1C7E4E]/15 blur-3xl" />
+        <div className="absolute top-1/3 -right-40 h-[32rem] w-[32rem] rounded-full bg-[#047BCA]/15 blur-3xl" />
       </div>
 
       <div className="container-custom w-full">
-        <div className="grid lg:grid-cols-2 gap-y-10 lg:gap-x-8 xl:gap-x-16 lg:gap-y-9">
-          <div className="text-center lg:text-left lg:self-end">
-            <h1 className={`text-[2.5rem] sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.05] ${reveal(150)}`}>
-              Expert Care for{' '}
-              <span className="relative inline-block">
-                <span className="gradient-text">Healthy Joints</span>
-                <svg
-                  aria-hidden
-                  viewBox="0 0 300 12"
-                  preserveAspectRatio="none"
-                  className="absolute -bottom-2 left-0 h-3 w-full text-[#1C7E4E]/40"
-                >
-                  <path d="M2 9c60-6 120-8 296-4" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" />
-                </svg>
-              </span>
-            </h1>
-
-            <p className={`mt-6 text-[0.975rem] sm:text-lg leading-relaxed text-gray-600 max-w-xl mx-auto lg:mx-0 ${reveal(300)}`}>
-              Rheumatology is the branch of medicine that treats the{' '}
-              <span className="font-semibold text-gray-900">joints, muscles, bones and immune system</span>. Many of these
-              illnesses are autoimmune: the body’s defence turns on its own tissue and causes inflammation. Most can be
-              controlled, and the earlier they are diagnosed, the better the joints are protected.
+        {/* Desktop */}
+        <div className="hidden lg:grid grid-cols-[1fr_1.15fr] items-center gap-6 xl:gap-10 overflow-hidden rounded-[2rem] border border-white/80 bg-gradient-to-br from-white/90 via-white/70 to-sky-50/80 pl-10 xl:pl-14 py-8 shadow-2xl shadow-[#047BCA]/10 backdrop-blur">
+          <div>
+            <p className={`text-xs font-semibold uppercase tracking-[0.35em] text-gray-500 ${reveal(150)}`}>
+              Specialised Rheumatology Care
             </p>
+            <h1 className={`mt-4 text-6xl xl:text-7xl font-extrabold tracking-tight text-gray-900 leading-[1.05] ${reveal(150)}`}>
+              Move Freely.
+              <br />
+              <span className="gradient-text-primary">Live</span> Better.
+            </h1>
+            <p className={`mt-5 max-w-xl text-base xl:text-lg leading-relaxed text-gray-600 ${reveal(300)}`}>
+              Comprehensive care for arthritis, autoimmune and musculoskeletal conditions — with a focus on long-term
+              relief and better mobility. From early diagnosis to ongoing management, every treatment plan is tailored
+              to your condition, lifestyle and goals, so you can stay active and enjoy the things you love.
+            </p>
+            <div className={`mt-6 flex flex-wrap gap-4 ${reveal(300)}`}>
+              <Link href="/appointment" className={primaryBtn}>
+                Book Appointment
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <button
+                type="button"
+                onClick={() => scrollTo('doctor')}
+                className="rounded-full border-2 border-[#047BCA]/30 bg-white px-7 py-3 text-sm font-semibold text-[#047BCA] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#047BCA] hover:bg-sky-50"
+              >
+                Know More
+              </button>
+            </div>
+            <div className={`mt-4 ${reveal(300)}`}>
+              <ContactRow />
+            </div>
+            <ul className={`mt-6 flex flex-wrap gap-2 ${reveal(500)}`}>
+              {trustPoints.map(({ title, icon: Icon, href }) => (
+                <li key={title}>
+                  <Link
+                    href={href}
+                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-50 to-sky-50 px-3.5 py-2 ring-1 ring-[#047BCA]/15 transition-all hover:-translate-y-0.5 hover:ring-[#047BCA]/40"
+                  >
+                    <Icon className="h-4 w-4 shrink-0 text-[#047BCA]" strokeWidth={2} />
+                    <span className="text-xs font-medium text-gray-800">{title}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div
-            className={`lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:self-center transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+            className={`relative -my-8 self-stretch min-h-[34rem] transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
           >
-            <div className="relative hidden lg:block mx-auto aspect-square w-full max-w-[600px]">
-              <div className="absolute inset-[10%] rounded-full border-2 border-dashed border-[#047BCA]/20 animate-[spin_60s_linear_infinite]" />
-              <div className="absolute inset-[24%] rounded-full border border-[#1C7E4E]/15" />
-
-              <div className="absolute inset-[31%] rounded-full bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] p-1 shadow-2xl shadow-[#047BCA]/30">
-                <div className="absolute -inset-4 rounded-full bg-gradient-to-br from-[#1C7E4E]/30 to-[#047BCA]/30 blur-2xl -z-10 pulse-animation" />
-                <div className="flex h-full w-full flex-col items-center justify-center rounded-full bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] text-white">
-                  <Stethoscope className="h-12 w-12" strokeWidth={1.6} />
-                  <span className="mt-2 text-xl font-bold tracking-tight">Rheumatology</span>
-                  <span className="text-xs uppercase tracking-[0.2em] text-white/80">6 body systems</span>
-                </div>
-              </div>
-
-              {focusAreas.map(({ title, text, icon: Icon }, index) => (
-                <button
-                  key={title}
-                  type="button"
-                  onClick={() => scrollTo('services')}
-                  style={orbitPosition(index, focusAreas.length)}
-                  className="group absolute -translate-x-1/2 -translate-y-1/2"
-                >
-                  <div
-                    className="float-animation flex w-52 items-center gap-3 rounded-2xl border border-white/80 bg-white/90 p-3 text-left shadow-xl shadow-gray-900/5 backdrop-blur transition-all duration-300 group-hover:border-[#1C7E4E]/30 group-hover:shadow-2xl"
-                    style={{ animationDelay: `${index * 0.6}s` }}
-                  >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block text-sm font-bold text-gray-900">{title}</span>
-                      <span className="block text-xs leading-snug text-gray-500">{text}</span>
-                    </span>
-                  </div>
-                </button>
-              ))}
+            <div className="absolute inset-0 [mask-image:linear-gradient(to_right,transparent,black_22%)]">
+              <Image src={HERO_IMAGE} alt={HERO_ALT} fill priority sizes="55vw" className="object-cover object-[45%_center]" />
             </div>
-
-            <div className="lg:hidden">
-              <div className="relative mx-auto aspect-square w-full max-w-[380px]">
-                <div className="absolute inset-[6%] rounded-full border-2 border-dashed border-[#047BCA]/20 animate-[spin_60s_linear_infinite]" />
-                <div className="absolute inset-[22%] rounded-full border border-[#1C7E4E]/15" />
-
-                <div className="absolute inset-[31%] rounded-full shadow-xl shadow-[#047BCA]/30">
-                  <div className="absolute -inset-3 rounded-full bg-gradient-to-br from-[#1C7E4E]/30 to-[#047BCA]/30 blur-xl -z-10 pulse-animation" />
-                  <div className="flex h-full w-full flex-col items-center justify-center rounded-full bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] text-white">
-                    <Stethoscope className="h-7 w-7 sm:h-9 sm:w-9" strokeWidth={1.7} />
-                    <span className="mt-1 text-[0.8rem] sm:text-base font-bold tracking-tight">Rheumatology</span>
-                    <span className="text-[0.55rem] sm:text-[0.65rem] uppercase tracking-[0.18em] text-white/80">6 body systems</span>
-                  </div>
-                </div>
-
-                {focusAreas.map(({ title, icon: Icon }, index) => (
-                  <button
-                    key={title}
-                    type="button"
-                    onClick={() => scrollTo('services')}
-                    style={orbitPosition(index, focusAreas.length)}
-                    className="group absolute flex -translate-x-1/2 -translate-y-[1.625rem] flex-col items-center gap-1.5"
-                  >
-                    <span className="flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-2xl border-[3px] border-white bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] text-white shadow-lg shadow-[#047BCA]/25 transition-transform duration-200 group-active:scale-95">
-                      <Icon className="h-6 w-6" />
-                    </span>
-                    <span className="whitespace-nowrap rounded-full bg-white/90 px-2 py-0.5 text-[0.7rem] font-semibold leading-tight text-gray-800 shadow-sm">
-                      {title}
-                    </span>
-                  </button>
-                ))}
-              </div>
-              <p className="mt-7 text-center text-xs text-gray-500">Tap a system to see the conditions we treat</p>
+            <div
+              aria-hidden
+              className={`${script.className} pointer-events-none absolute right-8 top-[10%] -rotate-12 text-right text-5xl xl:text-6xl leading-[1.05] text-[#0B5FA5]`}
+            >
+              Stronger
+              <br />
+              Joints
+              <br />
+              Brighter
+              <br />
+              Days
+              <svg viewBox="0 0 120 12" className="ml-auto mt-1 h-3 w-28 text-[#1C7E4E]">
+                <path d="M2 10C40 3 80 2 118 4" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
+              </svg>
             </div>
-          </div>
-
-          <div className={`lg:col-start-1 lg:row-start-2 lg:self-start w-full max-w-xl mx-auto lg:mx-0 ${reveal(500)}`}>
-            <h2 className="text-center lg:text-left text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#047BCA]">
-              Rheumatology at a glance
-            </h2>
-            <dl className="mt-4 grid grid-cols-2 gap-2.5 sm:gap-3">
-              {rheumatologyFacts.map(({ value, text }) => (
-                <div
-                  key={value}
-                  className="rounded-2xl border border-white/80 bg-white/80 p-3.5 sm:p-4 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-                >
-                  <dt className="text-xl sm:text-2xl font-extrabold gradient-text-primary">{value}</dt>
-                  <dd className="mt-1 text-xs sm:text-sm leading-snug sm:leading-relaxed text-gray-600">{text}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={() => scrollTo('doctor')}
-          className="mx-auto mt-12 hidden lg:flex flex-col items-center gap-1 text-xs font-semibold uppercase tracking-widest text-gray-400 hover:text-[#047BCA] transition-colors"
-        >
-          Meet the doctor
-          <ChevronDown className="h-5 w-5 animate-bounce" />
-        </button>
+        {/* Mobile & tablet */}
+        <div className="lg:hidden space-y-4">
+          <div
+            className={`relative min-h-[17rem] overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-sky-100 shadow-xl shadow-[#047BCA]/10 ${reveal(150)}`}
+          >
+            <div className="absolute inset-y-0 right-0 w-[55%] [mask-image:linear-gradient(to_right,transparent,black_35%)]">
+              <Image src={HERO_IMAGE} alt={HERO_ALT} fill priority sizes="55vw" className="object-cover object-[55%_30%]" />
+            </div>
+            <div className="relative z-10 w-[62%] p-5 sm:p-8">
+              <h1 className="text-[1.6rem] sm:text-4xl font-extrabold leading-tight tracking-tight text-gray-900">
+                Expert <span className="gradient-text-primary">Rheumatology</span> Care
+              </h1>
+              <p className="mt-3 text-sm sm:text-base leading-relaxed text-gray-600">
+                Relief. Mobility.
+                <br />
+                Better Living.
+              </p>
+              <Link href="/appointment" className={`${primaryBtn} mt-5 px-5 py-2.5`}>
+                Book Appointment
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </div>
+
+          <div className={`rounded-2xl bg-white/90 px-4 py-3 shadow-sm ${reveal(300)}`}>
+            <ContactRow />
+          </div>
+
+          <ul className={`grid grid-cols-2 md:grid-cols-4 gap-3 ${reveal(300)}`}>
+            {conditions.map(({ title, icon: Icon, href }) => (
+              <li key={title}>
+                <Link
+                  href={href}
+                  className="flex h-full w-full items-center gap-3 rounded-2xl border border-white/80 bg-white/90 p-3 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#1C7E4E]/10 to-[#047BCA]/15 text-[#047BCA]">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <span className="text-xs sm:text-sm font-medium leading-snug text-gray-800">{title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <Link
+            href="/about"
+            className={`flex w-full items-center gap-3 rounded-2xl bg-emerald-50 p-4 text-left ring-1 ring-[#1C7E4E]/15 transition-colors hover:bg-emerald-100/70 ${reveal(500)}`}
+          >
+            <ShieldCheck className="h-7 w-7 shrink-0 text-[#1C7E4E]" />
+            <span className="flex-1 text-sm font-semibold text-[#145C38]">
+              Personalised. Compassionate. Evidence Based.
+            </span>
+            <ChevronRight className="h-5 w-5 text-[#1C7E4E]" />
+          </Link>
+        </div>
       </div>
     </section>
   );
