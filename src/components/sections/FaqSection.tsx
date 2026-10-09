@@ -1,57 +1,56 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import { CONTACT } from '@/lib/site';
 import { FAQS } from '@/lib/faqs';
 
 export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="pt-12 pb-4 md:pt-20 md:pb-6">
-      <div className="container-custom">
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-4">
-            Frequently Asked{' '}
-            <span className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent">Questions</span>
+    <div className="py-6 md:py-[clamp(80px,8.333vw,120px)]">
+      <div className="container-custom grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
+        <div className="text-center lg:text-left lg:sticky lg:top-32 lg:self-start">
+          <h2 className="text-[clamp(2rem,3.889vw,3.5rem)] font-semibold leading-[1.2] tracking-[-0.01em] text-rc-ink">
+            Frequently asked <span className="text-rc-teal">questions</span>
           </h2>
-          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-            Answers to common questions about rheumatology care and visiting the clinic
+          <p className="mx-auto lg:mx-0 mt-4 max-w-md text-base leading-relaxed text-rc-muted">
+            Answers to common questions about rheumatology care and visiting the clinic. Have another question?{' '}
+            <a href={CONTACT.phoneHref} className="font-semibold text-rc-teal-dark underline underline-offset-4">
+              Call {CONTACT.phone}
+            </a>
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-3 md:space-y-4">
+        <div className="border-t border-rc-rule">
           {FAQS.map((faq, index) => {
             const isOpen = openIndex === index;
             const panelId = `faq-panel-${index}`;
             return (
-              <div
-                key={faq.question}
-                className={`bg-white/90 backdrop-blur-sm rounded-2xl border transition-all duration-300 ${
-                  isOpen ? 'border-[#047BCA]/30 shadow-xl' : 'border-gray-100 shadow-md hover:shadow-lg'
-                }`}
-              >
+              <div key={faq.question} className="border-b border-rc-rule">
                 <h3>
                   <button
                     type="button"
                     onClick={() => setOpenIndex(isOpen ? null : index)}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
-                    className="w-full flex items-center gap-4 px-5 md:px-6 py-4 md:py-5 text-left"
+                    className="group flex min-h-16 w-full items-center gap-4 py-5 text-left md:py-6"
                   >
                     <span
-                      className={`w-9 h-9 flex-shrink-0 rounded-xl flex items-center justify-center transition-colors ${
-                        isOpen ? 'bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white' : 'bg-gradient-to-br from-green-50 to-blue-50 text-[#047BCA]'
+                      className={`flex-1 text-base font-semibold leading-snug transition-colors md:text-lg ${
+                        isOpen ? 'text-rc-teal-dark' : 'text-rc-ink group-hover:text-rc-teal-dark'
                       }`}
                     >
-                      <HelpCircle className="w-5 h-5" />
-                    </span>
-                    <span className={`flex-1 font-semibold text-base md:text-lg ${isOpen ? 'text-[#047BCA]' : 'text-gray-900'}`}>
                       {faq.question}
                     </span>
-                    <ChevronDown
-                      className={`w-5 h-5 flex-shrink-0 text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#047BCA]' : ''}`}
-                    />
+                    <span
+                      aria-hidden
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-lg font-semibold transition-colors ${
+                        isOpen ? 'bg-rc-teal text-white' : 'bg-rc-mist text-rc-teal-dark'
+                      }`}
+                    >
+                      {isOpen ? '−' : '+'}
+                    </span>
                   </button>
                 </h3>
                 <div
@@ -60,18 +59,14 @@ export function FaqSection() {
                   className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
                 >
                   <div className="overflow-hidden">
-                    <p className="px-5 md:px-6 pb-5 md:pl-[4.75rem] text-gray-600 leading-relaxed">{faq.answer}</p>
+                    <p className="max-w-[62ch] pb-6 pr-12 text-[15px] leading-[1.65] text-rc-muted">{faq.answer}</p>
                   </div>
                 </div>
               </div>
             );
           })}
         </div>
-
-        <div className="mt-6 md:mt-8 text-center">
-          <p className="text-gray-600">Have another question? Ask the doctor during your consultation.</p>
-        </div>
       </div>
-    </section>
+    </div>
   );
 }

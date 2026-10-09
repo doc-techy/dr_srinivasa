@@ -13,6 +13,14 @@ module.exports = {
           green: '#1C7E4E',
           blue: '#047BCA',
         },
+        rc: {
+          teal: '#02968A',
+          'teal-dark': '#02776E',
+          ink: '#2C3C38',
+          muted: '#5A6A66',
+          mist: '#E8F0FA',
+          rule: '#BBD3D0',
+        },
         primary: {
           50: '#f0fdf6',
           100: '#dcfce7',

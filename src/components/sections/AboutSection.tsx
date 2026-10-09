@@ -83,7 +83,7 @@ export function AboutSection() {
   );
 
   return (
-    <section id="about" className="pt-4 pb-4 md:pt-8 md:pb-6 lg:pt-16 lg:pb-12">
+    <section id="about" className="py-6 md:pt-8 md:pb-6 lg:pt-16 lg:pb-12">
       <div className="container-custom">
         {/* Header */}
         <div className="text-center mb-3 md:mb-4 lg:mb-8">

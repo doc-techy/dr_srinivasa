@@ -1,232 +1,163 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Great_Vibes } from 'next/font/google';
-import {
-  ArrowRight,
-  Bone,
-  ChevronRight,
-  Hand,
-  HeartHandshake,
-  MapPin,
-  MessageCircle,
-  PersonStanding,
-  Phone,
-  ShieldCheck,
-  ShieldPlus,
-  Users,
-  type LucideIcon,
-} from 'lucide-react';
+import { ArrowRight, MessageCircle, Phone } from 'lucide-react';
 import { CONTACT } from '@/lib/site';
+import { SymptomVibeCheck, symptoms } from './SymptomVibeCheck';
 
-const script = Great_Vibes({ weight: '400', subsets: ['latin'] });
-
-type Item = { title: string; icon: LucideIcon; href: string };
-
-const trustPoints: Item[] = [
-  { title: 'Expert Care for All Ages', icon: Users, href: '/about' },
-  { title: 'Evidence Based Treatment', icon: ShieldCheck, href: '/services' },
-  { title: 'Personalised Long Term Care', icon: HeartHandshake, href: '/appointment' },
+const marqueeItems = [
+  'Rheumatoid Arthritis',
+  'Ankylosing Spondylitis',
+  'Lupus (SLE)',
+  'Psoriatic Arthritis',
+  'Gout',
+  'Osteoarthritis',
+  'Vasculitis',
+  'Osteoporosis',
+  'Fibromyalgia',
+  'Sjogren’s Syndrome',
 ];
 
-const conditions: Item[] = [
-  { title: 'Arthritis Management', icon: Hand, href: '/services' },
-  { title: 'Autoimmune Conditions', icon: ShieldPlus, href: '/services' },
-  { title: 'Joint Pain Care', icon: PersonStanding, href: '/services' },
-  { title: 'Bone & Muscle Health', icon: Bone, href: '/services' },
-];
-
-const REVEAL_DELAYS = {
-  150: 'delay-150',
-  300: 'delay-300',
-  500: 'delay-500',
-} as const;
-
-const HERO_IMAGE = '/images/hero-mobility.jpg';
-const HERO_ALT = 'Woman stretching with a healthy, highlighted spine';
-
-const primaryBtn =
-  'group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#047BCA]/25 transition-all duration-300 hover:-translate-y-0.5 hover:from-[#145C38] hover:to-[#0369A1] hover:shadow-xl';
-
-function ContactRow() {
+function BookButton() {
   return (
-    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600">
-      <a href={CONTACT.phoneHref} className="inline-flex items-center gap-1.5 font-medium hover:text-[#047BCA]">
-        <Phone className="h-4 w-4 text-[#047BCA]" />
+    <Link
+      href="/appointment"
+      className="group inline-flex items-center gap-2 rounded-full bg-gray-900 pl-6 pr-2 py-2 text-base font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[#0B5FA5]"
+    >
+      Book a consultation
+      <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-gray-900 transition-transform group-hover:translate-x-0.5">
+        <ArrowRight className="h-4 w-4" />
+      </span>
+    </Link>
+  );
+}
+
+function ContactButtons() {
+  return (
+    <>
+      <a
+        href={CONTACT.phoneHref}
+        className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-800 transition-colors hover:border-[#047BCA] hover:text-[#047BCA]"
+      >
+        <Phone className="h-4 w-4" />
         {CONTACT.phone}
       </a>
       <a
         href={CONTACT.whatsappHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 font-medium hover:text-[#1C7E4E]"
+        aria-label="Chat on WhatsApp"
+        className="grid h-12 w-12 place-items-center rounded-full border border-gray-200 bg-white text-[#1C7E4E] transition-colors hover:border-[#1C7E4E] hover:bg-[#1C7E4E] hover:text-white"
       >
-        <MessageCircle className="h-4 w-4 text-[#1C7E4E]" />
-        WhatsApp
+        <MessageCircle className="h-5 w-5" />
       </a>
-      <span className="inline-flex items-center gap-1.5">
-        <MapPin className="h-4 w-4 text-gray-400" />
-        Bangalore
-      </span>
-    </div>
+    </>
   );
 }
 
 export function RheumatologyIntroSection() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (!element) return;
-    const headerHeight = document.querySelector('header')?.offsetHeight ?? 80;
-    window.scrollTo({ top: element.offsetTop - headerHeight, behavior: 'smooth' });
-  };
-
-  const reveal = (delay: keyof typeof REVEAL_DELAYS) =>
-    `transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${REVEAL_DELAYS[delay]}`;
+  const [picked, setPicked] = useState(0);
 
   return (
-    <section className="relative isolate overflow-hidden pt-24 pb-8 lg:pt-28 lg:pb-8">
+    <section className="relative isolate overflow-hidden pt-28 lg:pt-32 bg-[#F6FAF8]">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-white to-sky-50" />
-        <div className="absolute -top-32 -left-32 h-[28rem] w-[28rem] rounded-full bg-[#1C7E4E]/15 blur-3xl" />
-        <div className="absolute top-1/3 -right-40 h-[32rem] w-[32rem] rounded-full bg-[#047BCA]/15 blur-3xl" />
+        <div className="absolute -top-32 -left-24 h-[28rem] w-[28rem] rounded-full bg-emerald-200/40 blur-3xl" />
+        <div className="absolute top-20 right-0 h-[24rem] w-[24rem] rounded-full bg-sky-200/50 blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(#0B5FA5_1px,transparent_1px)] [background-size:22px_22px] opacity-[0.05]" />
       </div>
 
-      <div className="container-custom w-full">
-        {/* Desktop */}
-        <div className="hidden lg:grid grid-cols-[1fr_1.15fr] items-center gap-6 xl:gap-10 overflow-hidden rounded-[2rem] border border-white/80 bg-gradient-to-br from-white/90 via-white/70 to-sky-50/80 pl-10 xl:pl-14 py-8 shadow-2xl shadow-[#047BCA]/10 backdrop-blur">
-          <div>
-            <p className={`text-xs font-semibold uppercase tracking-[0.35em] text-gray-500 ${reveal(150)}`}>
-              Specialised Rheumatology Care
-            </p>
-            <h1 className={`mt-4 text-6xl xl:text-7xl font-extrabold tracking-tight text-gray-900 leading-[1.05] ${reveal(150)}`}>
-              Move Freely.
+      <div className="container-custom">
+        <div className="grid items-center gap-10 lg:gap-12 lg:grid-cols-[1.15fr_1fr]">
+          <div className="text-center lg:text-left">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.05] tracking-tight text-gray-900">
+              Living with{' '}
+              <span className="relative whitespace-nowrap">
+                <span className="gradient-text-primary font-extrabold">joint pain?</span>
+                <svg aria-hidden viewBox="0 0 300 12" className="absolute -bottom-2 left-0 w-full" preserveAspectRatio="none">
+                  <path d="M2 9c60-6 180-8 296-3" stroke="#1C7E4E" strokeWidth="4" fill="none" strokeLinecap="round" opacity=".45" />
+                </svg>
+              </span>
               <br />
-              <span className="gradient-text-primary">Live</span> Better.
+              Let&apos;s get you moving again.
             </h1>
-            <p className={`mt-5 max-w-xl text-base xl:text-lg leading-relaxed text-gray-600 ${reveal(300)}`}>
-              Comprehensive care for arthritis, autoimmune and musculoskeletal conditions — with a focus on long-term
-              relief and better mobility. From early diagnosis to ongoing management, every treatment plan is tailored
-              to your condition, lifestyle and goals, so you can stay active and enjoy the things you love.
+
+            <p className="mx-auto lg:mx-0 mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-gray-600">
+              Stiff mornings, swollen joints or a back that won&apos;t settle are not something you have to live with.
+              Early diagnosis and the right treatment make all the difference.
             </p>
-            <div className={`mt-6 flex flex-wrap gap-4 ${reveal(300)}`}>
-              <Link href="/appointment" className={primaryBtn}>
-                Book Appointment
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-              <button
-                type="button"
-                onClick={() => scrollTo('doctor')}
-                className="rounded-full border-2 border-[#047BCA]/30 bg-white px-7 py-3 text-sm font-semibold text-[#047BCA] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#047BCA] hover:bg-sky-50"
-              >
-                Know More
-              </button>
+
+            <SymptomVibeCheck picked={picked} onPick={setPicked} />
+
+            <div className="mt-8 hidden lg:flex flex-wrap items-center justify-start gap-3">
+              <BookButton />
+              <ContactButtons />
             </div>
-            <div className={`mt-4 ${reveal(300)}`}>
-              <ContactRow />
-            </div>
-            <ul className={`mt-6 flex flex-wrap gap-2 ${reveal(500)}`}>
-              {trustPoints.map(({ title, icon: Icon, href }) => (
-                <li key={title}>
-                  <Link
-                    href={href}
-                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-50 to-sky-50 px-3.5 py-2 ring-1 ring-[#047BCA]/15 transition-all hover:-translate-y-0.5 hover:ring-[#047BCA]/40"
-                  >
-                    <Icon className="h-4 w-4 shrink-0 text-[#047BCA]" strokeWidth={2} />
-                    <span className="text-xs font-medium text-gray-800">{title}</span>
-                  </Link>
-                </li>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <div className="relative aspect-[4/3] sm:aspect-[4/5] overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl shadow-[#047BCA]/20 ring-1 ring-black/5">
+              {symptoms.map((item, i) => (
+                <Image
+                  key={item.image}
+                  src={item.image}
+                  alt={item.alt}
+                  fill
+                  priority={i === 0}
+                  aria-hidden={i !== picked}
+                  sizes="(min-width: 1024px) 45vw, 100vw"
+                  className={`object-cover transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
+                    i === picked ? 'z-[1] opacity-100 scale-100 blur-0' : 'z-0 opacity-0 scale-110 blur-md'
+                  }`}
+                />
               ))}
-            </ul>
-          </div>
-
-          <div
-            className={`relative -my-8 self-stretch min-h-[34rem] transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
-          >
-            <div className="absolute inset-0 [mask-image:linear-gradient(to_right,transparent,black_22%)]">
-              <Image src={HERO_IMAGE} alt={HERO_ALT} fill priority sizes="55vw" className="object-cover object-[45%_center]" />
+              <div className="absolute inset-x-0 bottom-0 z-[2] h-1/3 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
-            <div
-              aria-hidden
-              className={`${script.className} pointer-events-none absolute right-8 top-[10%] -rotate-12 text-right text-5xl xl:text-6xl leading-[1.05] text-[#0B5FA5]`}
-            >
-              Stronger
-              <br />
-              Joints
-              <br />
-              Brighter
-              <br />
-              Days
-              <svg viewBox="0 0 120 12" className="ml-auto mt-1 h-3 w-28 text-[#1C7E4E]">
-                <path d="M2 10C40 3 80 2 118 4" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
-              </svg>
+            <div className="mt-6 flex flex-col items-center gap-3 lg:hidden">
+              <BookButton />
+              <div className="flex items-center gap-3">
+                <ContactButtons />
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Mobile & tablet */}
-        <div className="lg:hidden space-y-4">
-          <div
-            className={`relative min-h-[17rem] overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-sky-100 shadow-xl shadow-[#047BCA]/10 ${reveal(150)}`}
-          >
-            <div className="absolute inset-y-0 right-0 w-[55%] [mask-image:linear-gradient(to_right,transparent,black_35%)]">
-              <Image src={HERO_IMAGE} alt={HERO_ALT} fill priority sizes="55vw" className="object-cover object-[55%_30%]" />
-            </div>
-            <div className="relative z-10 w-[62%] p-5 sm:p-8">
-              <h1 className="text-[1.6rem] sm:text-4xl font-extrabold leading-tight tracking-tight text-gray-900">
-                Expert <span className="gradient-text-primary">Rheumatology</span> Care
-              </h1>
-              <p className="mt-3 text-sm sm:text-base leading-relaxed text-gray-600">
-                Relief. Mobility.
-                <br />
-                Better Living.
-              </p>
-              <Link href="/appointment" className={`${primaryBtn} mt-5 px-5 py-2.5`}>
-                Book Appointment
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
-
-          <div className={`rounded-2xl bg-white/90 px-4 py-3 shadow-sm ${reveal(300)}`}>
-            <ContactRow />
-          </div>
-
-          <ul className={`grid grid-cols-2 md:grid-cols-4 gap-3 ${reveal(300)}`}>
-            {conditions.map(({ title, icon: Icon, href }) => (
-              <li key={title}>
-                <Link
-                  href={href}
-                  className="flex h-full w-full items-center gap-3 rounded-2xl border border-white/80 bg-white/90 p-3 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
-                >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#1C7E4E]/10 to-[#047BCA]/15 text-[#047BCA]">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <span className="text-xs sm:text-sm font-medium leading-snug text-gray-800">{title}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <Link
-            href="/about"
-            className={`flex w-full items-center gap-3 rounded-2xl bg-emerald-50 p-4 text-left ring-1 ring-[#1C7E4E]/15 transition-colors hover:bg-emerald-100/70 ${reveal(500)}`}
-          >
-            <ShieldCheck className="h-7 w-7 shrink-0 text-[#1C7E4E]" />
-            <span className="flex-1 text-sm font-semibold text-[#145C38]">
-              Personalised. Compassionate. Evidence Based.
-            </span>
-            <ChevronRight className="h-5 w-5 text-[#1C7E4E]" />
-          </Link>
         </div>
       </div>
+
+      <div className="mt-12 lg:mt-16 overflow-hidden border-y border-[#047BCA]/10 bg-white/70 py-4 [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
+        <div className="hero-marquee flex w-max whitespace-nowrap text-lg sm:text-xl font-semibold text-[#0B5FA5]/80">
+          {[0, 1].map(copy => (
+            <div key={copy} aria-hidden={copy === 1} className="flex shrink-0 items-center">
+              {marqueeItems.map(item => (
+                <span key={item} className="flex items-center gap-10 pr-10">
+                  {item}
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#1C7E4E]" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <style jsx>{`
+        .hero-marquee {
+          animation: hero-marquee 35s linear infinite;
+          will-change: transform;
+        }
+        @keyframes hero-marquee {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-marquee {
+            animation-duration: 90s;
+          }
+        }
+      `}</style>
     </section>
   );
 }

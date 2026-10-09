@@ -260,7 +260,7 @@ export function VideoSection() {
 
   return (
     <>
-    <div className="container-custom pt-4 md:pt-8 pb-8 md:pb-16">
+    <div className="container-custom py-6 md:pt-8 md:pb-16">
       {/* Header */}
       <div className="text-center mb-4 relative">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-6">

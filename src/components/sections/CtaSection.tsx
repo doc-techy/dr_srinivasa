@@ -2,7 +2,7 @@ import { Award, Microscope, Heart, Users } from 'lucide-react';
 
 export function CtaSection() {
   return (
-    <section className="pt-6 pb-12 md:pt-10 md:pb-16 flex flex-col items-center">
+    <section className="py-6 md:pt-10 md:pb-16 flex flex-col items-center">
       <div className="w-full px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex justify-center items-center mb-8 md:mb-10">

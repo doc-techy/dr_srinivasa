@@ -75,7 +75,7 @@ export function Header() {
         <div className="flex justify-between items-center py-2.5 sm:py-3">
           <Link href="/" className="flex items-center gap-2 sm:gap-3 min-w-0" onClick={() => setIsMenuOpen(false)}>
             <img
-              src="/logo-mark.png"
+              src="/logo-mark-transparent.png"
               alt=""
               className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 shrink-0 object-contain"
             />

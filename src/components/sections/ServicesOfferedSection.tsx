@@ -9,7 +9,7 @@ const services = [
 
 export function ServicesOfferedSection() {
   return (
-    <section className="py-8 md:py-12">
+    <section className="py-6 md:py-12">
       <div className="container-custom">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 text-center mb-6 md:mb-8">
           Services <span className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent">Offered</span>

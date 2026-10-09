@@ -32,7 +32,7 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-start lg:items-center pt-8 lg:pt-12 overflow-hidden">
+    <section className="relative md:min-h-screen flex items-start lg:items-center py-6 md:pb-0 md:pt-8 lg:pt-12 overflow-hidden">
 
       <div className="container-custom relative z-10 w-full">
         <div className="text-center mb-8 md:mb-12">
@@ -45,7 +45,7 @@ export function HeroSection() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-6 xl:gap-12 items-start lg:items-center min-h-[calc(100vh-5rem)] sm:min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-5rem)]">
+        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-6 xl:gap-12 items-start lg:items-center md:min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-5rem)]">
           {/* Doctor Image — edge-to-edge on mobile, flush under header */}
           <div className={`relative transition-all duration-1000 delay-300 order-1 lg:order-2 mt-0 sm:mt-6 lg:mt-0 -mx-5 sm:mx-0 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="relative">
@@ -89,7 +89,7 @@ export function HeroSection() {
                 </span>
               </h2>
               
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed text-justify max-w-2xl mt-4">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed text-left lg:text-justify max-w-2xl mt-4">
               Dr. Srinivasa C is a Consultant Rheumatologist in Bangalore. He completed his MBBS from Vijayanagar Institute of Medical Sciences (VIMS), Bellary, MD in General Medicine from Sri Devaraj Urs Medical College, Kolar, and DM in Rheumatology from Nizam&apos;s Institute of Medical Sciences, Hyderabad. He cares for inflammatory and degenerative joint disease, connective tissue disorders, vasculitis, osteoporosis, and related immune conditions.              </p>
             </div>
 

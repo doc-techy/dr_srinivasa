@@ -210,7 +210,7 @@ export function ServicesSection() {
 
 
   return (
-    <section id="services" className="pb-6 md:pb-12">
+    <section id="services" className="py-6 md:pt-0 md:pb-12">
       <div className="container-custom">
         {/* Modern Header */}
         <div className="relative text-center mb-4 pb-0 md:mb-16 md:pb-0">
@@ -271,14 +271,14 @@ export function ServicesSection() {
             <button
               onClick={goToPrev}
               disabled={isTransitioning}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-full shadow-lg hover:shadow-xl flex items-center justify-center text-white hover:from-[#145C38] hover:to-[#0369A1] transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed will-change-transform"
+              className="absolute left-0 top-[calc(100%+0.625rem)] md:top-1/2 md:-translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-full shadow-lg hover:shadow-xl flex items-center justify-center text-white hover:from-[#145C38] hover:to-[#0369A1] transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed will-change-transform"
               aria-label="Previous services"
             >
               <ChevronLeft className={`w-5 h-5 md:w-6 md:h-6 transition-transform duration-200 ${isTransitioning ? 'animate-pulse' : ''}`} />
             </button>
 
             {/* Services Grid */}
-            <div className="flex-1 mx-12 md:mx-16">
+            <div className="flex-1 md:mx-16">
               <div className="services-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-7">
                 {services.slice(currentIndex * itemsPerPage, (currentIndex + 1) * itemsPerPage).map((service, index) => {
                   const Icon = service.icon;
@@ -349,7 +349,7 @@ export function ServicesSection() {
             <button
               onClick={goToNext}
               disabled={isTransitioning}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-full shadow-lg hover:shadow-xl flex items-center justify-center text-white hover:from-[#145C38] hover:to-[#0369A1] transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed will-change-transform"
+              className="absolute right-0 top-[calc(100%+0.625rem)] md:top-1/2 md:-translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] rounded-full shadow-lg hover:shadow-xl flex items-center justify-center text-white hover:from-[#145C38] hover:to-[#0369A1] transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed will-change-transform"
               aria-label="Next services"
             >
               <ChevronRight className={`w-5 h-5 md:w-6 md:h-6 transition-transform duration-200 ${isTransitioning ? 'animate-pulse' : ''}`} />
