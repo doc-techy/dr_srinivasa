@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   description: 'Clinic address, timings and directions for Dr. Srinivasa C, Consultant Rheumatologist in Hulimavu, Bangalore. Book an appointment online.',
 };
 
-const ADDRESS = '#251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road, Hulimavu, Bangalore 560076';
-const MAPS_QUERY = encodeURIComponent('251 11th Cross Road Muthurayya Swamy Layout Hulimavu Bangalore 560076');
+const ADDRESS = '#251, 11th Cross Road, BDA Layout, Opp. Hulimavu Lake, Hulimavu, Bengaluru - 560076';
+const MAPS_QUERY = encodeURIComponent('251 11th Cross Road BDA Layout Hulimavu Bengaluru 560076');
 
 export default function ContactPage() {
   return (
@@ -73,8 +73,8 @@ export default function ContactPage() {
               <div className="mt-5 rounded-2xl bg-gradient-to-br from-green-50 to-blue-50 p-4">
                 <p className="font-semibold text-gray-900 mb-2">How to reach</p>
                 <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• Opposite Hulimavu Lake Road</li>
-                  <li>• Landmark: Muthurayya Swamy Layout</li>
+                  <li>• Opposite Hulimavu Lake</li>
+                  <li>• Landmark: BDA Layout, Hulimavu</li>
                 </ul>
               </div>
             </div>

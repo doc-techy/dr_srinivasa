@@ -57,7 +57,7 @@ export default function AdminLoginPage() {
             <Image src="/images/doctor-profile.webp" alt="Dr. Srinivasa C" width={112} height={112} className="w-full h-full object-cover" priority />
           </div>
           <h2 className="text-4xl font-bold leading-tight">Dr. Srinivasa C</h2>
-          <p className="text-green-100 text-lg mt-1">Consultant Rheumatologist · Hulimavu, Bangalore</p>
+          <p className="text-green-100 text-lg mt-1">Consultant Rheumatologist and Immunologist · Hulimavu, Bangalore</p>
           <ul className="mt-10 space-y-4">
             {highlights.map(item => (
               <li key={item.text} className="flex items-center gap-3">

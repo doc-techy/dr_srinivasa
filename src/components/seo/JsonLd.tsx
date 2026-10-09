@@ -10,8 +10,8 @@ export default function JsonLd() {
     url: SITE_URL,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '#251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road',
-      addressLocality: 'Hulimavu, Bangalore',
+      streetAddress: '#251, 11th Cross Road, BDA Layout, Opp. Hulimavu Lake',
+      addressLocality: 'Hulimavu, Bengaluru',
       addressRegion: 'Karnataka',
       postalCode: '560076',
       addressCountry: 'IN'

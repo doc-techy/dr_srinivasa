@@ -12,9 +12,9 @@ interface AppointmentBookingProps {
 
 const CLINIC = {
   name: `${CLINIC_NAME} (${CLINIC_TAGLINE})`,
-  address: '#251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road, Hulimavu, Bangalore 560076',
+  address: '#251, 11th Cross Road, BDA Layout, Opp. Hulimavu Lake, Hulimavu, Bengaluru - 560076',
   hours: 'Mon–Sat: 9:00 AM – 12:00 PM and 4:00 PM – 7:30 PM. Sunday holiday.',
-  mapLink: 'https://www.google.com/maps/search/?api=1&query=251+11th+Cross+Road+Muthurayya+Swamy+Layout+Hulimavu+Bangalore+560076',
+  mapLink: 'https://www.google.com/maps/search/?api=1&query=251+11th+Cross+Road+BDA+Layout+Hulimavu+Bengaluru+560076',
 };
 
 const emptyForm = { name: '', phone: '', email: '', message: '' };

@@ -25,7 +25,7 @@ export function Footer() {
       {/* Top accent bar */}
       <div className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] h-1"></div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+      <div className="max-w-6xl lg:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-5 mt-8">
         <div className="flex flex-col lg:flex-row gap-16">
           {/* Contact Info */}
           <div className="flex-1">
@@ -35,10 +35,10 @@ export function Footer() {
               className="h-28 sm:h-32 w-auto mb-4 -ml-3 sm:-ml-4"
             />
             <h3 className="text-xl font-bold mb-4 text-white">Dr. Srinivasa C</h3>
-            <p className="text-[#047BCA] mb-4 font-medium">Consultant Rheumatologist</p>
+            <p className="text-[#047BCA] mb-4 font-medium">Consultant Rheumatologist and Immunologist</p>
             <div className="space-y-1 text-gray-300">
               <p>🏥 {CLINIC_NAME} ({CLINIC_TAGLINE})</p>
-              <p>📍 #251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road, Hulimavu, Bengaluru 560076</p>
+              <p>📍 #251, 11th Cross Road, BDA Layout, Opp. Hulimavu Lake, Hulimavu, Bengaluru - 560076</p>
               <p>🕘 Mon – Sat · 09:00 am – 12:00 noon · 04:00 pm – 07:30 pm</p>
               <p className="pt-3">🌐 Languages: English, Hindi, Kannada, Telugu</p>
             </div>
@@ -91,7 +91,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-gray-600 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Dr. Srinivasa C - Consultant Rheumatologist. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Dr. Srinivasa C - Consultant Rheumatologist and Immunologist. All rights reserved.</p>
         </div>
       </div>
     </footer>

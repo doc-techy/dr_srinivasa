@@ -74,7 +74,7 @@ export default function AdminSettingsPage() {
 
         <Section icon={MapPin} title="Clinic">
           <p className="text-sm text-gray-600 leading-relaxed">
-            #251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road, Hulimavu, Bangalore 560076
+            #251, 11th Cross Road, BDA Layout, Opp. Hulimavu Lake, Hulimavu, Bengaluru - 560076
           </p>
           <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Link href="/admin/availability" className="group flex items-center gap-3 rounded-xl border border-gray-200 p-3 hover:border-[#047BCA] transition-colors">

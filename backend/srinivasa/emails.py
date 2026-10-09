@@ -10,8 +10,8 @@ logger = logging.getLogger(__name__)
 
 CLINIC_NAME = 'Dr. Srinivasa C - Rheumatology Clinic'
 CLINIC_ADDRESS = (
-    '#251, 11th Cross Road, Muthurayya Swamy Layout, '
-    'Opposite Hulimavu Lake Road, Hulimavu, Bangalore 560076'
+    '#251, 11th Cross Road, BDA Layout, '
+    'Opp. Hulimavu Lake, Hulimavu, Bengaluru - 560076'
 )
 ADMIN_EMAILS = config('SRINIVASA_ADMIN_EMAILS', default='', cast=Csv())
 

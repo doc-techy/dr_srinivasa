@@ -30,7 +30,7 @@ export function AboutSection() {
   const experience = [
     {
       hospital: `${CLINIC_NAME}, Hulimavu`,
-      location: '#251, 11th Cross, Muthurayya Swamy Layout, Hulimavu, Bangalore 560076',
+      location: '#251, 11th Cross Road, BDA Layout, Opp. Hulimavu Lake, Hulimavu, Bengaluru - 560076',
       duration: 'Present',
       description: 'Outpatient rheumatology care',
       Icon: Stethoscope,

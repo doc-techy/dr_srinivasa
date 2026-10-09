@@ -26,7 +26,7 @@ export default function AppointmentPage() {
                     Dr. Srinivasa C
                   </h3>
                   <p className="text-[#047BCA] font-semibold">
-                    Consultant Rheumatologist
+                    Consultant Rheumatologist and Immunologist
                   </p>
                 </div>
                 

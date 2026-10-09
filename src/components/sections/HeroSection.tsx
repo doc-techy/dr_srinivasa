@@ -45,7 +45,7 @@ export function HeroSection() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-6 xl:gap-12 items-start lg:items-center md:min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-5rem)]">
+        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-4 lg:gap-6 xl:gap-12 items-start lg:items-center">
           {/* Doctor Image — edge-to-edge on mobile, flush under header */}
           <div className={`relative transition-all duration-1000 delay-300 order-1 lg:order-2 mt-0 sm:mt-6 lg:mt-0 -mx-5 sm:mx-0 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="relative">
@@ -57,7 +57,7 @@ export function HeroSection() {
                   <div className="relative rounded-none sm:rounded-2xl overflow-hidden">
                     <Image
                       src="/images/doctor-profile.png"
-                      alt="Dr. Srinivasa C - Consultant Rheumatologist"
+                      alt="Dr. Srinivasa C - Consultant Rheumatologist and Immunologist"
                       width={800}
                       height={800}
                       className="w-full h-auto object-cover object-top"
@@ -82,10 +82,7 @@ export function HeroSection() {
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                 <span className="block">Dr. Srinivasa C</span>
                 <span className="block mt-2 sm:mt-3 text-2xl sm:text-3xl lg:text-4xl bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent font-bold">
-                  Consultant Rheumatologist
-                </span>
-                <span className="block mt-2 sm:mt-3 text-2xl sm:text-3xl lg:text-4xl bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent font-bold">
-                  Joint & Autoimmune Care
+                  Consultant Rheumatologist and Immunologist
                 </span>
               </h2>
               
@@ -148,7 +145,7 @@ export function HeroSection() {
               </Link>
               
               <a
-                href="https://www.google.com/maps/search/?api=1&query=251+11th+Cross+Road+Muthurayya+Swamy+Layout+Hulimavu+Bangalore+560076"
+                href="https://www.google.com/maps/search/?api=1&query=251+11th+Cross+Road+BDA+Layout+Hulimavu+Bengaluru+560076"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-white/90 backdrop-blur-sm border-2 border-gray-200 text-gray-700 rounded-2xl font-semibold hover:bg-white hover:border-[#047BCA] hover:text-[#047BCA] transition-all duration-300 hover:scale-105 lg:flex-1 text-base sm:text-lg"
