@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MessageCircle, Phone } from 'lucide-react';
-import { CONTACT } from '@/lib/site';
+import { ArrowRight } from 'lucide-react';
 import { SymptomVibeCheck, symptoms } from './SymptomVibeCheck';
 
 const marqueeItems = [
@@ -31,29 +30,6 @@ function BookButton() {
         <ArrowRight className="h-4 w-4" />
       </span>
     </Link>
-  );
-}
-
-function ContactButtons() {
-  return (
-    <>
-      <a
-        href={CONTACT.phoneHref}
-        className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-800 transition-colors hover:border-[#047BCA] hover:text-[#047BCA]"
-      >
-        <Phone className="h-4 w-4" />
-        {CONTACT.phone}
-      </a>
-      <a
-        href={CONTACT.whatsappHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Chat on WhatsApp"
-        className="grid h-12 w-12 place-items-center rounded-full border border-gray-200 bg-white text-[#1C7E4E] transition-colors hover:border-[#1C7E4E] hover:bg-[#1C7E4E] hover:text-white"
-      >
-        <MessageCircle className="h-5 w-5" />
-      </a>
-    </>
   );
 }
 
@@ -92,7 +68,6 @@ export function RheumatologyIntroSection() {
 
             <div className="mt-8 hidden lg:flex flex-wrap items-center justify-start gap-3">
               <BookButton />
-              <ContactButtons />
             </div>
           </div>
 
@@ -114,11 +89,8 @@ export function RheumatologyIntroSection() {
               ))}
               <div className="absolute inset-x-0 bottom-0 z-[2] h-1/3 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
-            <div className="mt-6 flex flex-col items-center gap-3 lg:hidden">
+            <div className="mt-6 flex justify-center lg:hidden">
               <BookButton />
-              <div className="flex items-center gap-3">
-                <ContactButtons />
-              </div>
             </div>
           </div>
         </div>

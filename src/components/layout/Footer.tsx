@@ -31,7 +31,7 @@ export function Footer() {
           {/* Contact Info */}
           <div className="flex-1">
             <img
-              src="/logo-transparent.png"
+              src="/logo-transparent.png?v=2"
               alt="Artho Rheuma Care — Care, Relief, Mobility"
               className="h-36 sm:h-44 w-auto mb-5"
             />
