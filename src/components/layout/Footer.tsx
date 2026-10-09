@@ -1,11 +1,10 @@
 import Link from 'next/link';
-import { Instagram, MessageCircle, Phone } from 'lucide-react';
+import { Instagram, MessageCircle } from 'lucide-react';
 import { CLINIC_NAME, CLINIC_TAGLINE, CONTACT } from '@/lib/site';
 
 const socials = [
   { name: 'Instagram', href: CONTACT.instagramHref, Icon: Instagram },
   { name: 'WhatsApp', href: CONTACT.whatsappHref, Icon: MessageCircle },
-  { name: 'Call', href: CONTACT.phoneHref, Icon: Phone },
 ];
 
 const quickLinks = [
@@ -42,7 +41,6 @@ export function Footer() {
               <p>📍 #251, 11th Cross Road, Muthurayya Swamy Layout, Opposite Hulimavu Lake Road, Hulimavu, Bengaluru 560076</p>
               <p>🕘 Mon – Sat · 09:00 am – 12:00 noon · 04:00 pm – 07:30 pm</p>
               <p className="pt-3">🌐 Languages: English, Hindi, Kannada, Telugu</p>
-              <p>📞 <a href={CONTACT.phoneHref} className="hover:text-white">{CONTACT.phone}</a></p>
             </div>
             <div className="flex gap-3 mt-5">
               {socials.map(({ name, href, Icon }) => (

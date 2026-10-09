@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CONTACT } from '@/lib/site';
+import Link from 'next/link';
 import { FAQS } from '@/lib/faqs';
 
 export function FaqSection() {
@@ -16,9 +16,9 @@ export function FaqSection() {
           </h2>
           <p className="mx-auto lg:mx-0 mt-4 max-w-md text-base leading-relaxed text-rc-muted">
             Answers to common questions about rheumatology care and visiting the clinic. Have another question?{' '}
-            <a href={CONTACT.phoneHref} className="font-semibold text-rc-teal-dark underline underline-offset-4">
-              Call {CONTACT.phone}
-            </a>
+            <Link href="/contact" className="font-semibold text-rc-teal-dark underline underline-offset-4">
+              Contact us
+            </Link>
           </p>
         </div>
 
