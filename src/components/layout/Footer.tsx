@@ -32,7 +32,7 @@ export function Footer() {
             <img
               src="/logo-transparent.png?v=2"
               alt="Artho Rheuma Care — Care, Relief, Mobility"
-              className="h-36 sm:h-44 w-auto mb-5"
+              className="h-28 sm:h-32 w-auto mb-4 -ml-3 sm:-ml-4"
             />
             <h3 className="text-xl font-bold mb-4 text-white">Dr. Srinivasa C</h3>
             <p className="text-[#047BCA] mb-4 font-medium">Consultant Rheumatologist</p>

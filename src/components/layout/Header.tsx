@@ -79,17 +79,11 @@ export function Header() {
               alt=""
               className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 shrink-0 object-contain"
             />
-            <span className="min-w-0 leading-none">
-              <span className="block text-[11px] sm:text-sm md:text-base lg:text-lg font-bold tracking-[0.08em] sm:tracking-[0.14em] whitespace-nowrap">
-                <span className="bg-gradient-to-r from-[#1FA97A] to-[#0B6FC2] bg-clip-text text-transparent">ARTHO</span>{' '}
-                <span className="text-[#2BB88A]">RHEUMA</span> <span className="text-[#1E90E8]">CARE</span>
-              </span>
-              <span className="mt-1.5 hidden sm:flex items-center gap-2 text-[9px] md:text-[11px] tracking-[0.22em] text-[#5B6B85]">
-                <span className="h-px w-5 md:w-7 bg-[#5B6B85]" />
-                CARE · RELIEF · MOBILITY
-                <span className="h-px w-5 md:w-7 bg-[#5B6B85]" />
-              </span>
-            </span>
+            <img
+              src="/logo-text-transparent.png"
+              alt="Artho Rheuma Care — Care, Relief, Mobility"
+              className="h-10 sm:h-12 md:h-14 w-auto min-w-0 object-contain"
+            />
           </Link>
 
           <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8 2xl:space-x-10">
