@@ -1,23 +1,18 @@
 'use client';
 
+import { ServiceColorModal } from '@/components/common/ServiceColorModal';
 import { 
-  Brain, 
-  Microscope, 
   Shield, 
   Heart, 
   Zap, 
   Activity, 
   Users, 
-  Plus,
   ChevronLeft,
   ChevronRight,
   Stethoscope,
-  Scissors,
-  Eye,
   Layers,
   Target,
   Sparkles,
-  Wrench
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
@@ -25,6 +20,7 @@ export function ServicesSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
   const itemsPerPageMobile = 2; // 2x1 grid for mobile (top and bottom)
   const itemsPerPageDesktop = 6; // 2x3 grid for desktop
 
@@ -208,6 +204,12 @@ export function ServicesSection() {
     setTimeout(() => setIsTransitioning(false), 700);
   };
 
+  const selectedService = selectedServiceId
+    ? services.find((s) => s.id === selectedServiceId) ?? null
+    : null;
+
+  const modalParagraph = (service: typeof services[number]) =>
+    service.features.join(' ');
 
   return (
     <section id="services" className="py-6 md:pt-0 md:pb-12">
@@ -296,7 +298,13 @@ export function ServicesSection() {
                       }}
                     >
                       {/* Card Container */}
-                      <div className="relative h-full bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 ease-out hover:shadow-lg hover:-translate-y-1 hover:scale-102 border border-gray-100 group-hover:border-[#047BCA]/20 transform-gpu will-change-transform">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedServiceId(service.id)}
+                        className="touch-manipulation relative h-full w-full text-left rounded-2xl bg-white/45 backdrop-blur-lg shadow-md overflow-hidden transition-all duration-300 ease-out hover:bg-white/55 hover:shadow-lg hover:-translate-y-1 hover:scale-102 border border-white/60 group-hover:border-[#047BCA]/30 transform-gpu will-change-transform cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#047BCA] focus-visible:ring-offset-2"
+                        aria-label={`Learn more about ${service.title}`}
+                        aria-haspopup="dialog"
+                      >
                         {/* Subtle Top Border Accent */}
                         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA]"></div>
                         
@@ -338,7 +346,7 @@ export function ServicesSection() {
                             ))}
                           </div>
                         </div>
-                      </div>
+                      </button>
                     </div>
                   );
                 })}
@@ -377,6 +385,15 @@ export function ServicesSection() {
         </div>
 
       </div>
+
+      <ServiceColorModal
+        open={selectedService !== null}
+        title={selectedService?.title ?? ''}
+        body={selectedService ? modalParagraph(selectedService) : ''}
+        colorIndex={selectedService ? selectedService.id - 1 : 0}
+        onClose={() => setSelectedServiceId(null)}
+        titleId="specialized-expertise-modal-title"
+      />
 
       {/* CSS Animations */}
       <style jsx>{`
@@ -444,6 +461,7 @@ export function ServicesSection() {
             transform: translateY(0);
           }
         }
+
       `}</style>
     </section>
   );

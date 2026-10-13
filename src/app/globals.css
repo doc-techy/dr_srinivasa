@@ -332,6 +332,34 @@ a {
   padding: 0 20px;
 }
 
+@keyframes serviceColorModalIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 640px) {
+  @keyframes serviceColorModalIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
+
+.service-color-modal-panel {
+  animation: serviceColorModalIn 0.35s ease-out both;
+}
+
 .container-header {
   max-width: 1200px;
   margin: 0 auto;

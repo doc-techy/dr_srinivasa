@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { WhatsAppFloatingButton } from './WhatsAppFloatingButton';
 
 interface ConditionalLayoutProps {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
       <>
         <Header />
         <main>{children}</main>
+        <WhatsAppFloatingButton />
       </>
     );
   }
@@ -38,6 +40,7 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
       <Header />
       <main>{children}</main>
       <Footer />
+      <WhatsAppFloatingButton />
     </>
   );
 }

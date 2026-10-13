@@ -1,0 +1,3 @@
+# The project backend supplies Django and its dependencies.
+# psycopg2-binary is required only if the backend environment does not already include it.
+psycopg2-binary>=2.9
