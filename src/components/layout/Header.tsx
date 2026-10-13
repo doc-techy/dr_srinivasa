@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { CONTACT } from '@/lib/site';
 import { useEffect, useRef, useState } from 'react';
 
 const navigation = [
@@ -88,12 +89,12 @@ export function Header() {
 
           <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8 2xl:space-x-10">
             {navigation.map(item => renderLink(item, desktopLinkClass, true))}
-            <Link
-              href="/appointment"
+            <a
+              href={CONTACT.phoneHref}
               className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] hover:from-[#145C38] hover:to-[#0369A1] text-white px-8 py-3 font-semibold text-xs uppercase tracking-wider transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               Book Consultation
-            </Link>
+            </a>
           </nav>
 
           <div className="lg:hidden flex items-center shrink-0 ml-2">
@@ -118,13 +119,13 @@ export function Header() {
             <div className={`flex flex-col space-y-6 transition-all duration-500 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
               {navigation.map(item => renderLink(item, mobileLinkClass, false))}
               <div className="border-t border-gray-300 pt-4 px-4">
-                <Link
-                  href="/appointment"
+                <a
+                  href={CONTACT.phoneHref}
                   className="block bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] hover:from-[#145C38] hover:to-[#0369A1] text-white px-6 py-3 font-semibold text-sm uppercase tracking-wider text-center transition-all duration-300 rounded-lg hover:shadow-lg"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Book Consultation
-                </Link>
+                </a>
               </div>
             </div>
           </div>

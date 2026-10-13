@@ -80,12 +80,12 @@ export function Footer() {
                   {link.name}
                 </Link>
               ))}
-              <Link
-                href="/appointment"
+              <a
+                href={CONTACT.phoneHref}
                 className="block cursor-pointer text-[#047BCA] hover:text-white transition-colors hover:translate-x-1 duration-300 font-semibold mt-2"
               >
                 Book Consultation
-              </Link>
+              </a>
             </div>
           </div>
         </div>

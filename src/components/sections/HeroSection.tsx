@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Play, Star, Award, Users, X, CheckCircle, Phone, Calendar, MapPin } from 'lucide-react';
+import { CONTACT } from '@/lib/site';
+import { ArrowRight, Play, Star, Award, Users, X, CheckCircle, Phone, MapPin } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
 export function HeroSection() {
@@ -135,14 +135,14 @@ export function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 md:gap-2 lg:gap-3 justify-center lg:justify-start max-w-lg mx-auto lg:max-w-none lg:mx-0 lg:w-full">
-              <Link
-                href="/appointment"
+              <a
+                href={CONTACT.phoneHref}
                 className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white rounded-2xl font-semibold hover:from-[#145C38] hover:to-[#0369A1] transition-all duration-300 hover:scale-105 lg:flex-1 text-base sm:text-lg"
               >
-                <Calendar className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
+                <Phone className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
                 Book Consultation
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-              </Link>
+              </a>
               
               <a
                 href="https://www.google.com/maps/search/?api=1&query=251+11th+Cross+Road+BDA+Layout+Hulimavu+Bengaluru+560076"

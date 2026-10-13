@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { CONTACT } from '@/lib/site';
 import { SymptomVibeCheck, symptoms } from './SymptomVibeCheck';
 
 const marqueeItems = [
@@ -21,15 +21,15 @@ const marqueeItems = [
 
 function BookButton() {
   return (
-    <Link
-      href="/appointment"
+    <a
+      href={CONTACT.phoneHref}
       className="group inline-flex items-center gap-2 rounded-full bg-gray-900 pl-6 pr-2 py-2 text-base font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[#0B5FA5]"
     >
       Book a consultation
       <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-gray-900 transition-transform group-hover:translate-x-0.5">
         <ArrowRight className="h-4 w-4" />
       </span>
-    </Link>
+    </a>
   );
 }
 

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { ArrowRight, Calendar, Clock, Instagram, Languages, MapPin, MessageCircle, Navigation, Phone } from 'lucide-react';
 import { CLINIC_NAME, CLINIC_TAGLINE, CONTACT } from '@/lib/site';
 
@@ -33,12 +32,12 @@ export default function ContactPage() {
               <p className="text-white/85 mb-6">
                 Pick a free slot online. The clinic confirms your request, and you get an email if you share your address.
               </p>
-              <Link
-                href="/appointment"
+              <a
+                href={CONTACT.phoneHref}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#047BCA] rounded-xl font-semibold hover:bg-green-50 transition-colors"
               >
                 Book Appointment <ArrowRight className="w-5 h-5" />
-              </Link>
+              </a>
             </div>
 
             <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
