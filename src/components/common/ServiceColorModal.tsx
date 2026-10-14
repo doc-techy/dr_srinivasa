@@ -1,5 +1,6 @@
 'use client';
 
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { X } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -24,41 +25,30 @@ export function ServiceColorModal({
   titleId = 'service-color-modal-title',
 }: ServiceColorModalProps) {
   const openedAtRef = useRef(0);
+  const onCloseRef = useRef(onClose);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
+  useBodyScrollLock(open);
 
   useEffect(() => {
     if (!open) return;
     openedAtRef.current = Date.now();
-    const scrollY = window.scrollY;
-    const { body } = document;
-    const prevOverflow = body.style.overflow;
-    const prevPosition = body.style.position;
-    const prevTop = body.style.top;
-    const prevWidth = body.style.width;
-    body.style.overflow = 'hidden';
-    body.style.position = 'fixed';
-    body.style.top = `-${scrollY}px`;
-    body.style.width = '100%';
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') onCloseRef.current();
     };
     window.addEventListener('keydown', onKey);
-    return () => {
-      body.style.overflow = prevOverflow;
-      body.style.position = prevPosition;
-      body.style.top = prevTop;
-      body.style.width = prevWidth;
-      window.scrollTo(0, scrollY);
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [open, onClose]);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
 
   const onBackdropPointerUp = useCallback(() => {
     if (Date.now() - openedAtRef.current < 400) return;
-    onClose();
-  }, [onClose]);
+    onCloseRef.current();
+  }, []);
 
   if (!open || !mounted) return null;
 
@@ -78,6 +68,7 @@ export function ServiceColorModal({
       />
       <div
         className="service-color-modal-panel relative z-10 w-full sm:max-w-lg max-h-[min(92vh,100dvh)] overflow-hidden rounded-t-3xl sm:rounded-2xl shadow-2xl mx-0 sm:mx-4 border border-white/40 bg-white/25 backdrop-blur-2xl"
+        data-scroll-lock-allow
         onPointerDown={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
       >
@@ -89,7 +80,7 @@ export function ServiceColorModal({
         >
           <button
             type="button"
-            onClick={onClose}
+            onClick={() => onCloseRef.current()}
             className="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-colors touch-manipulation"
             aria-label="Close"
           >

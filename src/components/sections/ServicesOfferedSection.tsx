@@ -1,8 +1,11 @@
 'use client';
 
+import { LabTestsModal } from '@/components/common/LabTestsModal';
 import { ServiceColorModal } from '@/components/common/ServiceColorModal';
 import { Activity, FlaskConical, Pill, Stethoscope } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+
+const LAB_SERVICE_ID = 4;
 
 const services = [
   {
@@ -30,19 +33,21 @@ const services = [
     Icon: Pill,
   },
   {
-    id: 4,
+    id: LAB_SERVICE_ID,
     name: 'Lab',
     description: 'Blood tests and investigations',
-    modalText:
-      'We have partnered with a top NABL-accredited lab, which offers precise blood reports to support your rheumatology care and monitoring.',
+    modalText: '',
     Icon: FlaskConical,
   },
 ];
 
 export function ServicesOfferedSection() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const closeModal = useCallback(() => setSelectedId(null), []);
 
   const selected = selectedId ? services.find((s) => s.id === selectedId) ?? null : null;
+  const isLabOpen = selectedId === LAB_SERVICE_ID;
+  const isColorModalOpen = selected !== null && !isLabOpen;
 
   return (
     <section id="services-offered" className="py-6 md:py-12 relative z-0">
@@ -78,13 +83,15 @@ export function ServicesOfferedSection() {
       </div>
 
       <ServiceColorModal
-        open={selected !== null}
+        open={isColorModalOpen}
         title={selected?.name ?? ''}
         body={selected?.modalText ?? ''}
         colorIndex={selected ? selected.id - 1 : 0}
-        onClose={() => setSelectedId(null)}
+        onClose={closeModal}
         titleId="services-offered-modal-title"
       />
+
+      <LabTestsModal open={isLabOpen} onClose={closeModal} />
     </section>
   );
 }

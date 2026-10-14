@@ -68,7 +68,7 @@ export function SymptomVibeCheck({ picked, onPick }: { picked: number; onPick: (
       </span>
 
       <p className="mt-2 text-xl sm:text-2xl font-black tracking-tight text-gray-900">
-        what&apos;s hurting rn?
+        what&apos;s hurting right now?
       </p>
 
       <div className="mt-4 flex flex-wrap gap-2.5">
