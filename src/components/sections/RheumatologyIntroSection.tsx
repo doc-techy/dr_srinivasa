@@ -89,38 +89,16 @@ export function RheumatologyIntroSection() {
   return (
     <>
       <section className="relative isolate min-h-[100svh] overflow-hidden bg-[#E6F5F3]">
-        <div className="grid min-h-[100svh] lg:grid-cols-2">
-          <div className="flex flex-col justify-center px-5 sm:px-8 lg:px-12 xl:px-16 pt-28 pb-10 lg:py-24">
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] xl:text-6xl font-semibold leading-[1.08] tracking-tight text-gray-900 max-w-xl">
-              Living with{' '}
-              <span className="gradient-text-primary font-extrabold">joint pain?</span>
-              <br />
-              Let&apos;s get you moving again.
-            </h1>
+        {/* Mobile: title → image → description. Desktop: text left, image right. */}
+        <div className="flex flex-col lg:grid lg:min-h-[100svh] lg:grid-cols-2">
+          <h1 className="order-1 px-5 sm:px-8 lg:px-12 xl:px-16 pt-28 pb-5 lg:col-start-1 lg:row-start-1 lg:self-end lg:pb-4 text-4xl sm:text-5xl lg:text-[3.4rem] xl:text-6xl font-semibold leading-[1.08] tracking-tight text-gray-900 max-w-xl">
+            Living with{' '}
+            <span className="gradient-text-primary font-extrabold">joint pain?</span>
+            <br />
+            Let&apos;s get you moving again.
+          </h1>
 
-            <p className="mt-5 max-w-lg text-base sm:text-lg leading-relaxed text-gray-700">
-              Stiff mornings, swollen joints, or a back that won&apos;t settle are not something you have to live with.
-              Early diagnosis and the right treatment make all the difference.
-            </p>
-
-            <p className="mt-4 max-w-lg text-base leading-relaxed text-gray-700">
-              Joint pain can come from wear-and-tear, inflammation, autoimmune disease, or crystal arthritis such as gout.
-              Knowing which pattern you have helps protect the joint before lasting damage sets in.
-            </p>
-
-            <div className="mt-7 max-w-lg space-y-3">
-              <p className="text-sm font-semibold text-gray-900">Signs it may be more than everyday strain</p>
-              <ul className="space-y-2.5">
-                {jointPainSignals.map(item => (
-                  <li key={item.title} className="text-sm leading-relaxed text-gray-700">
-                    <span className="font-semibold text-gray-900">{item.title}.</span> {item.detail}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="relative min-h-[48vh] sm:min-h-[56vh] lg:min-h-full overflow-hidden bg-[#cfe8e3]">
+          <div className="order-2 relative h-[42vh] sm:h-[48vh] lg:order-none lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:h-auto lg:min-h-full overflow-hidden bg-[#cfe8e3]">
             {heroImages.map((item, i) => (
               <Image
                 key={item.src}
@@ -151,6 +129,29 @@ export function RheumatologyIntroSection() {
                   }`}
                 />
               ))}
+            </div>
+          </div>
+
+          <div className="order-3 px-5 sm:px-8 lg:px-12 xl:px-16 pt-6 pb-10 lg:col-start-1 lg:row-start-2 lg:self-start lg:pt-2 lg:pb-24 max-w-lg">
+            <p className="text-base sm:text-lg leading-relaxed text-gray-700">
+              Stiff mornings, swollen joints, or a back that won&apos;t settle are not something you have to live with.
+              Early diagnosis and the right treatment make all the difference.
+            </p>
+
+            <p className="mt-4 text-base leading-relaxed text-gray-700">
+              Joint pain can come from wear-and-tear, inflammation, autoimmune disease, or crystal arthritis such as gout.
+              Knowing which pattern you have helps protect the joint before lasting damage sets in.
+            </p>
+
+            <div className="mt-7 space-y-3">
+              <p className="text-sm font-semibold text-gray-900">Signs it may be more than everyday strain</p>
+              <ul className="space-y-2.5">
+                {jointPainSignals.map(item => (
+                  <li key={item.title} className="text-sm leading-relaxed text-gray-700">
+                    <span className="font-semibold text-gray-900">{item.title}.</span> {item.detail}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
