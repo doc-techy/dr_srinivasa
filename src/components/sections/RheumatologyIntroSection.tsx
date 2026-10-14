@@ -88,7 +88,7 @@ export function RheumatologyIntroSection() {
 
   return (
     <>
-      <section className="relative isolate min-h-[100svh] overflow-hidden bg-[#E6F5F3]">
+      <section className="relative isolate min-h-[100svh] overflow-hidden bg-[#B5DBD3]">
         {/* Mobile: title → image → description. Desktop: text left, image right. */}
         <div className="flex flex-col lg:grid lg:min-h-[100svh] lg:grid-cols-2">
           <h1 className="order-1 px-5 sm:px-8 lg:px-12 xl:px-16 pt-28 pb-5 lg:col-start-1 lg:row-start-1 lg:self-end lg:pb-4 text-4xl sm:text-5xl lg:text-[3.4rem] xl:text-6xl font-semibold leading-[1.08] tracking-tight text-gray-900 max-w-xl">
@@ -157,7 +157,7 @@ export function RheumatologyIntroSection() {
         </div>
       </section>
 
-      <section id="pain-check" className="relative isolate overflow-hidden bg-[#EAF7F5] py-10 lg:py-14">
+      <section id="pain-check" className="relative isolate overflow-hidden bg-[#B5DBD3] py-10 lg:py-14">
         <div className="container-custom">
           <div className="grid items-center gap-10 lg:gap-12 lg:grid-cols-[1.15fr_1fr]">
             <div className="text-center lg:text-left">
