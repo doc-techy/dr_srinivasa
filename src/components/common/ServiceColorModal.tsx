@@ -31,14 +31,26 @@ export function ServiceColorModal({
   useEffect(() => {
     if (!open) return;
     openedAtRef.current = Date.now();
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const scrollY = window.scrollY;
+    const { body } = document;
+    const prevOverflow = body.style.overflow;
+    const prevPosition = body.style.position;
+    const prevTop = body.style.top;
+    const prevWidth = body.style.width;
+    body.style.overflow = 'hidden';
+    body.style.position = 'fixed';
+    body.style.top = `-${scrollY}px`;
+    body.style.width = '100%';
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', onKey);
     return () => {
-      document.body.style.overflow = prevOverflow;
+      body.style.overflow = prevOverflow;
+      body.style.position = prevPosition;
+      body.style.top = prevTop;
+      body.style.width = prevWidth;
+      window.scrollTo(0, scrollY);
       window.removeEventListener('keydown', onKey);
     };
   }, [open, onClose]);
@@ -72,7 +84,7 @@ export function ServiceColorModal({
         <div
           className="relative px-6 py-12 sm:px-8 sm:py-14 min-h-[min(55vh,420px)] sm:min-h-[280px] flex flex-col justify-center backdrop-blur-md border-t border-white/25"
           style={{
-            background: `linear-gradient(145deg, color-mix(in srgb, ${backgroundColor} 82%, transparent) 0%, color-mix(in srgb, ${backgroundColor} 68%, transparent) 100%)`,
+            background: `linear-gradient(145deg, color-mix(in srgb, ${backgroundColor} 94%, transparent) 0%, color-mix(in srgb, ${backgroundColor} 88%, transparent) 100%)`,
           }}
         >
           <button
@@ -89,7 +101,7 @@ export function ServiceColorModal({
           >
             {title}
           </h3>
-          <p className="text-base sm:text-lg text-white/95 leading-relaxed font-serif">
+          <p className="text-base sm:text-lg text-white leading-relaxed font-serif font-medium">
             {body}
           </p>
         </div>

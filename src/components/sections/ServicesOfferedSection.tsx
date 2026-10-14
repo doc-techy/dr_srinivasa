@@ -7,7 +7,7 @@ import { useState } from 'react';
 const services = [
   {
     id: 1,
-    name: 'Consultation',
+    name: 'Expert Rheumatologist Consultation',
     description: 'Specialist rheumatology care',
     modalText:
       'In-clinic consultation with Dr. Srinivasa C for joint pain, arthritis, autoimmune disease, vasculitis, osteoporosis, and related conditions, with evaluation and treatment planned around your diagnosis.',
@@ -69,7 +69,7 @@ export function ServicesOfferedSection() {
               <span className="block text-base md:text-lg font-bold text-gray-900 pointer-events-none">
                 {name}
               </span>
-              <span className="block text-xs md:text-sm text-gray-600 mt-1 pointer-events-none">
+              <span className="block text-xs md:text-sm text-gray-800 mt-1 pointer-events-none">
                 {description}
               </span>
             </button>

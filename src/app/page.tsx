@@ -31,9 +31,7 @@ export default function Home() {
       <section id="about">
         <AboutSection />
       </section>
-      <section id="services">
-        <ServicesSection />
-      </section>
+      <ServicesSection />
       <ServicesOfferedSection />
       <section id="videos">
         <VideoSection />
