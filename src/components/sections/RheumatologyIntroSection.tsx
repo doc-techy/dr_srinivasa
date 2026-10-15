@@ -8,12 +8,57 @@ const heroImages = [
   {
     src: '/images/hero-stretch-third.jpg',
     alt: 'Older man stretching in a garden, standing from the right two-thirds of the frame',
-    position: 'object-center',
+    position: 'object-[72%_center] lg:object-center',
   },
   {
     src: '/images/hero-walk-third.jpg',
     alt: 'Older man walking a garden path, starting a third of the way across the frame',
-    position: 'object-center',
+    position: 'object-[62%_center] lg:object-center',
+  },
+  {
+    src: '/images/hero-woman-stretch.jpg',
+    alt: 'Older woman stretching in a sunlit garden, standing on the right of the frame',
+    position: 'object-[66%_center] lg:object-center',
+  },
+  {
+    src: '/images/hero-young-stretch.jpg',
+    alt: 'Young man doing a standing quadriceps stretch in a sunlit garden',
+    position: 'object-[74%_center] lg:object-center',
+  },
+  {
+    src: '/images/hero-stretch-workout.jpg',
+    alt: 'Older man doing a standing calf stretch in a sunlit garden',
+    position: 'object-[74%_center] lg:object-center',
+  },
+  {
+    src: '/images/hero-grandfather-run.jpg',
+    alt: 'Grandfather jogging just behind his grandchildren on a park path',
+    position: 'object-[68%_center] lg:object-center',
+  },
+  {
+    src: '/images/hero-coral-sidebend.jpg',
+    alt: 'Young woman in a coral top doing a side-bend stretch in a tropical garden',
+    position: 'object-[78%_center] lg:object-center',
+  },
+  {
+    src: '/images/hero-navy-courtyard.jpg',
+    alt: 'Man in a navy polo doing a calf stretch in a terracotta courtyard',
+    position: 'object-[70%_center] lg:object-center',
+  },
+  {
+    src: '/images/hero-lavender-lake.jpg',
+    alt: 'Older woman in lavender seated on a wooden dock by a lake',
+    position: 'object-[80%_center] lg:object-center',
+  },
+  {
+    src: '/images/hero-mustard-mist.jpg',
+    alt: 'Young man in a mustard shirt stretching his quadriceps on a misty park path',
+    position: 'object-[76%_center] lg:object-center',
+  },
+  {
+    src: '/images/hero-white-sea.jpg',
+    alt: 'Woman in white and sage stretching with both arms overhead by the sea',
+    position: 'object-[74%_center] lg:object-center',
   },
 ];
 
