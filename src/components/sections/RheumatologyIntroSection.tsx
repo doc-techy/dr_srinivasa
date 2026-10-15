@@ -4,54 +4,57 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { SymptomVibeCheck, symptoms } from './SymptomVibeCheck';
 
-const heroImages = [
-  {
-    src: '/images/hero-stretch-third.jpg',
-    alt: 'Older man stretching in a garden, standing from the right two-thirds of the frame',
-    position: 'object-[72%_center] lg:object-center',
-  },
-  {
-    src: '/images/hero-walk-third.jpg',
-    alt: 'Older man walking a garden path, starting a third of the way across the frame',
-    position: 'object-[62%_center] lg:object-center',
-  },
+const heroImages: {
+  src: string;
+  mobileSrc?: string;
+  alt: string;
+  position: string;
+}[] = [
   {
     src: '/images/hero-woman-stretch.jpg',
+    mobileSrc: '/images/hero-woman-stretch-mobile.jpg',
     alt: 'Older woman stretching in a sunlit garden, standing on the right of the frame',
     position: 'object-[66%_center] lg:object-center',
   },
   {
     src: '/images/hero-young-stretch.jpg',
+    mobileSrc: '/images/hero-young-stretch-mobile.jpg',
     alt: 'Young man doing a standing quadriceps stretch in a sunlit garden',
     position: 'object-[74%_center] lg:object-center',
   },
   {
     src: '/images/hero-stretch-workout.jpg',
+    mobileSrc: '/images/hero-stretch-workout-mobile.jpg',
     alt: 'Older man doing a standing calf stretch in a sunlit garden',
     position: 'object-[74%_center] lg:object-center',
   },
   {
     src: '/images/hero-grandfather-run.jpg',
+    mobileSrc: '/images/hero-grandfather-run-mobile.jpg',
     alt: 'Grandfather jogging just behind his grandchildren on a park path',
     position: 'object-[68%_center] lg:object-center',
   },
   {
     src: '/images/hero-coral-sidebend.jpg',
+    mobileSrc: '/images/hero-coral-sidebend-mobile.jpg',
     alt: 'Young woman in a coral top doing a side-bend stretch in a tropical garden',
     position: 'object-[78%_center] lg:object-center',
   },
   {
     src: '/images/hero-navy-courtyard.jpg',
+    mobileSrc: '/images/hero-navy-courtyard-mobile.jpg',
     alt: 'Man in a navy polo doing a calf stretch in a terracotta courtyard',
     position: 'object-[70%_center] lg:object-center',
   },
   {
     src: '/images/hero-lavender-lake.jpg',
+    mobileSrc: '/images/hero-lavender-lake-mobile.jpg',
     alt: 'Older woman in lavender seated on a wooden dock by a lake',
     position: 'object-[80%_center] lg:object-center',
   },
   {
     src: '/images/hero-mustard-mist.jpg',
+    mobileSrc: '/images/hero-mustard-mist-mobile.jpg',
     alt: 'Young man in a mustard shirt stretching his quadriceps on a misty park path',
     position: 'object-[76%_center] lg:object-center',
   },
@@ -120,16 +123,41 @@ export function RheumatologyIntroSection() {
           >
             {heroImages.map((item, i) => (
               <div key={item.src} className="relative h-full shrink-0" style={{ width: `${100 / heroImages.length}%` }}>
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  priority
-                  quality={90}
-                  aria-hidden={i !== heroIndex}
-                  sizes="100vw"
-                  className={`object-cover ${item.position}`}
-                />
+                {item.mobileSrc ? (
+                  <>
+                    <Image
+                      src={item.mobileSrc}
+                      alt={item.alt}
+                      fill
+                      priority
+                      quality={90}
+                      aria-hidden={i !== heroIndex}
+                      sizes="100vw"
+                      className="object-cover object-[78%_center] lg:hidden"
+                    />
+                    <Image
+                      src={item.src}
+                      alt={item.alt}
+                      fill
+                      priority
+                      quality={90}
+                      aria-hidden={i !== heroIndex}
+                      sizes="100vw"
+                      className={`hidden object-cover lg:block ${item.position}`}
+                    />
+                  </>
+                ) : (
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    priority
+                    quality={90}
+                    aria-hidden={i !== heroIndex}
+                    sizes="100vw"
+                    className={`object-cover ${item.position}`}
+                  />
+                )}
               </div>
             ))}
           </div>
