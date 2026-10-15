@@ -61,17 +61,17 @@ export function SymptomVibeCheck({ picked, onPick }: { picked: number; onPick: (
   const s = symptoms[picked];
 
   return (
-    <div className="relative mx-auto lg:mx-0 mt-10 max-w-xl rounded-3xl border-2 border-[#0B5FA5] bg-white p-4 sm:p-5 text-left shadow-[6px_6px_0_#1C7E4E]">
+    <div className="relative mx-auto lg:mx-0 mt-4 flex min-h-[28rem] sm:min-h-[32rem] max-w-xl flex-col rounded-3xl border-2 border-[#0B5FA5] bg-white p-5 sm:p-7 text-left shadow-[6px_6px_0_#1C7E4E]">
       <span className="absolute -top-4 left-5 rounded-full bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] px-3 py-1 text-[11px] font-black uppercase tracking-widest text-white">
         <Sparkles className="mr-1 inline h-3 w-3 -translate-y-px" />
         pain check
       </span>
 
-      <p className="mt-2 text-xl sm:text-2xl font-black tracking-tight text-gray-900">
+      <p className="mt-3 text-xl sm:text-2xl font-black tracking-tight text-gray-900">
         what&apos;s hurting right now?
       </p>
 
-      <div className="mt-4 flex flex-wrap gap-2.5">
+      <div className="mt-5 flex flex-wrap gap-2.5">
         {symptoms.map((item, i) => {
           const active = picked === i;
           return (
@@ -93,7 +93,7 @@ export function SymptomVibeCheck({ picked, onPick }: { picked: number; onPick: (
         })}
       </div>
 
-      <div key={picked} className="pop-in mt-5">
+      <div key={picked} className="pop-in mt-6 flex flex-1 flex-col">
         <p className="text-sm font-medium leading-relaxed text-gray-800">
           <span className="mr-1.5 rounded-md border-2 border-[#0B5FA5] px-1.5 py-0.5 text-[11px] font-black uppercase" style={{ backgroundColor: s.color }}>
             the lowdown
@@ -101,12 +101,12 @@ export function SymptomVibeCheck({ picked, onPick }: { picked: number; onPick: (
           {s.hint}
         </p>
 
-        <div className="-mx-1 mt-4 flex snap-x gap-3 overflow-x-auto px-1 pb-3 pt-1 [scrollbar-width:none]">
+        <div className="-mx-1 mt-5 flex flex-1 snap-x gap-3 overflow-x-auto px-1 pb-3 pt-1 [scrollbar-width:none]">
           {s.tips.map((tip, i) => (
             <div
               key={tip}
               style={{ backgroundColor: s.color }}
-              className={`snap-start shrink-0 basis-[44%] sm:basis-[31%] rounded-2xl border-2 border-[#0B5FA5] p-3 shadow-[3px_3px_0_#1C7E4E] ${tilts[i]}`}
+              className={`snap-start shrink-0 basis-[44%] sm:basis-[31%] rounded-2xl border-2 border-[#0B5FA5] p-4 shadow-[3px_3px_0_#1C7E4E] ${tilts[i]}`}
             >
               <p className="text-2xl font-black leading-none text-gray-900/80">0{i + 1}</p>
               <p className="mt-2 text-[13px] font-bold leading-snug text-gray-900">{tip}</p>
@@ -114,7 +114,7 @@ export function SymptomVibeCheck({ picked, onPick }: { picked: number; onPick: (
           ))}
         </div>
 
-        <p className="mt-2 flex items-start gap-2 rounded-2xl border-2 border-[#0B5FA5] bg-[#0B5FA5] p-3 text-sm font-bold text-white">
+        <p className="mt-auto flex items-start gap-2 rounded-2xl border-2 border-[#0B5FA5] bg-[#0B5FA5] p-3.5 text-sm font-bold text-white">
           <Flag className="mt-0.5 h-4 w-4 shrink-0" />
           {s.flag}
         </p>
