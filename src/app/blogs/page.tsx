@@ -1,201 +1,164 @@
 'use client';
 
-import { useState } from 'react';
-import { Calendar, Clock, User, ArrowLeft, Tag, BookOpen } from 'lucide-react';
-
-interface Blog {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string[];
-  author: string;
-  date: string;
-  readTime: string;
-  category: string;
-}
-
-const AUTHOR = 'Dr. Srinivasa C Clinic';
-
-const blogs: Blog[] = [
-  {
-    id: '1',
-    title: 'Rheumatoid Arthritis: Early Signs You Should Not Ignore',
-    excerpt: 'Morning stiffness, swollen finger joints and tiredness can be early signs of rheumatoid arthritis. Early treatment protects your joints.',
-    content: [
-      'Rheumatoid arthritis (RA) is an autoimmune disease in which the body\'s immune system attacks the lining of the joints. It most often affects the small joints of the hands and feet, usually on both sides of the body.',
-      'Common early signs include joint pain and swelling, stiffness in the morning that lasts more than 30 minutes, difficulty making a fist, and general tiredness or low-grade fever.',
-      'Early diagnosis matters. Modern medicines can control inflammation and prevent permanent joint damage when started early. If you have joint swelling or morning stiffness lasting several weeks, consult a rheumatologist.',
-    ],
-    author: AUTHOR,
-    date: '2026-09-20',
-    readTime: '4 min read',
-    category: 'Arthritis',
-  },
-  {
-    id: '2',
-    title: 'Gout and Uric Acid: What Causes Sudden Joint Attacks',
-    excerpt: 'Gout causes sudden, severe pain and swelling, often in the big toe. Learn what triggers attacks and how uric acid can be controlled.',
-    content: [
-      'Gout happens when uric acid builds up in the blood and forms crystals in a joint. The result is a sudden attack of intense pain, redness and swelling, very often in the big toe, ankle or knee.',
-      'Attacks can be triggered by alcohol, sugary drinks, large meals rich in red meat or seafood, dehydration, and some medicines.',
-      'A high uric acid level alone does not always need treatment, but repeated gout attacks usually do. With the right medicines and lifestyle changes, most people can prevent further attacks and joint damage. Do not stop or start uric acid medicines without medical advice.',
-    ],
-    author: AUTHOR,
-    date: '2026-09-12',
-    readTime: '4 min read',
-    category: 'Gout',
-  },
-  {
-    id: '3',
-    title: 'Lupus and Other Autoimmune Diseases: A Simple Guide',
-    excerpt: 'Autoimmune diseases like lupus can affect the joints, skin, kidneys and more. Here is what patients and families should know.',
-    content: [
-      'In autoimmune diseases, the immune system mistakenly attacks the body\'s own tissues. Systemic lupus erythematosus (SLE), Sjögren\'s syndrome, scleroderma and myositis are some examples.',
-      'Symptoms vary widely and may include joint pain, skin rashes (especially after sun exposure), mouth ulcers, hair loss, dry eyes or mouth, fatigue and unexplained fevers.',
-      'These conditions are long-term, but with regular follow-up and appropriate treatment most patients lead active lives. Blood tests and regular monitoring help detect organ involvement early.',
-    ],
-    author: AUTHOR,
-    date: '2026-09-05',
-    readTime: '5 min read',
-    category: 'Autoimmune',
-  },
-  {
-    id: '4',
-    title: 'Osteoporosis: Protecting Your Bones After 40',
-    excerpt: 'Osteoporosis weakens bones silently until a fracture happens. Simple checks and habits can keep your bones strong.',
-    content: [
-      'Osteoporosis is a condition in which bones become thin and fragile, making fractures of the hip, spine and wrist more likely. It often causes no symptoms until a bone breaks.',
-      'Risk is higher in women after menopause, older adults, people on long-term steroid medicines, and those with low body weight, smoking or a family history of fractures.',
-      'A bone density (DEXA) scan helps diagnose osteoporosis. Adequate calcium and vitamin D, regular weight-bearing exercise and, when needed, medicines can reduce fracture risk.',
-    ],
-    author: AUTHOR,
-    date: '2026-08-28',
-    readTime: '4 min read',
-    category: 'Bone Health',
-  },
-  {
-    id: '5',
-    title: 'Back Pain in Young Adults: Could It Be Spondyloarthritis?',
-    excerpt: 'Back pain that is worse in the morning and improves with activity may be inflammatory. Learn the signs of ankylosing spondylitis.',
-    content: [
-      'Most back pain is mechanical and improves with rest. Inflammatory back pain is different: it usually starts before age 40, comes on gradually, is worse in the morning or after rest, and improves with movement.',
-      'Ankylosing spondylitis and related conditions (spondyloarthritis) can also cause heel pain, eye inflammation and swelling of other joints.',
-      'Early diagnosis with a rheumatologist, along with regular exercise and appropriate medicines, helps control pain and keeps the spine flexible.',
-    ],
-    author: AUTHOR,
-    date: '2026-08-20',
-    readTime: '4 min read',
-    category: 'Arthritis',
-  },
-  {
-    id: '6',
-    title: 'Preparing for Your First Rheumatology Visit',
-    excerpt: 'A little preparation helps you get the most out of your consultation. Here is what to bring and what to expect.',
-    content: [
-      'Bring all previous medical reports, blood test results, X-rays or scans, and a list of the medicines you currently take, including supplements.',
-      'Note down your symptoms: which joints are affected, when the pain started, how long morning stiffness lasts, and anything that makes it better or worse.',
-      'The doctor will take a detailed history, examine your joints and may advise blood tests or imaging. Please arrive 15 minutes before your appointment time.',
-    ],
-    author: AUTHOR,
-    date: '2026-08-12',
-    readTime: '3 min read',
-    category: 'Patient Guide',
-  },
-];
+import { Suspense, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
+import { Calendar, Clock, User, ArrowLeft, FileText } from 'lucide-react';
+import { blogs, getBlogBySlug, type Blog, type BlogBlock } from '@/data/blogs';
 
 const categories = ['All', ...Array.from(new Set(blogs.map(blog => blog.category)))];
 
 const formatDate = (dateString: string) =>
-  new Date(dateString).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+  new Date(dateString).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 
-export default function BlogsPage() {
+function BlogContent({ blocks }: { blocks: BlogBlock[] }) {
+  return (
+    <div className="space-y-5">
+      {blocks.map((block, index) => {
+        if (block.type === 'heading') {
+          return (
+            <h2 key={index} className="pt-2 text-xl font-bold text-gray-900 md:text-2xl">
+              {block.text}
+            </h2>
+          );
+        }
+        if (block.type === 'list') {
+          return (
+            <ul key={index} className="list-disc space-y-2 pl-6 text-base leading-relaxed text-gray-700">
+              {block.items.map((item, itemIndex) => (
+                <li key={itemIndex}>{item}</li>
+              ))}
+            </ul>
+          );
+        }
+        return (
+          <p key={index} className="text-base leading-relaxed text-gray-700">
+            {block.text}
+          </p>
+        );
+      })}
+      <p className="border-t border-gray-100 pt-5 text-sm italic text-gray-500">
+        This article is for general information only and is not a substitute for a medical consultation.
+      </p>
+    </div>
+  );
+}
+
+function BlogsPageContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const slug = searchParams.get('slug');
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const filteredBlogs = blogs.filter(blog => selectedCategory === 'All' || blog.category === selectedCategory);
+  useEffect(() => {
+    setSelectedBlog(slug ? getBlogBySlug(slug) ?? null : null);
+  }, [slug]);
+
+  const openBlog = (blog: Blog) => {
+    router.push(`/blogs?slug=${blog.slug}`);
+  };
+
+  const filteredBlogs = blogs.filter(
+    blog => selectedCategory === 'All' || blog.category === selectedCategory
+  );
 
   if (selectedBlog) {
     return (
-      <div className="min-h-screen pt-32 pb-16">
-        <div className="container-custom py-12">
-          <div className="max-w-4xl mx-auto">
-            <button
-              onClick={() => setSelectedBlog(null)}
-              className="flex items-center gap-2 text-[#047BCA] hover:text-[#0369A1] mb-8 transition-colors duration-200"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Back to Blogs</span>
-            </button>
+      <div className="relative min-h-screen overflow-hidden pt-28 pb-16">
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white via-[#f4fbf8] to-white"
+          aria-hidden
+        />
+        <div className="container-custom relative py-8 md:py-12">
+          <article className="mx-auto max-w-3xl overflow-hidden rounded-2xl border border-gray-200/70 bg-white shadow-lg">
+            <div className="flex items-center justify-between gap-4 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] px-5 py-4">
+              <button
+                type="button"
+                onClick={() => router.push('/blogs')}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-white/80"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to blogs
+              </button>
+              <span className="text-xs font-semibold text-white/90">{selectedBlog.readTime}</span>
+            </div>
 
-            <article className="bg-white rounded-3xl shadow-xl overflow-hidden">
-              <div className="relative h-40 md:h-56 bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] flex items-center justify-center">
-                <BookOpen className="w-16 h-16 text-white/80" />
-                <div className="absolute top-6 left-6">
-                  <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    {selectedBlog.category}
-                  </span>
-                </div>
+            {selectedBlog.thumbnail ? (
+              <div className="relative aspect-video bg-gray-100">
+                <Image
+                  src={selectedBlog.thumbnail}
+                  alt={selectedBlog.title}
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 768px"
+                  className="object-cover"
+                />
               </div>
+            ) : null}
 
-              <div className="p-8">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-                  {selectedBlog.title}
-                </h1>
-
-                <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 mb-6">
-                  <div className="flex items-center gap-2">
-                    <User className="w-4 h-4" />
-                    <span>{selectedBlog.author}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    <span>{formatDate(selectedBlog.date)}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    <span>{selectedBlog.readTime}</span>
-                  </div>
-                </div>
-
-                <div className="max-w-none space-y-5">
-                  {selectedBlog.content.map((paragraph, index) => (
-                    <p key={index} className="text-gray-700 text-lg leading-relaxed">{paragraph}</p>
-                  ))}
-                  <p className="text-sm text-gray-500 italic border-t border-gray-100 pt-5">
-                    This article is for general information only and is not a substitute for a medical consultation.
-                  </p>
-                </div>
+            <div className="p-5 sm:p-8">
+              <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
+                {selectedBlog.title}
+              </h1>
+              <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-500">
+                <span className="inline-flex items-center gap-1.5">
+                  <User className="h-4 w-4" />
+                  {selectedBlog.author}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Calendar className="h-4 w-4" />
+                  {formatDate(selectedBlog.date)}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Clock className="h-4 w-4" />
+                  {selectedBlog.readTime}
+                </span>
               </div>
-            </article>
-          </div>
+              <div className="mt-8">
+                <BlogContent blocks={selectedBlog.content} />
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-32 pb-16">
-      <div className="container-custom py-16">
-        <div className="text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            <span className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent">Blogs</span>
+    <div className="relative min-h-screen overflow-hidden pt-28 pb-16">
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white via-[#f4fbf8] to-white"
+        aria-hidden
+      />
+
+      <div className="container-custom relative py-10 md:py-14">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
+            Educational{' '}
+            <span className="bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] bg-clip-text text-transparent">
+              Blogs
+            </span>
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Patient education on arthritis, autoimmune diseases, gout and bone health.
+          <p className="mx-auto mt-3 max-w-xl text-base text-gray-600">
+            Patient education on arthritis, autoimmune conditions, and bone health.
           </p>
         </div>
-      </div>
 
-      <div className="container-custom py-8">
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          {categories.map((category) => (
+        <div className="mb-8 flex flex-wrap justify-center gap-2">
+          {categories.map(category => (
             <button
               key={category}
+              type="button"
               onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-200 ${
+              className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 ${
                 selectedCategory === category
-                  ? 'bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white shadow-lg scale-105'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300'
+                  ? 'bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white shadow-md'
+                  : 'border border-gray-200/70 bg-white text-gray-600 shadow-sm hover:text-[#047BCA]'
               }`}
             >
               {category}
@@ -203,38 +166,44 @@ export default function BlogsPage() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredBlogs.map((blog) => (
+        <div className="grid grid-cols-2 gap-3 md:gap-5 lg:grid-cols-4">
+          {filteredBlogs.map(blog => (
             <article
               key={blog.id}
-              onClick={() => setSelectedBlog(blog)}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group"
+              onClick={() => openBlog(blog)}
+              className="group cursor-pointer overflow-hidden rounded-2xl border border-gray-200/70 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-[#047BCA]/40 hover:shadow-2xl"
             >
-              <div className="relative h-32 bg-gradient-to-br from-[#1C7E4E] to-[#047BCA] flex items-center justify-center">
-                <BookOpen className="w-10 h-10 text-white/80 group-hover:scale-110 transition-transform duration-300" />
-                <div className="absolute top-4 left-4">
-                  <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold">
-                    {blog.category}
-                  </span>
+              <div className="relative aspect-video overflow-hidden bg-gray-100">
+                {blog.thumbnail ? (
+                  <Image
+                    src={blog.thumbnail}
+                    alt={blog.title}
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : null}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#047BCA] shadow-xl transition duration-300 group-hover:scale-110 group-hover:bg-gradient-to-r group-hover:from-[#1C7E4E] group-hover:to-[#047BCA] group-hover:text-white md:h-12 md:w-12">
+                    <FileText className="h-4 w-4 md:h-5 md:w-5" />
+                  </div>
                 </div>
+                <span className="absolute bottom-2 right-2 rounded-lg bg-black/80 px-2 py-1 text-[10px] font-semibold text-white md:bottom-3 md:right-3 md:text-xs">
+                  {blog.readTime}
+                </span>
               </div>
 
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#047BCA] transition-colors duration-200">
+              <div className="flex flex-col p-3 md:p-4">
+                <h2 className="line-clamp-2 text-xs font-bold leading-snug text-gray-900 transition-colors group-hover:text-[#047BCA] md:text-sm">
                   {blog.title}
-                </h3>
-                <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed">
+                </h2>
+                <p className="mt-1.5 hidden text-xs leading-relaxed text-gray-600 line-clamp-2 sm:block">
                   {blog.excerpt}
                 </p>
-                <div className="flex items-center gap-4 text-xs text-gray-500">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    <span>{formatDate(blog.date)}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    <span>{blog.readTime}</span>
-                  </div>
+                <div className="mt-2 flex items-center gap-1.5 text-[11px] text-gray-500 md:mt-3 md:text-xs">
+                  <Calendar className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                  <span>{formatDate(blog.date)}</span>
                 </div>
               </div>
             </article>
@@ -242,15 +211,17 @@ export default function BlogsPage() {
         </div>
 
         {filteredBlogs.length === 0 && (
-          <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Tag className="w-8 h-8 text-gray-400" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No blogs found</h3>
-            <p className="text-gray-600">Try adjusting your filter to see more content.</p>
-          </div>
+          <p className="py-12 text-center text-gray-600">No blogs in this category yet.</p>
         )}
       </div>
     </div>
+  );
+}
+
+export default function BlogsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen pt-28" />}>
+      <BlogsPageContent />
+    </Suspense>
   );
 }

@@ -17,7 +17,7 @@ export const FAQS: Faq[] = [
   {
     question: 'How do I book an appointment?',
     answer:
-      'Use the Book Appointment page: choose a date, pick a free morning or evening slot and enter your details. Your request is sent to the clinic, which then confirms it. If you share your email address, you will receive an email when the appointment is confirmed.',
+      'Call the Hulimavu clinic on +91 63634 52910 to schedule your consultation. Clinic hours are Monday to Saturday, 9:00 AM – 12:00 noon and 4:00 PM – 7:30 PM. You can also use the Call to book button on the Book Consultation page.',
   },
   {
     question: 'What are the clinic timings?',
