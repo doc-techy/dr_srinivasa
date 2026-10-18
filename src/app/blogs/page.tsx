@@ -6,8 +6,6 @@ import Image from 'next/image';
 import { Calendar, Clock, User, ArrowLeft, FileText } from 'lucide-react';
 import { blogs, getBlogBySlug, type Blog, type BlogBlock } from '@/data/blogs';
 
-const categories = ['All', ...Array.from(new Set(blogs.map(blog => blog.category)))];
-
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleDateString('en-US', {
     month: 'short',
@@ -35,6 +33,20 @@ function BlogContent({ blocks }: { blocks: BlogBlock[] }) {
             </ul>
           );
         }
+        if (block.type === 'image') {
+          return (
+            <figure key={index} className="overflow-hidden rounded-xl border border-gray-100 bg-gray-50">
+              <Image
+                src={block.src}
+                alt={block.alt}
+                width={1248}
+                height={832}
+                className="h-auto w-full object-contain"
+                sizes="(max-width: 768px) 100vw, 768px"
+              />
+            </figure>
+          );
+        }
         return (
           <p key={index} className="text-base leading-relaxed text-gray-700">
             {block.text}
@@ -53,7 +65,6 @@ function BlogsPageContent() {
   const searchParams = useSearchParams();
   const slug = searchParams.get('slug');
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
     setSelectedBlog(slug ? getBlogBySlug(slug) ?? null : null);
@@ -62,10 +73,6 @@ function BlogsPageContent() {
   const openBlog = (blog: Blog) => {
     router.push(`/blogs?slug=${blog.slug}`);
   };
-
-  const filteredBlogs = blogs.filter(
-    blog => selectedCategory === 'All' || blog.category === selectedCategory
-  );
 
   if (selectedBlog) {
     return (
@@ -87,19 +94,6 @@ function BlogsPageContent() {
               </button>
               <span className="text-xs font-semibold text-white/90">{selectedBlog.readTime}</span>
             </div>
-
-            {selectedBlog.thumbnail ? (
-              <div className="relative aspect-video bg-gray-100">
-                <Image
-                  src={selectedBlog.thumbnail}
-                  alt={selectedBlog.title}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 768px"
-                  className="object-cover"
-                />
-              </div>
-            ) : null}
 
             <div className="p-5 sm:p-8">
               <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
@@ -149,25 +143,8 @@ function BlogsPageContent() {
           </p>
         </div>
 
-        <div className="mb-8 flex flex-wrap justify-center gap-2">
-          {categories.map(category => (
-            <button
-              key={category}
-              type="button"
-              onClick={() => setSelectedCategory(category)}
-              className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 ${
-                selectedCategory === category
-                  ? 'bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] text-white shadow-md'
-                  : 'border border-gray-200/70 bg-white text-gray-600 shadow-sm hover:text-[#047BCA]'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
         <div className="grid grid-cols-2 gap-3 md:gap-5 lg:grid-cols-4">
-          {filteredBlogs.map(blog => (
+          {blogs.map(blog => (
             <article
               key={blog.id}
               onClick={() => openBlog(blog)}
@@ -209,10 +186,6 @@ function BlogsPageContent() {
             </article>
           ))}
         </div>
-
-        {filteredBlogs.length === 0 && (
-          <p className="py-12 text-center text-gray-600">No blogs in this category yet.</p>
-        )}
       </div>
     </div>
   );

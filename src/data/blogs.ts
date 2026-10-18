@@ -1,7 +1,8 @@
 export type BlogBlock =
   | { type: 'paragraph'; text: string }
   | { type: 'heading'; text: string }
-  | { type: 'list'; items: string[] };
+  | { type: 'list'; items: string[] }
+  | { type: 'image'; src: string; alt: string };
 
 export interface Blog {
   id: string;
@@ -44,6 +45,11 @@ export const blogs: Blog[] = [
       {
         type: 'paragraph',
         text: 'The tissue that lines the joints, called the synovial membrane, becomes inflamed and fluid builds up. As a result, joints can bend out of shape, becoming deformed.',
+      },
+      {
+        type: 'image',
+        src: '/images/blog-rheumatoid-arthritis-content.jpg',
+        alt: 'Infographic showing arthritis symptoms, causes, and treatment',
       },
       {
         type: 'heading',
@@ -148,6 +154,11 @@ export const blogs: Blog[] = [
         text: 'Fibromyalgia (FM) is a long-term condition characterized by widespread chronic pain. Other symptoms can include fatigue, trouble thinking or remembering, waking up tired (unrefreshed), pain or cramps in the lower abdomen, depression, or headache.',
       },
       {
+        type: 'image',
+        src: '/images/blog-fibromyalgia-content.jpg',
+        alt: 'Infographic on fibromyalgia symptoms, causes, and treatments',
+      },
+      {
         type: 'heading',
         text: 'Symptoms',
       },
@@ -247,6 +258,11 @@ export const blogs: Blog[] = [
         text: 'Lupus, also known as Systemic Lupus Erythematosus (SLE), is a chronic autoimmune disease in which the immune system mistakenly attacks healthy tissues. It can affect the skin, joints, kidneys, heart, lungs and other organs.',
       },
       {
+        type: 'image',
+        src: '/images/blog-lupus-content.jpg',
+        alt: 'Diagram of systemic lupus erythematosus and related organ involvement',
+      },
+      {
         type: 'heading',
         text: 'Common Symptoms of Lupus',
       },
@@ -321,6 +337,11 @@ export const blogs: Blog[] = [
       {
         type: 'paragraph',
         text: 'Osteoporosis is a condition in which bones become weak, brittle, and more likely to break due to reduced bone density.',
+      },
+      {
+        type: 'image',
+        src: '/images/blog-osteoporosis-content.jpg',
+        alt: 'Infographic on osteoporosis causes, symptoms, diagnosis, and treatment',
       },
       {
         type: 'heading',
