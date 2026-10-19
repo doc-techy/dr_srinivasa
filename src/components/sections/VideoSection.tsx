@@ -94,11 +94,6 @@ export function VideoSection() {
 
   return (
     <section className="relative overflow-hidden py-12 md:py-16">
-      <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white via-[#f4fbf8] to-white"
-        aria-hidden
-      />
-
       <div className="container-custom relative">
         <div className="text-center mb-8">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">

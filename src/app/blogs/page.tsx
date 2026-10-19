@@ -77,10 +77,6 @@ function BlogsPageContent() {
   if (selectedBlog) {
     return (
       <div className="relative min-h-screen overflow-hidden pt-28 pb-16">
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white via-[#f4fbf8] to-white"
-          aria-hidden
-        />
         <div className="container-custom relative py-8 md:py-12">
           <article className="mx-auto max-w-3xl overflow-hidden rounded-2xl border border-gray-200/70 bg-white shadow-lg">
             <div className="flex items-center justify-between gap-4 bg-gradient-to-r from-[#1C7E4E] to-[#047BCA] px-5 py-4">
@@ -125,11 +121,6 @@ function BlogsPageContent() {
 
   return (
     <div className="relative min-h-screen overflow-hidden pt-28 pb-16">
-      <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white via-[#f4fbf8] to-white"
-        aria-hidden
-      />
-
       <div className="container-custom relative py-10 md:py-14">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
